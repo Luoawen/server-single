@@ -1,0 +1,16 @@
+<where>
+1=1
+<if test="condition.uid!=null and condition.uid!=''">AND uid = #{condition.uid} </if>
+<if test="condition.applyDateEndTime!=null and condition.applyDateEndTime!=''"> AND create_time &lt;= #{condition.applyDateEndTime} </if>
+<if test="condition.applyDateStartTime!=null and condition.applyDateStartTime!=''"> AND create_time &gt;= #{condition.applyDateStartTime} </if>
+<if test="condition.channelId!=null and condition.channelId!=''">AND channel_id = #{condition.channelId} </if>
+<if test="condition.distributState!=null and condition.distributState!=''">AND distribut_state = #{condition.distributState} </if>
+<if test="condition.name!=null and conditionname!=''">AND user_real_name like CONCAT('%',#{condition.name},'%')  </if>
+<if test="condition.mobile!=null and conditionmobile!=''">AND ub.mobile like CONCAT('%',#{condition.mobile},'%')  </if>
+<if test="condition.state!=null and condition.state!=''">AND state = #{condition.state} </if>
+<if test="condition.verifyDateEndTime!=null and condition.verifyDateEndTime!=''"> AND verify_time &lt;= #{condition.verifyDateEndTime} </if>
+<if test="condition.verifyDateStartTime!=null and condition.verifyDateStartTime!=''"> AND verify_time &gt;= #{condition.verifyDateStartTime} </if>
+</where>
+<if test="orderField != null and orderField!=''">
+    order by create_time ${orderField}
+</if>

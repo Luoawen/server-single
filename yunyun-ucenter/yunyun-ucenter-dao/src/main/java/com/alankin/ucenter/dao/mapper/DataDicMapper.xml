@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.alankin.ucenter.dao.mapper.DataDicMapper" >
+  <resultMap id="BaseResultMap" type="com.alankin.ucenter.dao.model.DataDic" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="sys_user_id" property="sysUserId" jdbcType="INTEGER" />
+    <result column="data_type_name" property="dataTypeName" jdbcType="VARCHAR" />
+    <result column="data_type_code" property="dataTypeCode" jdbcType="INTEGER" />
+    <result column="dic_key" property="dicKey" jdbcType="VARCHAR" />
+    <result column="dic_value" property="dicValue" jdbcType="VARCHAR" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="extend_Val" property="extendVal" jdbcType="VARCHAR" />
+    <result column="enabled" property="enabled" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sys_user_id, data_type_name, data_type_code, dic_key, dic_value, comment, extend_Val, 
+    enabled
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.alankin.ucenter.dao.model.DataDicExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from data_dic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from data_dic
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from data_dic
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.alankin.ucenter.dao.model.DataDicExample" >
+    delete from data_dic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.alankin.ucenter.dao.model.DataDic" >
+    insert into data_dic (id, sys_user_id, data_type_name, 
+      data_type_code, dic_key, dic_value, 
+      comment, extend_Val, enabled
+      )
+    values (#{id,jdbcType=INTEGER}, #{sysUserId,jdbcType=INTEGER}, #{dataTypeName,jdbcType=VARCHAR}, 
+      #{dataTypeCode,jdbcType=INTEGER}, #{dicKey,jdbcType=VARCHAR}, #{dicValue,jdbcType=VARCHAR}, 
+      #{comment,jdbcType=VARCHAR}, #{extendVal,jdbcType=VARCHAR}, #{enabled,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.alankin.ucenter.dao.model.DataDic" >
+    insert into data_dic
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sysUserId != null" >
+        sys_user_id,
+      </if>
+      <if test="dataTypeName != null" >
+        data_type_name,
+      </if>
+      <if test="dataTypeCode != null" >
+        data_type_code,
+      </if>
+      <if test="dicKey != null" >
+        dic_key,
+      </if>
+      <if test="dicValue != null" >
+        dic_value,
+      </if>
+      <if test="comment != null" >
+        comment,
+      </if>
+      <if test="extendVal != null" >
+        extend_Val,
+      </if>
+      <if test="enabled != null" >
+        enabled,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sysUserId != null" >
+        #{sysUserId,jdbcType=INTEGER},
+      </if>
+      <if test="dataTypeName != null" >
+        #{dataTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="dataTypeCode != null" >
+        #{dataTypeCode,jdbcType=INTEGER},
+      </if>
+      <if test="dicKey != null" >
+        #{dicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="dicValue != null" >
+        #{dicValue,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="extendVal != null" >
+        #{extendVal,jdbcType=VARCHAR},
+      </if>
+      <if test="enabled != null" >
+        #{enabled,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.alankin.ucenter.dao.model.DataDicExample" resultType="java.lang.Integer" >
+    select count(*) from data_dic
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update data_dic
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.sysUserId != null" >
+        sys_user_id = #{record.sysUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dataTypeName != null" >
+        data_type_name = #{record.dataTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataTypeCode != null" >
+        data_type_code = #{record.dataTypeCode,jdbcType=INTEGER},
+      </if>
+      <if test="record.dicKey != null" >
+        dic_key = #{record.dicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dicValue != null" >
+        dic_value = #{record.dicValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.comment != null" >
+        comment = #{record.comment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.extendVal != null" >
+        extend_Val = #{record.extendVal,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enabled != null" >
+        enabled = #{record.enabled,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update data_dic
+    set id = #{record.id,jdbcType=INTEGER},
+      sys_user_id = #{record.sysUserId,jdbcType=INTEGER},
+      data_type_name = #{record.dataTypeName,jdbcType=VARCHAR},
+      data_type_code = #{record.dataTypeCode,jdbcType=INTEGER},
+      dic_key = #{record.dicKey,jdbcType=VARCHAR},
+      dic_value = #{record.dicValue,jdbcType=VARCHAR},
+      comment = #{record.comment,jdbcType=VARCHAR},
+      extend_Val = #{record.extendVal,jdbcType=VARCHAR},
+      enabled = #{record.enabled,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.alankin.ucenter.dao.model.DataDic" >
+    update data_dic
+    <set >
+      <if test="sysUserId != null" >
+        sys_user_id = #{sysUserId,jdbcType=INTEGER},
+      </if>
+      <if test="dataTypeName != null" >
+        data_type_name = #{dataTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="dataTypeCode != null" >
+        data_type_code = #{dataTypeCode,jdbcType=INTEGER},
+      </if>
+      <if test="dicKey != null" >
+        dic_key = #{dicKey,jdbcType=VARCHAR},
+      </if>
+      <if test="dicValue != null" >
+        dic_value = #{dicValue,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null" >
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="extendVal != null" >
+        extend_Val = #{extendVal,jdbcType=VARCHAR},
+      </if>
+      <if test="enabled != null" >
+        enabled = #{enabled,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.alankin.ucenter.dao.model.DataDic" >
+    update data_dic
+    set sys_user_id = #{sysUserId,jdbcType=INTEGER},
+      data_type_name = #{dataTypeName,jdbcType=VARCHAR},
+      data_type_code = #{dataTypeCode,jdbcType=INTEGER},
+      dic_key = #{dicKey,jdbcType=VARCHAR},
+      dic_value = #{dicValue,jdbcType=VARCHAR},
+      comment = #{comment,jdbcType=VARCHAR},
+      extend_Val = #{extendVal,jdbcType=VARCHAR},
+      enabled = #{enabled,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+</mapper>

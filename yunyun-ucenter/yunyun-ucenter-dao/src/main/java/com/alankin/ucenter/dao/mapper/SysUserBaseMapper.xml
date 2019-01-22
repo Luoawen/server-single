@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.alankin.ucenter.dao.mapper.SysUserBaseMapper" >
+  <resultMap id="BaseResultMap" type="com.alankin.ucenter.dao.model.SysUserBase" >
+    <id column="uid" property="uid" jdbcType="BIGINT" />
+    <result column="user_role" property="userRole" jdbcType="TINYINT" />
+    <result column="register_source" property="registerSource" jdbcType="TINYINT" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="BIT" />
+    <result column="birthday" property="birthday" jdbcType="BIGINT" />
+    <result column="signature" property="signature" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="mobile_bind_time" property="mobileBindTime" jdbcType="INTEGER" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="email_bind_time" property="emailBindTime" jdbcType="INTEGER" />
+    <result column="face" property="face" jdbcType="VARCHAR" />
+    <result column="face200" property="face200" jdbcType="VARCHAR" />
+    <result column="srcface" property="srcface" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="INTEGER" />
+    <result column="push_token" property="pushToken" jdbcType="VARCHAR" />
+    <result column="is_del" property="isDel" jdbcType="BIT" />
+    <result column="wchat_id" property="wchatId" jdbcType="VARCHAR" />
+    <result column="wchat_qrcode" property="wchatQrcode" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    uid, user_role, register_source, user_name, real_name, nick_name, gender, birthday, 
+    signature, mobile, mobile_bind_time, email, email_bind_time, face, face200, srcface, 
+    create_time, update_time, push_token, is_del, wchat_id, wchat_qrcode
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.alankin.ucenter.dao.model.SysUserBaseExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_user_base
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user_base
+    where uid = #{uid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from sys_user_base
+    where uid = #{uid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.alankin.ucenter.dao.model.SysUserBaseExample" >
+    delete from sys_user_base
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.alankin.ucenter.dao.model.SysUserBase" >
+    insert into sys_user_base (uid, user_role, register_source, 
+      user_name, real_name, nick_name, 
+      gender, birthday, signature, 
+      mobile, mobile_bind_time, email, 
+      email_bind_time, face, face200, 
+      srcface, create_time, update_time, 
+      push_token, is_del, wchat_id, 
+      wchat_qrcode)
+    values (#{uid,jdbcType=BIGINT}, #{userRole,jdbcType=TINYINT}, #{registerSource,jdbcType=TINYINT}, 
+      #{userName,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=BIT}, #{birthday,jdbcType=BIGINT}, #{signature,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{mobileBindTime,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, 
+      #{emailBindTime,jdbcType=INTEGER}, #{face,jdbcType=VARCHAR}, #{face200,jdbcType=VARCHAR}, 
+      #{srcface,jdbcType=VARCHAR}, #{createTime,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER}, 
+      #{pushToken,jdbcType=VARCHAR}, #{isDel,jdbcType=BIT}, #{wchatId,jdbcType=VARCHAR}, 
+      #{wchatQrcode,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.alankin.ucenter.dao.model.SysUserBase" >
+    insert into sys_user_base
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="userRole != null" >
+        user_role,
+      </if>
+      <if test="registerSource != null" >
+        register_source,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="realName != null" >
+        real_name,
+      </if>
+      <if test="nickName != null" >
+        nick_name,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="signature != null" >
+        signature,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="mobileBindTime != null" >
+        mobile_bind_time,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="emailBindTime != null" >
+        email_bind_time,
+      </if>
+      <if test="face != null" >
+        face,
+      </if>
+      <if test="face200 != null" >
+        face200,
+      </if>
+      <if test="srcface != null" >
+        srcface,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="pushToken != null" >
+        push_token,
+      </if>
+      <if test="isDel != null" >
+        is_del,
+      </if>
+      <if test="wchatId != null" >
+        wchat_id,
+      </if>
+      <if test="wchatQrcode != null" >
+        wchat_qrcode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="userRole != null" >
+        #{userRole,jdbcType=TINYINT},
+      </if>
+      <if test="registerSource != null" >
+        #{registerSource,jdbcType=TINYINT},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=BIT},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=BIGINT},
+      </if>
+      <if test="signature != null" >
+        #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileBindTime != null" >
+        #{mobileBindTime,jdbcType=INTEGER},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="emailBindTime != null" >
+        #{emailBindTime,jdbcType=INTEGER},
+      </if>
+      <if test="face != null" >
+        #{face,jdbcType=VARCHAR},
+      </if>
+      <if test="face200 != null" >
+        #{face200,jdbcType=VARCHAR},
+      </if>
+      <if test="srcface != null" >
+        #{srcface,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="pushToken != null" >
+        #{pushToken,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=BIT},
+      </if>
+      <if test="wchatId != null" >
+        #{wchatId,jdbcType=VARCHAR},
+      </if>
+      <if test="wchatQrcode != null" >
+        #{wchatQrcode,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.alankin.ucenter.dao.model.SysUserBaseExample" resultType="java.lang.Integer" >
+    select count(*) from sys_user_base
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_user_base
+    <set >
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=BIGINT},
+      </if>
+      <if test="record.userRole != null" >
+        user_role = #{record.userRole,jdbcType=TINYINT},
+      </if>
+      <if test="record.registerSource != null" >
+        register_source = #{record.registerSource,jdbcType=TINYINT},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realName != null" >
+        real_name = #{record.realName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nickName != null" >
+        nick_name = #{record.nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null" >
+        gender = #{record.gender,jdbcType=BIT},
+      </if>
+      <if test="record.birthday != null" >
+        birthday = #{record.birthday,jdbcType=BIGINT},
+      </if>
+      <if test="record.signature != null" >
+        signature = #{record.signature,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null" >
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobileBindTime != null" >
+        mobile_bind_time = #{record.mobileBindTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.emailBindTime != null" >
+        email_bind_time = #{record.emailBindTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.face != null" >
+        face = #{record.face,jdbcType=VARCHAR},
+      </if>
+      <if test="record.face200 != null" >
+        face200 = #{record.face200,jdbcType=VARCHAR},
+      </if>
+      <if test="record.srcface != null" >
+        srcface = #{record.srcface,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.pushToken != null" >
+        push_token = #{record.pushToken,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDel != null" >
+        is_del = #{record.isDel,jdbcType=BIT},
+      </if>
+      <if test="record.wchatId != null" >
+        wchat_id = #{record.wchatId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.wchatQrcode != null" >
+        wchat_qrcode = #{record.wchatQrcode,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_user_base
+    set uid = #{record.uid,jdbcType=BIGINT},
+      user_role = #{record.userRole,jdbcType=TINYINT},
+      register_source = #{record.registerSource,jdbcType=TINYINT},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      real_name = #{record.realName,jdbcType=VARCHAR},
+      nick_name = #{record.nickName,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=BIT},
+      birthday = #{record.birthday,jdbcType=BIGINT},
+      signature = #{record.signature,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      mobile_bind_time = #{record.mobileBindTime,jdbcType=INTEGER},
+      email = #{record.email,jdbcType=VARCHAR},
+      email_bind_time = #{record.emailBindTime,jdbcType=INTEGER},
+      face = #{record.face,jdbcType=VARCHAR},
+      face200 = #{record.face200,jdbcType=VARCHAR},
+      srcface = #{record.srcface,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=INTEGER},
+      push_token = #{record.pushToken,jdbcType=VARCHAR},
+      is_del = #{record.isDel,jdbcType=BIT},
+      wchat_id = #{record.wchatId,jdbcType=VARCHAR},
+      wchat_qrcode = #{record.wchatQrcode,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.alankin.ucenter.dao.model.SysUserBase" >
+    update sys_user_base
+    <set >
+      <if test="userRole != null" >
+        user_role = #{userRole,jdbcType=TINYINT},
+      </if>
+      <if test="registerSource != null" >
+        register_source = #{registerSource,jdbcType=TINYINT},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=BIT},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=BIGINT},
+      </if>
+      <if test="signature != null" >
+        signature = #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileBindTime != null" >
+        mobile_bind_time = #{mobileBindTime,jdbcType=INTEGER},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="emailBindTime != null" >
+        email_bind_time = #{emailBindTime,jdbcType=INTEGER},
+      </if>
+      <if test="face != null" >
+        face = #{face,jdbcType=VARCHAR},
+      </if>
+      <if test="face200 != null" >
+        face200 = #{face200,jdbcType=VARCHAR},
+      </if>
+      <if test="srcface != null" >
+        srcface = #{srcface,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="pushToken != null" >
+        push_token = #{pushToken,jdbcType=VARCHAR},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=BIT},
+      </if>
+      <if test="wchatId != null" >
+        wchat_id = #{wchatId,jdbcType=VARCHAR},
+      </if>
+      <if test="wchatQrcode != null" >
+        wchat_qrcode = #{wchatQrcode,jdbcType=BIGINT},
+      </if>
+    </set>
+    where uid = #{uid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.alankin.ucenter.dao.model.SysUserBase" >
+    update sys_user_base
+    set user_role = #{userRole,jdbcType=TINYINT},
+      register_source = #{registerSource,jdbcType=TINYINT},
+      user_name = #{userName,jdbcType=VARCHAR},
+      real_name = #{realName,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=BIT},
+      birthday = #{birthday,jdbcType=BIGINT},
+      signature = #{signature,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      mobile_bind_time = #{mobileBindTime,jdbcType=INTEGER},
+      email = #{email,jdbcType=VARCHAR},
+      email_bind_time = #{emailBindTime,jdbcType=INTEGER},
+      face = #{face,jdbcType=VARCHAR},
+      face200 = #{face200,jdbcType=VARCHAR},
+      srcface = #{srcface,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER},
+      push_token = #{pushToken,jdbcType=VARCHAR},
+      is_del = #{isDel,jdbcType=BIT},
+      wchat_id = #{wchatId,jdbcType=VARCHAR},
+      wchat_qrcode = #{wchatQrcode,jdbcType=BIGINT}
+    where uid = #{uid,jdbcType=BIGINT}
+  </update>
+
+  <select id="listVerifyAcount" resultType="java.util.Map">
+    select base.*,
+    qrcode.full_path    as qrcode_path,
+    qrcode.storage_name as qrcode_name
+    from sys_user_base base
+    left join sys_role_user sru on sru.user_id = base.uid
+    inner join sys_role sr on sr.id = sru.role_id and sr.type = 2
+    left join storage_image qrcode on qrcode.uid = base.wchat_qrcode
+    <where>
+      1=1
+      <if test="condition.realName!=null and condition.realName!=''">AND real_name like
+        CONCAT('%',#{condition.realName},'%')
+      </if>
+      <if test="condition.userName!=null and condition.userName!=''">AND user_name like
+        CONCAT('%',#{condition.userName},'%')
+      </if>
+    </where>
+    <if test="orderField != null and orderField!=''">
+      order by base.create_time ${orderField}
+    </if>
+  </select>
+  <select id="listAllVerifyAcount" resultType="java.util.Map">
+    select base.*,
+    qrcode.full_path    as qrcode_path,
+    qrcode.storage_name as qrcode_name
+    from sys_user_base base
+    left join sys_role_user sru on sru.user_id = base.uid
+    inner join sys_role sr on sr.id = sru.role_id and sr.type = 2
+    left join storage_image qrcode on qrcode.uid = base.wchat_qrcode
+  </select>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+</mapper>

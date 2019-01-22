@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.alankin.ucenter.dao.mapper.StorageImageMapper" >
+  <resultMap id="BaseResultMap" type="com.alankin.ucenter.dao.model.StorageImage" >
+    <id column="uid" property="uid" jdbcType="BIGINT" />
+    <result column="original_name" property="originalName" jdbcType="VARCHAR" />
+    <result column="size" property="size" jdbcType="BIGINT" />
+    <result column="storage_name" property="storageName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="INTEGER" />
+    <result column="storage_path" property="storagePath" jdbcType="VARCHAR" />
+    <result column="full_path" property="fullPath" jdbcType="VARCHAR" />
+    <result column="storage_group" property="storageGroup" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    uid, original_name, size, storage_name, create_time, storage_path, full_path, storage_group
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.alankin.ucenter.dao.model.StorageImageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from storage_image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from storage_image
+    where uid = #{uid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from storage_image
+    where uid = #{uid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.alankin.ucenter.dao.model.StorageImageExample" >
+    delete from storage_image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.alankin.ucenter.dao.model.StorageImage" >
+    insert into storage_image (uid, original_name, size, 
+      storage_name, create_time, storage_path, 
+      full_path, storage_group)
+    values (#{uid,jdbcType=BIGINT}, #{originalName,jdbcType=VARCHAR}, #{size,jdbcType=BIGINT}, 
+      #{storageName,jdbcType=VARCHAR}, #{createTime,jdbcType=INTEGER}, #{storagePath,jdbcType=VARCHAR}, 
+      #{fullPath,jdbcType=VARCHAR}, #{storageGroup,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.alankin.ucenter.dao.model.StorageImage" >
+    insert into storage_image
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="originalName != null" >
+        original_name,
+      </if>
+      <if test="size != null" >
+        size,
+      </if>
+      <if test="storageName != null" >
+        storage_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="storagePath != null" >
+        storage_path,
+      </if>
+      <if test="fullPath != null" >
+        full_path,
+      </if>
+      <if test="storageGroup != null" >
+        storage_group,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="originalName != null" >
+        #{originalName,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null" >
+        #{size,jdbcType=BIGINT},
+      </if>
+      <if test="storageName != null" >
+        #{storageName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="storagePath != null" >
+        #{storagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fullPath != null" >
+        #{fullPath,jdbcType=VARCHAR},
+      </if>
+      <if test="storageGroup != null" >
+        #{storageGroup,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.alankin.ucenter.dao.model.StorageImageExample" resultType="java.lang.Integer" >
+    select count(*) from storage_image
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update storage_image
+    <set >
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=BIGINT},
+      </if>
+      <if test="record.originalName != null" >
+        original_name = #{record.originalName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.size != null" >
+        size = #{record.size,jdbcType=BIGINT},
+      </if>
+      <if test="record.storageName != null" >
+        storage_name = #{record.storageName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.storagePath != null" >
+        storage_path = #{record.storagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fullPath != null" >
+        full_path = #{record.fullPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.storageGroup != null" >
+        storage_group = #{record.storageGroup,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update storage_image
+    set uid = #{record.uid,jdbcType=BIGINT},
+      original_name = #{record.originalName,jdbcType=VARCHAR},
+      size = #{record.size,jdbcType=BIGINT},
+      storage_name = #{record.storageName,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=INTEGER},
+      storage_path = #{record.storagePath,jdbcType=VARCHAR},
+      full_path = #{record.fullPath,jdbcType=VARCHAR},
+      storage_group = #{record.storageGroup,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.alankin.ucenter.dao.model.StorageImage" >
+    update storage_image
+    <set >
+      <if test="originalName != null" >
+        original_name = #{originalName,jdbcType=VARCHAR},
+      </if>
+      <if test="size != null" >
+        size = #{size,jdbcType=BIGINT},
+      </if>
+      <if test="storageName != null" >
+        storage_name = #{storageName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="storagePath != null" >
+        storage_path = #{storagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="fullPath != null" >
+        full_path = #{fullPath,jdbcType=VARCHAR},
+      </if>
+      <if test="storageGroup != null" >
+        storage_group = #{storageGroup,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where uid = #{uid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.alankin.ucenter.dao.model.StorageImage" >
+    update storage_image
+    set original_name = #{originalName,jdbcType=VARCHAR},
+      size = #{size,jdbcType=BIGINT},
+      storage_name = #{storageName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=INTEGER},
+      storage_path = #{storagePath,jdbcType=VARCHAR},
+      full_path = #{fullPath,jdbcType=VARCHAR},
+      storage_group = #{storageGroup,jdbcType=VARCHAR}
+    where uid = #{uid,jdbcType=BIGINT}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+</mapper>

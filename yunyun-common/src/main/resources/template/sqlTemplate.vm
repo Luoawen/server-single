@@ -1,0 +1,36 @@
+##<!-- 需要映射的表 -->
+###foreach($table in $tables)
+##    #if($last_insert_id_tables.containsKey($!table.table_name) == true)
+##    <table tableName="$!table.table_name" domainObjectName="$!table.model_name">
+##        <generatedKey column="$!last_insert_id_tables.get($!table.table_name)" sqlStatement="MySql"
+##                      identity="true"/>
+##    </table>
+##    #else
+##    <table tableName="$!table.table_name" domainObjectName="$!table.model_name"></table>
+##    #end
+###end
+<where>
+1=1
+#foreach($dataBean in $dataList)
+#if($dataBean.getType() == 0)
+#if($dataBean.getDbFieldName()!="")
+<if test="condition.$dataBean.getFieldName()!=null and condition.$dataBean.getFieldName()!=''">AND $dataBean.getDbFieldName() = #{condition.$dataBean.getFieldName()} </if>
+#else
+<if test="condition.$dataBean.getFieldName()!=null and condition.$dataBean.getFieldName()!=''">AND $dataBean.getFieldName() = #{condition.$dataBean.getFieldName()} </if>
+#end
+#elseif($dataBean.getType() == 1)
+#if($dataBean.getDbFieldName()!="")
+<if test="condition.$dataBean.getFieldName()!=null and condition.$dataBean.getFieldName()!=''">AND $dataBean.getDbFieldName() like CONCAT('%',#{condition.$dataBean.getFieldName()},'%')  </if>
+#else
+<if test="condition,$dataBean.getFieldName()!=null and condition.$dataBean.getFieldName()!=''">AND $dataBean.getFieldName() like CONCAT('%',#{condition.$dataBean.getFieldName()},'%') </if>
+#end
+#elseif($dataBean.getType() == 2)
+<if test="condition.$dataBean.getFieldName()!=null and condition.$dataBean.getFieldName()!=''"> AND $dataBean.getDbFieldName() &gt;= #{condition.$dataBean.getFieldName()} </if>
+#elseif($dataBean.getType() == 3)
+<if test="condition.$dataBean.getFieldName()!=null and condition.$dataBean.getFieldName()!=''"> AND $dataBean.getDbFieldName() &lt;= #{condition.$dataBean.getFieldName()} </if>
+#end
+#end
+</where>
+<if test="orderField != null and orderField!=''">
+    order by create_time ${orderField}
+</if>

@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.alankin.ucenter.dao.mapper.LoanReceiptMapper">
+    <resultMap id="BaseResultMap" type="com.alankin.ucenter.dao.model.LoanReceipt">
+        <id column="uid" property="uid" jdbcType="BIGINT"/>
+        <result column="apply_order_uid" property="applyOrderUid" jdbcType="BIGINT"/>
+        <result column="brower_id" property="browerId" jdbcType="BIGINT"/>
+        <result column="brower_time" property="browerTime" jdbcType="INTEGER"/>
+        <result column="repay_time" property="repayTime" jdbcType="INTEGER"/>
+        <result column="provide_money" property="provideMoney" jdbcType="INTEGER"/>
+        <result column="should_repay_money" property="shouldRepayMoney" jdbcType="INTEGER"/>
+        <result column="year_money_rate_id" property="yearMoneyRateId" jdbcType="BIGINT"/>
+        <result column="purpose_id" property="purposeId" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="INTEGER"/>
+        <result column="state" property="state" jdbcType="TINYINT"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    uid, apply_order_uid, brower_id, brower_time, repay_time, provide_money, should_repay_money, 
+    year_money_rate_id, purpose_id, create_time, update_time, state
+  </sql>
+    <select id="selectByExample" resultMap="BaseResultMap"
+            parameterType="com.alankin.ucenter.dao.model.LoanReceiptExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from loan_receipt
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from loan_receipt
+        where uid = #{uid,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from loan_receipt
+    where uid = #{uid,jdbcType=BIGINT}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.alankin.ucenter.dao.model.LoanReceiptExample">
+        delete from loan_receipt
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.alankin.ucenter.dao.model.LoanReceipt">
+    insert into loan_receipt (uid, apply_order_uid, brower_id, 
+      brower_time, repay_time, provide_money, 
+      should_repay_money, year_money_rate_id, purpose_id, 
+      create_time, update_time, state
+      )
+    values (#{uid,jdbcType=BIGINT}, #{applyOrderUid,jdbcType=BIGINT}, #{browerId,jdbcType=BIGINT}, 
+      #{browerTime,jdbcType=INTEGER}, #{repayTime,jdbcType=INTEGER}, #{provideMoney,jdbcType=INTEGER}, 
+      #{shouldRepayMoney,jdbcType=INTEGER}, #{yearMoneyRateId,jdbcType=BIGINT}, #{purposeId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER}, #{state,jdbcType=TINYINT}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.alankin.ucenter.dao.model.LoanReceipt">
+        insert into loan_receipt
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid != null">
+                uid,
+            </if>
+            <if test="applyOrderUid != null">
+                apply_order_uid,
+            </if>
+            <if test="browerId != null">
+                brower_id,
+            </if>
+            <if test="browerTime != null">
+                brower_time,
+            </if>
+            <if test="repayTime != null">
+                repay_time,
+            </if>
+            <if test="provideMoney != null">
+                provide_money,
+            </if>
+            <if test="shouldRepayMoney != null">
+                should_repay_money,
+            </if>
+            <if test="yearMoneyRateId != null">
+                year_money_rate_id,
+            </if>
+            <if test="purposeId != null">
+                purpose_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uid != null">
+                #{uid,jdbcType=BIGINT},
+            </if>
+            <if test="applyOrderUid != null">
+                #{applyOrderUid,jdbcType=BIGINT},
+            </if>
+            <if test="browerId != null">
+                #{browerId,jdbcType=BIGINT},
+            </if>
+            <if test="browerTime != null">
+                #{browerTime,jdbcType=INTEGER},
+            </if>
+            <if test="repayTime != null">
+                #{repayTime,jdbcType=INTEGER},
+            </if>
+            <if test="provideMoney != null">
+                #{provideMoney,jdbcType=INTEGER},
+            </if>
+            <if test="shouldRepayMoney != null">
+                #{shouldRepayMoney,jdbcType=INTEGER},
+            </if>
+            <if test="yearMoneyRateId != null">
+                #{yearMoneyRateId,jdbcType=BIGINT},
+            </if>
+            <if test="purposeId != null">
+                #{purposeId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=TINYINT},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.alankin.ucenter.dao.model.LoanReceiptExample"
+            resultType="java.lang.Integer">
+        select count(*) from loan_receipt
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update loan_receipt
+        <set>
+            <if test="record.uid != null">
+                uid = #{record.uid,jdbcType=BIGINT},
+            </if>
+            <if test="record.applyOrderUid != null">
+                apply_order_uid = #{record.applyOrderUid,jdbcType=BIGINT},
+            </if>
+            <if test="record.browerId != null">
+                brower_id = #{record.browerId,jdbcType=BIGINT},
+            </if>
+            <if test="record.browerTime != null">
+                brower_time = #{record.browerTime,jdbcType=INTEGER},
+            </if>
+            <if test="record.repayTime != null">
+                repay_time = #{record.repayTime,jdbcType=INTEGER},
+            </if>
+            <if test="record.provideMoney != null">
+                provide_money = #{record.provideMoney,jdbcType=INTEGER},
+            </if>
+            <if test="record.shouldRepayMoney != null">
+                should_repay_money = #{record.shouldRepayMoney,jdbcType=INTEGER},
+            </if>
+            <if test="record.yearMoneyRateId != null">
+                year_money_rate_id = #{record.yearMoneyRateId,jdbcType=BIGINT},
+            </if>
+            <if test="record.purposeId != null">
+                purpose_id = #{record.purposeId,jdbcType=BIGINT},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=INTEGER},
+            </if>
+            <if test="record.updateTime != null">
+                update_time = #{record.updateTime,jdbcType=INTEGER},
+            </if>
+            <if test="record.state != null">
+                state = #{record.state,jdbcType=TINYINT},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update loan_receipt
+        set uid = #{record.uid,jdbcType=BIGINT},
+        apply_order_uid = #{record.applyOrderUid,jdbcType=BIGINT},
+        brower_id = #{record.browerId,jdbcType=BIGINT},
+        brower_time = #{record.browerTime,jdbcType=INTEGER},
+        repay_time = #{record.repayTime,jdbcType=INTEGER},
+        provide_money = #{record.provideMoney,jdbcType=INTEGER},
+        should_repay_money = #{record.shouldRepayMoney,jdbcType=INTEGER},
+        year_money_rate_id = #{record.yearMoneyRateId,jdbcType=BIGINT},
+        purpose_id = #{record.purposeId,jdbcType=BIGINT},
+        create_time = #{record.createTime,jdbcType=INTEGER},
+        update_time = #{record.updateTime,jdbcType=INTEGER},
+        state = #{record.state,jdbcType=TINYINT}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.alankin.ucenter.dao.model.LoanReceipt">
+        update loan_receipt
+        <set>
+            <if test="applyOrderUid != null">
+                apply_order_uid = #{applyOrderUid,jdbcType=BIGINT},
+            </if>
+            <if test="browerId != null">
+                brower_id = #{browerId,jdbcType=BIGINT},
+            </if>
+            <if test="browerTime != null">
+                brower_time = #{browerTime,jdbcType=INTEGER},
+            </if>
+            <if test="repayTime != null">
+                repay_time = #{repayTime,jdbcType=INTEGER},
+            </if>
+            <if test="provideMoney != null">
+                provide_money = #{provideMoney,jdbcType=INTEGER},
+            </if>
+            <if test="shouldRepayMoney != null">
+                should_repay_money = #{shouldRepayMoney,jdbcType=INTEGER},
+            </if>
+            <if test="yearMoneyRateId != null">
+                year_money_rate_id = #{yearMoneyRateId,jdbcType=BIGINT},
+            </if>
+            <if test="purposeId != null">
+                purpose_id = #{purposeId,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=TINYINT},
+            </if>
+        </set>
+        where uid = #{uid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.alankin.ucenter.dao.model.LoanReceipt">
+    update loan_receipt
+    set apply_order_uid = #{applyOrderUid,jdbcType=BIGINT},
+      brower_id = #{browerId,jdbcType=BIGINT},
+      brower_time = #{browerTime,jdbcType=INTEGER},
+      repay_time = #{repayTime,jdbcType=INTEGER},
+      provide_money = #{provideMoney,jdbcType=INTEGER},
+      should_repay_money = #{shouldRepayMoney,jdbcType=INTEGER},
+      year_money_rate_id = #{yearMoneyRateId,jdbcType=BIGINT},
+      purpose_id = #{purposeId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER},
+      state = #{state,jdbcType=TINYINT}
+    where uid = #{uid,jdbcType=BIGINT}
+  </update>
+    <select id="loanlist" resultType="java.util.Map">
+        select lr.*,
+        brrower.user_name as brrower_user_name,
+        brrower.real_name as brrower_real_name,
+        brrower.uid as brrower_uid,
+        rate_dic.dic_value as year_money_rate,
+        purpose_dic.dic_value as purpose,
+        state_dic.dic_value as state_name,
+        ub.user_name,
+        ub.mobile,
+        ub.user_real_name,
+        ub.uid as user_id,
+        ifnull(t.repay_money_sum, 0) as repay_money_sum,
+        ifnull(case
+        when lr.should_repay_money - ifnull(t.repay_money_sum, 0) &lt;0
+        then 0
+        else lr.should_repay_money - ifnull(t.repay_money_sum, 0)
+        end, 0) as no_pay_money
+        from loan_receipt lr
+        left join sys_user_base brrower on lr.brower_id = brrower.uid
+        left join apply_order ao on lr.apply_order_uid = ao.uid
+        left join user_base ub on ub.uid = ao.apply_user_uid
+        left join data_dic rate_dic on rate_dic.data_type_code = 8 and rate_dic.dic_key = lr.year_money_rate_id
+        left join data_dic purpose_dic on purpose_dic.data_type_code = 7 and purpose_dic.dic_key = lr.purpose_id
+        left join data_dic state_dic on state_dic.data_type_code = 1 and state_dic.dic_key = lr.state
+        left join (select sum(ro.repay_money) as repay_money_sum,
+        ro.loan_receipt_id
+        from repay_order ro
+        GROUP BY ro.loan_receipt_id) t on t.loan_receipt_id = lr.uid
+        <where>
+            1=1
+            <if test="condition.realName!=null and condition.realName!=''">AND user_real_name like
+                CONCAT('%',#{condition.realName},'%')
+            </if>
+            <if test="condition.userName!=null and condition.userName!=''">AND user_name like
+                CONCAT('%',#{condition.userName},'%')
+            </if>
+            <if test="condition.brrowerRealName!=null and condition.brrowerRealName!=''">AND brrower_real_name like
+                CONCAT('%',#{condition.brrowerRealName},'%')
+            </if>
+            <if test="condition.brrowerUserName!=null and condition.brrowerUserName!=''">AND brrower_user_name like
+                CONCAT('%',#{condition.brrowerUserName},'%')
+            </if>
+            <if test="condition.state!=null and condition.state!=''">AND lr.state = #{condition.state}</if>
+            <if test="condition.receiptDateEndTime!=null and condition.receiptDateEndTime!=''">AND lr.brower_time &lt;=
+                #{condition.receiptDateEndTime}
+            </if>
+            <if test="condition.receiptDateStartTime!=null and condition.receiptDateStartTime!=''">AND lr.brower_time
+                &gt;= #{condition.receiptDateStartTime}
+            </if>
+            <if test="condition.repayDateEndTime!=null and condition.repayDateEndTime!=''">AND lr.repay_time &lt;=
+                #{condition.repayDateEndTime}
+            </if>
+            <if test="condition.repayDateStartTime!=null and condition.repayDateStartTime!=''">AND lr.repay_time &gt;=
+                #{condition.repayDateStartTime}
+            </if>
+            <if test="condition.brrowerUid!=null and condition.brrowerUid!=''">AND
+                brrower.uid = #{condition.brrowerUid}
+            </if>
+
+        </where>
+        <if test="orderField != null and orderField!=''">
+            order by lr.create_time ${orderField}
+        </if>
+    </select>
+
+    <select id="brrowerList" resultType="java.util.Map">
+        select sub.*,
+        state_dic.dic_value as state_name,
+        qrcode.full_path as qrcode_path,
+        qrcode.storage_name as qrcode_name
+        from sys_user_base sub
+        left join sys_role_user sru on sru.user_id = sub.uid
+        inner join sys_role sr on sr.id = sru.role_id and sr.type = 4
+        left join data_dic state_dic on state_dic.data_type_code = 4 and state_dic.dic_key = sub.user_role
+        left join storage_image qrcode on qrcode.uid = sub.wchat_qrcode
+        <where>
+            1=1
+            <if test="condition.userName!=null and condition.userName!=''">AND user_name like
+                CONCAT('%',#{condition.userName},'%')
+            </if>
+            <if test="condition.realName!=null and condition.realName!=''">AND real_name like
+                CONCAT('%',#{condition.realName},'%')
+            </if>
+        </where>
+        <if test="orderField != null and orderField!=''">
+            order by sub.create_time ${orderField}
+        </if>
+    </select>
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+</mapper>

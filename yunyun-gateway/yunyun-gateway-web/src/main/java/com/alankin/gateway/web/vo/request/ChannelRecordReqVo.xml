@@ -1,0 +1,9 @@
+<where>
+1=1
+<if test="condition.uid!=null and condition.uid!=''">AND uid = #{condition.uid} </if>
+<if test="condition.recordDateEndTime!=null and condition.recordDateEndTime!=''"> AND cr.create_time &lt;= #{condition.recordDateEndTime} </if>
+<if test="condition.recordDateStartTime!=null and condition.recordDateStartTime!=''"> AND cr.create_time &gt;= #{condition.recordDateStartTime} </if>
+</where>
+<if test="orderField != null and orderField!=''">
+    order by create_time ${orderField}
+</if>

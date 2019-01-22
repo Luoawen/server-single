@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.alankin.ucenter.dao.mapper.SysModuleMapper">
+    <resultMap id="BaseResultMap" type="com.alankin.ucenter.dao.model.SysModule">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="icon_cls" property="iconCls" jdbcType="VARCHAR"/>
+        <result column="caption" property="caption" jdbcType="VARCHAR"/>
+        <result column="parentid" property="parentid" jdbcType="BIGINT"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+        <result column="sys_id" property="sysId" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, name, icon_cls, caption, parentid, sort, sys_id, create_time
+  </sql>
+    <select id="selectByExample" resultMap="BaseResultMap"
+            parameterType="com.alankin.ucenter.dao.model.SysModuleExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from sys_module
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_module
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from sys_module
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.alankin.ucenter.dao.model.SysModuleExample">
+        delete from sys_module
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.alankin.ucenter.dao.model.SysModule">
+    insert into sys_module (id, name, icon_cls, 
+      caption, parentid, sort, 
+      sys_id, create_time)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{iconCls,jdbcType=VARCHAR}, 
+      #{caption,jdbcType=VARCHAR}, #{parentid,jdbcType=BIGINT}, #{sort,jdbcType=INTEGER}, 
+      #{sysId,jdbcType=INTEGER}, #{createTime,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.alankin.ucenter.dao.model.SysModule">
+        insert into sys_module
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="iconCls != null">
+                icon_cls,
+            </if>
+            <if test="caption != null">
+                caption,
+            </if>
+            <if test="parentid != null">
+                parentid,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="sysId != null">
+                sys_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="iconCls != null">
+                #{iconCls,jdbcType=VARCHAR},
+            </if>
+            <if test="caption != null">
+                #{caption,jdbcType=VARCHAR},
+            </if>
+            <if test="parentid != null">
+                #{parentid,jdbcType=BIGINT},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="sysId != null">
+                #{sysId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.alankin.ucenter.dao.model.SysModuleExample"
+            resultType="java.lang.Integer">
+        select count(*) from sys_module
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update sys_module
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.name != null">
+                name = #{record.name,jdbcType=VARCHAR},
+            </if>
+            <if test="record.iconCls != null">
+                icon_cls = #{record.iconCls,jdbcType=VARCHAR},
+            </if>
+            <if test="record.caption != null">
+                caption = #{record.caption,jdbcType=VARCHAR},
+            </if>
+            <if test="record.parentid != null">
+                parentid = #{record.parentid,jdbcType=BIGINT},
+            </if>
+            <if test="record.sort != null">
+                sort = #{record.sort,jdbcType=INTEGER},
+            </if>
+            <if test="record.sysId != null">
+                sys_id = #{record.sysId,jdbcType=INTEGER},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=INTEGER},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update sys_module
+        set id = #{record.id,jdbcType=BIGINT},
+        name = #{record.name,jdbcType=VARCHAR},
+        icon_cls = #{record.iconCls,jdbcType=VARCHAR},
+        caption = #{record.caption,jdbcType=VARCHAR},
+        parentid = #{record.parentid,jdbcType=BIGINT},
+        sort = #{record.sort,jdbcType=INTEGER},
+        sys_id = #{record.sysId,jdbcType=INTEGER},
+        create_time = #{record.createTime,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.alankin.ucenter.dao.model.SysModule">
+        update sys_module
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="iconCls != null">
+                icon_cls = #{iconCls,jdbcType=VARCHAR},
+            </if>
+            <if test="caption != null">
+                caption = #{caption,jdbcType=VARCHAR},
+            </if>
+            <if test="parentid != null">
+                parentid = #{parentid,jdbcType=BIGINT},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="sysId != null">
+                sys_id = #{sysId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.alankin.ucenter.dao.model.SysModule">
+    update sys_module
+    set name = #{name,jdbcType=VARCHAR},
+      icon_cls = #{iconCls,jdbcType=VARCHAR},
+      caption = #{caption,jdbcType=VARCHAR},
+      parentid = #{parentid,jdbcType=BIGINT},
+      sort = #{sort,jdbcType=INTEGER},
+      sys_id = #{sysId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <!--01.自关联查询-->
+    <resultMap id="findSysModuleByParentId" type="com.alankin.ucenter.dao.model.SysModule">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="iconCls" column="icon_cls"/>
+        <result property="caption" column="caption"/>
+        <result property="parentid" column="parentid"/>
+        <result property="sort" column="sort"/>
+        <result property="sysId" column="sys_id"/>
+        <result property="createTime" column="create_time"/>
+        <collection property="children" ofType="com.alankin.ucenter.dao.model.SysModule"
+                    select="findSysModuleByParentId"
+                    column="id"/>
+    </resultMap>
+    <select id="findSysModuleByParentId" resultMap="findSysModuleByParentId">
+    select * from sys_module where parentid=#{0}
+    </select>
+    <select id="findAllSysModule" resultMap="findSysModuleByParentId">
+                select * from sys_module WHERE isnull(parentid)
+    </select>
+
+    <select id="findAllSysModuleByUserId" resultMap="findSysModuleByParentId">
+               select sm.*
+    from sys_role_user sru
+           left join sys_role sr on sru.role_id = sr.id
+           left join sys_role_modle_permission srmp on srmp.role_id = sr.id
+           left join sys_module sm on sm.id = srmp.module_id
+    where isnull(sm.parentid)
+      and sru.user_id = #{0}
+    </select>
+
+    <!--01.自关联查询-->
+    <resultMap id="findSysModuleByParentId1" type="com.alankin.ucenter.dao.model.SysModule">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="iconCls" column="icon_cls"/>
+        <result property="caption" column="caption"/>
+        <result property="parentid" column="parentid"/>
+        <result property="sort" column="sort"/>
+        <result property="sysId" column="sys_id"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+    <select id="findAllSysModuleByUserIdAndParentId" parameterType="map" resultMap="findSysModuleByParentId1">
+        select sm.*
+        from sys_role_user sru
+        left join sys_role sr on sru.role_id = sr.id
+        left join sys_role_modle_permission srmp on srmp.role_id = sr.id
+        left join sys_module sm on sm.id = srmp.module_id
+        <where>
+            and sru.user_id = #{uid}
+            <if test="parentid != null and parentid != ''">
+                AND sm.parentid=#{parentid}
+            </if>
+            <if test="parentid == null or parentid == ''">
+                AND isnull(sm.parentid)
+            </if>
+        </where>
+    </select>
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+</mapper>

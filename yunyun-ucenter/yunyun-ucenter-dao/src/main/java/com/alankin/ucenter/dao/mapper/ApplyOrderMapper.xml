@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.alankin.ucenter.dao.mapper.ApplyOrderMapper">
+    <resultMap id="BaseResultMap" type="com.alankin.ucenter.dao.model.ApplyOrder">
+        <id column="uid" property="uid" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="INTEGER"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="apply_user_uid" property="applyUserUid" jdbcType="BIGINT"/>
+        <result column="order_money" property="orderMoney" jdbcType="INTEGER"/>
+        <result column="loan_duration" property="loanDuration" jdbcType="INTEGER"/>
+        <result column="verify_user_id" property="verifyUserId" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    uid, create_time, update_time, state, apply_user_uid, order_money, loan_duration, 
+    verify_user_id
+  </sql>
+    <select id="selectByExample" resultMap="BaseResultMap"
+            parameterType="com.alankin.ucenter.dao.model.ApplyOrderExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from apply_order
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from apply_order
+        where uid = #{uid,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from apply_order
+    where uid = #{uid,jdbcType=BIGINT}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.alankin.ucenter.dao.model.ApplyOrderExample">
+        delete from apply_order
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.alankin.ucenter.dao.model.ApplyOrder">
+    insert into apply_order (uid, create_time, update_time, 
+      state, apply_user_uid, order_money, 
+      loan_duration, verify_user_id)
+    values (#{uid,jdbcType=BIGINT}, #{createTime,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER}, 
+      #{state,jdbcType=INTEGER}, #{applyUserUid,jdbcType=BIGINT}, #{orderMoney,jdbcType=INTEGER}, 
+      #{loanDuration,jdbcType=INTEGER}, #{verifyUserId,jdbcType=BIGINT})
+  </insert>
+    <insert id="insertSelective" parameterType="com.alankin.ucenter.dao.model.ApplyOrder">
+        insert into apply_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid != null">
+                uid,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="applyUserUid != null">
+                apply_user_uid,
+            </if>
+            <if test="orderMoney != null">
+                order_money,
+            </if>
+            <if test="loanDuration != null">
+                loan_duration,
+            </if>
+            <if test="verifyUserId != null">
+                verify_user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uid != null">
+                #{uid,jdbcType=BIGINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+            <if test="applyUserUid != null">
+                #{applyUserUid,jdbcType=BIGINT},
+            </if>
+            <if test="orderMoney != null">
+                #{orderMoney,jdbcType=INTEGER},
+            </if>
+            <if test="loanDuration != null">
+                #{loanDuration,jdbcType=INTEGER},
+            </if>
+            <if test="verifyUserId != null">
+                #{verifyUserId,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.alankin.ucenter.dao.model.ApplyOrderExample"
+            resultType="java.lang.Integer">
+        select count(*) from apply_order
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update apply_order
+        <set>
+            <if test="record.uid != null">
+                uid = #{record.uid,jdbcType=BIGINT},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=INTEGER},
+            </if>
+            <if test="record.updateTime != null">
+                update_time = #{record.updateTime,jdbcType=INTEGER},
+            </if>
+            <if test="record.state != null">
+                state = #{record.state,jdbcType=INTEGER},
+            </if>
+            <if test="record.applyUserUid != null">
+                apply_user_uid = #{record.applyUserUid,jdbcType=BIGINT},
+            </if>
+            <if test="record.orderMoney != null">
+                order_money = #{record.orderMoney,jdbcType=INTEGER},
+            </if>
+            <if test="record.loanDuration != null">
+                loan_duration = #{record.loanDuration,jdbcType=INTEGER},
+            </if>
+            <if test="record.verifyUserId != null">
+                verify_user_id = #{record.verifyUserId,jdbcType=BIGINT},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update apply_order
+        set uid = #{record.uid,jdbcType=BIGINT},
+        create_time = #{record.createTime,jdbcType=INTEGER},
+        update_time = #{record.updateTime,jdbcType=INTEGER},
+        state = #{record.state,jdbcType=INTEGER},
+        apply_user_uid = #{record.applyUserUid,jdbcType=BIGINT},
+        order_money = #{record.orderMoney,jdbcType=INTEGER},
+        loan_duration = #{record.loanDuration,jdbcType=INTEGER},
+        verify_user_id = #{record.verifyUserId,jdbcType=BIGINT}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.alankin.ucenter.dao.model.ApplyOrder">
+        update apply_order
+        <set>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=INTEGER},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="applyUserUid != null">
+                apply_user_uid = #{applyUserUid,jdbcType=BIGINT},
+            </if>
+            <if test="orderMoney != null">
+                order_money = #{orderMoney,jdbcType=INTEGER},
+            </if>
+            <if test="loanDuration != null">
+                loan_duration = #{loanDuration,jdbcType=INTEGER},
+            </if>
+            <if test="verifyUserId != null">
+                verify_user_id = #{verifyUserId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where uid = #{uid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.alankin.ucenter.dao.model.ApplyOrder">
+    update apply_order
+    set create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      apply_user_uid = #{applyUserUid,jdbcType=BIGINT},
+      order_money = #{orderMoney,jdbcType=INTEGER},
+      loan_duration = #{loanDuration,jdbcType=INTEGER},
+      verify_user_id = #{verifyUserId,jdbcType=BIGINT}
+    where uid = #{uid,jdbcType=BIGINT}
+  </update>
+
+    <select id="selectBySysUserId" resultType="java.util.Map">
+        SELECT * FROM (
+        SELECT d.*,
+        ub.user_real_name,
+        ub.user_name,
+        ub.uid as user_id,
+        ub.email,
+        ub.mobile,
+        ub.company_name,
+        verify.user_name as vf_username,
+        verify.real_name as vf_real_name,
+        c.id as channel_id,
+        c.channel_name,
+        ad.uid as ad_uid,
+        ad.user_name as ad_username,
+        ad.real_name as ad_real_name,
+        ub.brower_uid as brower_uid,
+        brower.user_name as brower_user_name,
+        brower.real_name as brower_real_name,
+        state_dic.dic_value as state_name,
+        ub.verify_state_time as verify_time,
+        log1.create_time as weiqianding_time,
+        log2.create_time as qianding_time,
+        log3.create_time as fangkuan_time,
+        log4.create_time as jieqing_time,
+        log5.create_time as yuqi_time,
+        log6.create_time as shilian_time,
+        log7.create_time as quxiao_time
+        FROM apply_order d
+        left join user_base ub on d.apply_user_uid = ub.uid
+        left JOIN sys_user_base brower on brower.uid = ub.brower_uid
+        left join channel c on c.id = ub.channel_id
+        left join sys_user_base ad on ad.uid = c.responsible_user_id
+        left join sys_user_base verify on verify.uid = ub.verify_uid
+        left join apply_state_log log1 on log1.order_id = d.uid and log1.now_state = 1
+        left join apply_state_log log2 on log2.order_id = d.uid and log2.now_state = 2
+        left join apply_state_log log3 on log3.order_id = d.uid and log3.now_state = 3
+        left join apply_state_log log4 on log4.order_id = d.uid and log4.now_state = 4
+        left join apply_state_log log5 on log5.order_id = d.uid and log5.now_state = 5
+        left join apply_state_log log6 on log6.order_id = d.uid and log6.now_state = 6
+        left join apply_state_log log7 on log7.order_id = d.uid and log7.now_state = 7
+        left join data_dic state_dic on state_dic.data_type_code = 1 and state_dic.dic_key = d.state) t
+        <where>
+            1=1
+            <if test="condition.uid!=null and condition.uid!=''">
+                AND brower_uid = #{condition.uid}
+            </if>
+            <if test="condition.applyDateEndTime!=null and condition.applyDateEndTime!=''">AND create_time &lt;=
+                #{condition.applyDateEndTime}
+            </if>
+            <if test="condition.applyDateStartTime!=null and condition.applyDateStartTime!=''">AND create_time &gt;=
+                #{condition.applyDateStartTime}
+            </if>
+            <if test="condition.channelId!=null and condition.channelId!=''">AND channel_id = #{condition.channelId}
+            </if>
+            <if test="condition.name!=null and conditionname!=''">AND user_real_name like
+                CONCAT('%',#{condition.name},'%')
+            </if>
+            <if test="condition.mobile!=null and conditionmobile!=''">AND mobile like
+                CONCAT('%',#{condition.mobile},'%')
+            </if>
+            <if test="condition.state!=null and condition.state!=''">AND state = #{condition.state}</if>
+            <if test="condition.verifyDateEndTime!=null and condition.verifyDateEndTime!=''">AND verify_time &lt;=
+                #{condition.verifyDateEndTime}
+            </if>
+            <if test="condition.verifyDateStartTime!=null and condition.verifyDateStartTime!=''">AND verify_time &gt;=
+                #{condition.verifyDateStartTime}
+            </if>
+        </where>
+        <if test="orderField != null and orderField!=''">
+            order by create_time ${orderField}
+        </if>
+    </select>
+
+    <select id="cusUserList" resultType="java.util.Map">
+        select ub.*,
+        c.id as channel_id,
+        c.channel_name,
+        brower.real_name as brower_real_name,
+        brower.user_name as brower_user_name
+        from user_base ub
+        left join channel c on ub.channel_id = c.id
+        left join sys_user_base brower on brower.uid = ub.brower_uid
+        <where>
+            1=1
+            <if test="condition.registerDateEndTime!=null and condition.registerDateEndTime!=''">AND ub.create_time &lt;=
+                #{condition.registerDateEndTime}
+            </if>
+            <if test="condition.registerDateStartTime!=null and condition.registerDateStartTime!=''">AND ub.create_time
+                &gt;= #{condition.registerDateStartTime}
+            </if>
+            <if test="condition.channelId!=null and condition.channelId!=''">AND channel_id = #{condition.channelId}
+            </if>
+            <if test="condition.verifyStateKey!=null and condition.verifyStateKey!=''">AND verify_state_key =
+                #{condition.verifyStateKey}
+            </if>
+            <if test="condition.name!=null and condition.name!=''">AND user_real_name like
+                CONCAT('%',#{condition.name},'%')
+            </if>
+            <if test="condition.mobile!=null and condition.mobile!=''">AND mobile like
+                CONCAT('%',#{condition.mobile},'%')
+            </if>
+
+            <if test="condition.verifyUid!=null and condition.verifyUid!=''">AND
+                ub.verify_uid=#{condition.verifyUid}
+            </if>
+        </where>
+        <if test="orderField != null and orderField!=''">
+            order by ub.create_time ${orderField}
+        </if>
+    </select>
+
+    <select id="orderDetail" resultType="java.util.Map">
+        select ao.*,
+        ub.*,
+        state_dic.dic_value as state_name
+        from apply_order ao
+        left join user_base ub on ao.apply_user_uid = ub.uid
+        left join data_dic state_dic on state_dic.dic_key = ao.state and state_dic.data_type_code = 1
+        <where>
+            1=1
+            <if test="id!=null and id!=''">AND ao.uid = #{id}</if>
+        </where>
+    </select>
+
+    <!--用户查找自己的订单情况-->
+    <select id="myOrders" resultType="java.util.Map">
+        select ao.*,
+        ub.uid as brrower_uid,
+        lr.uid as receipt_uid,
+        lr.provide_money,
+        lr.should_repay_money,
+        lr.create_time as receipt_create_time,
+        lr.purpose_id as receipt_purpose_id,
+        lr.repay_time as receipt_repay_time,
+        lr.year_money_rate_id as receipt_year_money_rate_id,
+        lr.update_time as receipt_update_time,
+        lr.brower_time as receipt_brower_time,
+        ifnull(t.repay_money_sum, 0) as repay_money_sum,
+        ifnull(case
+        when lr.should_repay_money - ifnull(t.repay_money_sum, 0) &lt;0
+        then 0
+        else lr.should_repay_money - ifnull(t.repay_money_sum, 0)
+        end, 0) as no_pay_money
+        from apply_order ao
+        inner join user_base ub on ub.uid = ao.apply_user_uid AND ao.apply_user_uid =#{condition.id}
+        left join sys_user_base brrower on ub.brower_uid = brrower.uid
+        left join loan_receipt lr on lr.apply_order_uid = ao.uid
+        left join (select sum(ro.repay_money) as repay_money_sum,
+        ro.loan_receipt_id
+        from repay_order ro
+        GROUP BY ro.loan_receipt_id) t on t.loan_receipt_id = lr.uid
+        <if test="orderField != null and orderField!=''">
+            order by ao.create_time ${orderField}
+        </if>
+    </select>
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+</mapper>

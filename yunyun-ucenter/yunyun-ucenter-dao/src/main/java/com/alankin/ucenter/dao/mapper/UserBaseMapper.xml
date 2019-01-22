@@ -1,0 +1,719 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.alankin.ucenter.dao.mapper.UserBaseMapper" >
+  <resultMap id="BaseResultMap" type="com.alankin.ucenter.dao.model.UserBase" >
+    <id column="uid" property="uid" jdbcType="BIGINT" />
+    <result column="user_role" property="userRole" jdbcType="TINYINT" />
+    <result column="register_source" property="registerSource" jdbcType="TINYINT" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="user_real_name" property="userRealName" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="BIT" />
+    <result column="birthday" property="birthday" jdbcType="BIGINT" />
+    <result column="id_card" property="idCard" jdbcType="VARCHAR" />
+    <result column="signature" property="signature" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="mobile_bind_time" property="mobileBindTime" jdbcType="INTEGER" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="email_bind_time" property="emailBindTime" jdbcType="INTEGER" />
+    <result column="wchat_id" property="wchatId" jdbcType="VARCHAR" />
+    <result column="face" property="face" jdbcType="VARCHAR" />
+    <result column="face200" property="face200" jdbcType="VARCHAR" />
+    <result column="srcface" property="srcface" jdbcType="VARCHAR" />
+    <result column="id_card_photo_1" property="idCardPhoto1" jdbcType="BIGINT" />
+    <result column="id_card_photo_2" property="idCardPhoto2" jdbcType="BIGINT" />
+    <result column="id_card_photo_3" property="idCardPhoto3" jdbcType="BIGINT" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="company_location_uid" property="companyLocationUid" jdbcType="BIGINT" />
+    <result column="company_phone" property="companyPhone" jdbcType="VARCHAR" />
+    <result column="company_job" property="companyJob" jdbcType="VARCHAR" />
+    <result column="salary" property="salary" jdbcType="INTEGER" />
+    <result column="ali_score" property="aliScore" jdbcType="INTEGER" />
+    <result column="push_token" property="pushToken" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="INTEGER" />
+    <result column="is_del" property="isDel" jdbcType="BIT" />
+    <result column="channel_id" property="channelId" jdbcType="BIGINT" />
+    <result column="distribut_state_key" property="distributStateKey" jdbcType="INTEGER" />
+    <result column="verify_state_key" property="verifyStateKey" jdbcType="INTEGER" />
+    <result column="verify_state_time" property="verifyStateTime" jdbcType="INTEGER" />
+    <result column="verify_uid" property="verifyUid" jdbcType="BIGINT" />
+    <result column="brower_uid" property="browerUid" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    uid, user_role, register_source, user_name, nick_name, user_real_name, gender, birthday, 
+    id_card, signature, mobile, mobile_bind_time, email, email_bind_time, wchat_id, face, 
+    face200, srcface, id_card_photo_1, id_card_photo_2, id_card_photo_3, company_name, 
+    company_location_uid, company_phone, company_job, salary, ali_score, push_token, 
+    create_time, update_time, is_del, channel_id, distribut_state_key, verify_state_key, 
+    verify_state_time, verify_uid, brower_uid
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.alankin.ucenter.dao.model.UserBaseExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_base
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_base
+    where uid = #{uid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from user_base
+    where uid = #{uid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.alankin.ucenter.dao.model.UserBaseExample" >
+    delete from user_base
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.alankin.ucenter.dao.model.UserBase" >
+    insert into user_base (uid, user_role, register_source, 
+      user_name, nick_name, user_real_name, 
+      gender, birthday, id_card, 
+      signature, mobile, mobile_bind_time, 
+      email, email_bind_time, wchat_id, 
+      face, face200, srcface, 
+      id_card_photo_1, id_card_photo_2, id_card_photo_3, 
+      company_name, company_location_uid, company_phone, 
+      company_job, salary, ali_score, 
+      push_token, create_time, update_time, 
+      is_del, channel_id, distribut_state_key, 
+      verify_state_key, verify_state_time, verify_uid, 
+      brower_uid)
+    values (#{uid,jdbcType=BIGINT}, #{userRole,jdbcType=TINYINT}, #{registerSource,jdbcType=TINYINT}, 
+      #{userName,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{userRealName,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=BIT}, #{birthday,jdbcType=BIGINT}, #{idCard,jdbcType=VARCHAR}, 
+      #{signature,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{mobileBindTime,jdbcType=INTEGER}, 
+      #{email,jdbcType=VARCHAR}, #{emailBindTime,jdbcType=INTEGER}, #{wchatId,jdbcType=VARCHAR}, 
+      #{face,jdbcType=VARCHAR}, #{face200,jdbcType=VARCHAR}, #{srcface,jdbcType=VARCHAR}, 
+      #{idCardPhoto1,jdbcType=BIGINT}, #{idCardPhoto2,jdbcType=BIGINT}, #{idCardPhoto3,jdbcType=BIGINT}, 
+      #{companyName,jdbcType=VARCHAR}, #{companyLocationUid,jdbcType=BIGINT}, #{companyPhone,jdbcType=VARCHAR}, 
+      #{companyJob,jdbcType=VARCHAR}, #{salary,jdbcType=INTEGER}, #{aliScore,jdbcType=INTEGER}, 
+      #{pushToken,jdbcType=VARCHAR}, #{createTime,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER}, 
+      #{isDel,jdbcType=BIT}, #{channelId,jdbcType=BIGINT}, #{distributStateKey,jdbcType=INTEGER}, 
+      #{verifyStateKey,jdbcType=INTEGER}, #{verifyStateTime,jdbcType=INTEGER}, #{verifyUid,jdbcType=BIGINT}, 
+      #{browerUid,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.alankin.ucenter.dao.model.UserBase" >
+    insert into user_base
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="userRole != null" >
+        user_role,
+      </if>
+      <if test="registerSource != null" >
+        register_source,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="nickName != null" >
+        nick_name,
+      </if>
+      <if test="userRealName != null" >
+        user_real_name,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="idCard != null" >
+        id_card,
+      </if>
+      <if test="signature != null" >
+        signature,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="mobileBindTime != null" >
+        mobile_bind_time,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="emailBindTime != null" >
+        email_bind_time,
+      </if>
+      <if test="wchatId != null" >
+        wchat_id,
+      </if>
+      <if test="face != null" >
+        face,
+      </if>
+      <if test="face200 != null" >
+        face200,
+      </if>
+      <if test="srcface != null" >
+        srcface,
+      </if>
+      <if test="idCardPhoto1 != null" >
+        id_card_photo_1,
+      </if>
+      <if test="idCardPhoto2 != null" >
+        id_card_photo_2,
+      </if>
+      <if test="idCardPhoto3 != null" >
+        id_card_photo_3,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="companyLocationUid != null" >
+        company_location_uid,
+      </if>
+      <if test="companyPhone != null" >
+        company_phone,
+      </if>
+      <if test="companyJob != null" >
+        company_job,
+      </if>
+      <if test="salary != null" >
+        salary,
+      </if>
+      <if test="aliScore != null" >
+        ali_score,
+      </if>
+      <if test="pushToken != null" >
+        push_token,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="isDel != null" >
+        is_del,
+      </if>
+      <if test="channelId != null" >
+        channel_id,
+      </if>
+      <if test="distributStateKey != null" >
+        distribut_state_key,
+      </if>
+      <if test="verifyStateKey != null" >
+        verify_state_key,
+      </if>
+      <if test="verifyStateTime != null" >
+        verify_state_time,
+      </if>
+      <if test="verifyUid != null" >
+        verify_uid,
+      </if>
+      <if test="browerUid != null" >
+        brower_uid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="userRole != null" >
+        #{userRole,jdbcType=TINYINT},
+      </if>
+      <if test="registerSource != null" >
+        #{registerSource,jdbcType=TINYINT},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="userRealName != null" >
+        #{userRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=BIT},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=BIGINT},
+      </if>
+      <if test="idCard != null" >
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="signature != null" >
+        #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileBindTime != null" >
+        #{mobileBindTime,jdbcType=INTEGER},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="emailBindTime != null" >
+        #{emailBindTime,jdbcType=INTEGER},
+      </if>
+      <if test="wchatId != null" >
+        #{wchatId,jdbcType=VARCHAR},
+      </if>
+      <if test="face != null" >
+        #{face,jdbcType=VARCHAR},
+      </if>
+      <if test="face200 != null" >
+        #{face200,jdbcType=VARCHAR},
+      </if>
+      <if test="srcface != null" >
+        #{srcface,jdbcType=VARCHAR},
+      </if>
+      <if test="idCardPhoto1 != null" >
+        #{idCardPhoto1,jdbcType=BIGINT},
+      </if>
+      <if test="idCardPhoto2 != null" >
+        #{idCardPhoto2,jdbcType=BIGINT},
+      </if>
+      <if test="idCardPhoto3 != null" >
+        #{idCardPhoto3,jdbcType=BIGINT},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyLocationUid != null" >
+        #{companyLocationUid,jdbcType=BIGINT},
+      </if>
+      <if test="companyPhone != null" >
+        #{companyPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="companyJob != null" >
+        #{companyJob,jdbcType=VARCHAR},
+      </if>
+      <if test="salary != null" >
+        #{salary,jdbcType=INTEGER},
+      </if>
+      <if test="aliScore != null" >
+        #{aliScore,jdbcType=INTEGER},
+      </if>
+      <if test="pushToken != null" >
+        #{pushToken,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=BIT},
+      </if>
+      <if test="channelId != null" >
+        #{channelId,jdbcType=BIGINT},
+      </if>
+      <if test="distributStateKey != null" >
+        #{distributStateKey,jdbcType=INTEGER},
+      </if>
+      <if test="verifyStateKey != null" >
+        #{verifyStateKey,jdbcType=INTEGER},
+      </if>
+      <if test="verifyStateTime != null" >
+        #{verifyStateTime,jdbcType=INTEGER},
+      </if>
+      <if test="verifyUid != null" >
+        #{verifyUid,jdbcType=BIGINT},
+      </if>
+      <if test="browerUid != null" >
+        #{browerUid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.alankin.ucenter.dao.model.UserBaseExample" resultType="java.lang.Integer" >
+    select count(*) from user_base
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user_base
+    <set >
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=BIGINT},
+      </if>
+      <if test="record.userRole != null" >
+        user_role = #{record.userRole,jdbcType=TINYINT},
+      </if>
+      <if test="record.registerSource != null" >
+        register_source = #{record.registerSource,jdbcType=TINYINT},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nickName != null" >
+        nick_name = #{record.nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userRealName != null" >
+        user_real_name = #{record.userRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null" >
+        gender = #{record.gender,jdbcType=BIT},
+      </if>
+      <if test="record.birthday != null" >
+        birthday = #{record.birthday,jdbcType=BIGINT},
+      </if>
+      <if test="record.idCard != null" >
+        id_card = #{record.idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.signature != null" >
+        signature = #{record.signature,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null" >
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobileBindTime != null" >
+        mobile_bind_time = #{record.mobileBindTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.emailBindTime != null" >
+        email_bind_time = #{record.emailBindTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.wchatId != null" >
+        wchat_id = #{record.wchatId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.face != null" >
+        face = #{record.face,jdbcType=VARCHAR},
+      </if>
+      <if test="record.face200 != null" >
+        face200 = #{record.face200,jdbcType=VARCHAR},
+      </if>
+      <if test="record.srcface != null" >
+        srcface = #{record.srcface,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idCardPhoto1 != null" >
+        id_card_photo_1 = #{record.idCardPhoto1,jdbcType=BIGINT},
+      </if>
+      <if test="record.idCardPhoto2 != null" >
+        id_card_photo_2 = #{record.idCardPhoto2,jdbcType=BIGINT},
+      </if>
+      <if test="record.idCardPhoto3 != null" >
+        id_card_photo_3 = #{record.idCardPhoto3,jdbcType=BIGINT},
+      </if>
+      <if test="record.companyName != null" >
+        company_name = #{record.companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyLocationUid != null" >
+        company_location_uid = #{record.companyLocationUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.companyPhone != null" >
+        company_phone = #{record.companyPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyJob != null" >
+        company_job = #{record.companyJob,jdbcType=VARCHAR},
+      </if>
+      <if test="record.salary != null" >
+        salary = #{record.salary,jdbcType=INTEGER},
+      </if>
+      <if test="record.aliScore != null" >
+        ali_score = #{record.aliScore,jdbcType=INTEGER},
+      </if>
+      <if test="record.pushToken != null" >
+        push_token = #{record.pushToken,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.isDel != null" >
+        is_del = #{record.isDel,jdbcType=BIT},
+      </if>
+      <if test="record.channelId != null" >
+        channel_id = #{record.channelId,jdbcType=BIGINT},
+      </if>
+      <if test="record.distributStateKey != null" >
+        distribut_state_key = #{record.distributStateKey,jdbcType=INTEGER},
+      </if>
+      <if test="record.verifyStateKey != null" >
+        verify_state_key = #{record.verifyStateKey,jdbcType=INTEGER},
+      </if>
+      <if test="record.verifyStateTime != null" >
+        verify_state_time = #{record.verifyStateTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.verifyUid != null" >
+        verify_uid = #{record.verifyUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.browerUid != null" >
+        brower_uid = #{record.browerUid,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user_base
+    set uid = #{record.uid,jdbcType=BIGINT},
+      user_role = #{record.userRole,jdbcType=TINYINT},
+      register_source = #{record.registerSource,jdbcType=TINYINT},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      nick_name = #{record.nickName,jdbcType=VARCHAR},
+      user_real_name = #{record.userRealName,jdbcType=VARCHAR},
+      gender = #{record.gender,jdbcType=BIT},
+      birthday = #{record.birthday,jdbcType=BIGINT},
+      id_card = #{record.idCard,jdbcType=VARCHAR},
+      signature = #{record.signature,jdbcType=VARCHAR},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      mobile_bind_time = #{record.mobileBindTime,jdbcType=INTEGER},
+      email = #{record.email,jdbcType=VARCHAR},
+      email_bind_time = #{record.emailBindTime,jdbcType=INTEGER},
+      wchat_id = #{record.wchatId,jdbcType=VARCHAR},
+      face = #{record.face,jdbcType=VARCHAR},
+      face200 = #{record.face200,jdbcType=VARCHAR},
+      srcface = #{record.srcface,jdbcType=VARCHAR},
+      id_card_photo_1 = #{record.idCardPhoto1,jdbcType=BIGINT},
+      id_card_photo_2 = #{record.idCardPhoto2,jdbcType=BIGINT},
+      id_card_photo_3 = #{record.idCardPhoto3,jdbcType=BIGINT},
+      company_name = #{record.companyName,jdbcType=VARCHAR},
+      company_location_uid = #{record.companyLocationUid,jdbcType=BIGINT},
+      company_phone = #{record.companyPhone,jdbcType=VARCHAR},
+      company_job = #{record.companyJob,jdbcType=VARCHAR},
+      salary = #{record.salary,jdbcType=INTEGER},
+      ali_score = #{record.aliScore,jdbcType=INTEGER},
+      push_token = #{record.pushToken,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=INTEGER},
+      is_del = #{record.isDel,jdbcType=BIT},
+      channel_id = #{record.channelId,jdbcType=BIGINT},
+      distribut_state_key = #{record.distributStateKey,jdbcType=INTEGER},
+      verify_state_key = #{record.verifyStateKey,jdbcType=INTEGER},
+      verify_state_time = #{record.verifyStateTime,jdbcType=INTEGER},
+      verify_uid = #{record.verifyUid,jdbcType=BIGINT},
+      brower_uid = #{record.browerUid,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.alankin.ucenter.dao.model.UserBase" >
+    update user_base
+    <set >
+      <if test="userRole != null" >
+        user_role = #{userRole,jdbcType=TINYINT},
+      </if>
+      <if test="registerSource != null" >
+        register_source = #{registerSource,jdbcType=TINYINT},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="userRealName != null" >
+        user_real_name = #{userRealName,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=BIT},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=BIGINT},
+      </if>
+      <if test="idCard != null" >
+        id_card = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="signature != null" >
+        signature = #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileBindTime != null" >
+        mobile_bind_time = #{mobileBindTime,jdbcType=INTEGER},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="emailBindTime != null" >
+        email_bind_time = #{emailBindTime,jdbcType=INTEGER},
+      </if>
+      <if test="wchatId != null" >
+        wchat_id = #{wchatId,jdbcType=VARCHAR},
+      </if>
+      <if test="face != null" >
+        face = #{face,jdbcType=VARCHAR},
+      </if>
+      <if test="face200 != null" >
+        face200 = #{face200,jdbcType=VARCHAR},
+      </if>
+      <if test="srcface != null" >
+        srcface = #{srcface,jdbcType=VARCHAR},
+      </if>
+      <if test="idCardPhoto1 != null" >
+        id_card_photo_1 = #{idCardPhoto1,jdbcType=BIGINT},
+      </if>
+      <if test="idCardPhoto2 != null" >
+        id_card_photo_2 = #{idCardPhoto2,jdbcType=BIGINT},
+      </if>
+      <if test="idCardPhoto3 != null" >
+        id_card_photo_3 = #{idCardPhoto3,jdbcType=BIGINT},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyLocationUid != null" >
+        company_location_uid = #{companyLocationUid,jdbcType=BIGINT},
+      </if>
+      <if test="companyPhone != null" >
+        company_phone = #{companyPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="companyJob != null" >
+        company_job = #{companyJob,jdbcType=VARCHAR},
+      </if>
+      <if test="salary != null" >
+        salary = #{salary,jdbcType=INTEGER},
+      </if>
+      <if test="aliScore != null" >
+        ali_score = #{aliScore,jdbcType=INTEGER},
+      </if>
+      <if test="pushToken != null" >
+        push_token = #{pushToken,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=INTEGER},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=BIT},
+      </if>
+      <if test="channelId != null" >
+        channel_id = #{channelId,jdbcType=BIGINT},
+      </if>
+      <if test="distributStateKey != null" >
+        distribut_state_key = #{distributStateKey,jdbcType=INTEGER},
+      </if>
+      <if test="verifyStateKey != null" >
+        verify_state_key = #{verifyStateKey,jdbcType=INTEGER},
+      </if>
+      <if test="verifyStateTime != null" >
+        verify_state_time = #{verifyStateTime,jdbcType=INTEGER},
+      </if>
+      <if test="verifyUid != null" >
+        verify_uid = #{verifyUid,jdbcType=BIGINT},
+      </if>
+      <if test="browerUid != null" >
+        brower_uid = #{browerUid,jdbcType=BIGINT},
+      </if>
+    </set>
+    where uid = #{uid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.alankin.ucenter.dao.model.UserBase" >
+    update user_base
+    set user_role = #{userRole,jdbcType=TINYINT},
+      register_source = #{registerSource,jdbcType=TINYINT},
+      user_name = #{userName,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      user_real_name = #{userRealName,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=BIT},
+      birthday = #{birthday,jdbcType=BIGINT},
+      id_card = #{idCard,jdbcType=VARCHAR},
+      signature = #{signature,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      mobile_bind_time = #{mobileBindTime,jdbcType=INTEGER},
+      email = #{email,jdbcType=VARCHAR},
+      email_bind_time = #{emailBindTime,jdbcType=INTEGER},
+      wchat_id = #{wchatId,jdbcType=VARCHAR},
+      face = #{face,jdbcType=VARCHAR},
+      face200 = #{face200,jdbcType=VARCHAR},
+      srcface = #{srcface,jdbcType=VARCHAR},
+      id_card_photo_1 = #{idCardPhoto1,jdbcType=BIGINT},
+      id_card_photo_2 = #{idCardPhoto2,jdbcType=BIGINT},
+      id_card_photo_3 = #{idCardPhoto3,jdbcType=BIGINT},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      company_location_uid = #{companyLocationUid,jdbcType=BIGINT},
+      company_phone = #{companyPhone,jdbcType=VARCHAR},
+      company_job = #{companyJob,jdbcType=VARCHAR},
+      salary = #{salary,jdbcType=INTEGER},
+      ali_score = #{aliScore,jdbcType=INTEGER},
+      push_token = #{pushToken,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER},
+      is_del = #{isDel,jdbcType=BIT},
+      channel_id = #{channelId,jdbcType=BIGINT},
+      distribut_state_key = #{distributStateKey,jdbcType=INTEGER},
+      verify_state_key = #{verifyStateKey,jdbcType=INTEGER},
+      verify_state_time = #{verifyStateTime,jdbcType=INTEGER},
+      verify_uid = #{verifyUid,jdbcType=BIGINT},
+      brower_uid = #{browerUid,jdbcType=BIGINT}
+    where uid = #{uid,jdbcType=BIGINT}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+</mapper>

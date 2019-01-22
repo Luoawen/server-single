@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.alankin.ucenter.dao.mapper.ChannelMapper">
+    <resultMap id="BaseResultMap" type="com.alankin.ucenter.dao.model.Channel">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="channel_name" property="channelName" jdbcType="VARCHAR"/>
+        <result column="responsible_user_id" property="responsibleUserId" jdbcType="BIGINT"/>
+        <result column="verify_user_id" property="verifyUserId" jdbcType="BIGINT"/>
+        <result column="state" property="state" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="INTEGER"/>
+        <result column="logo_id" property="logoId" jdbcType="BIGINT"/>
+        <result column="welcome_bg_id" property="welcomeBgId" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, channel_name, responsible_user_id, verify_user_id, state, create_time, update_time, 
+    logo_id, welcome_bg_id
+  </sql>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.alankin.ucenter.dao.model.ChannelExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from channel
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from channel
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from channel
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <delete id="deleteByExample" parameterType="com.alankin.ucenter.dao.model.ChannelExample">
+        delete from channel
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.alankin.ucenter.dao.model.Channel">
+    insert into channel (id, channel_name, responsible_user_id, 
+      verify_user_id, state, create_time, 
+      update_time, logo_id, welcome_bg_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{channelName,jdbcType=VARCHAR}, #{responsibleUserId,jdbcType=BIGINT}, 
+      #{verifyUserId,jdbcType=BIGINT}, #{state,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=INTEGER}, #{logoId,jdbcType=BIGINT}, #{welcomeBgId,jdbcType=BIGINT}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.alankin.ucenter.dao.model.Channel">
+        insert into channel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="channelName != null">
+                channel_name,
+            </if>
+            <if test="responsibleUserId != null">
+                responsible_user_id,
+            </if>
+            <if test="verifyUserId != null">
+                verify_user_id,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="logoId != null">
+                logo_id,
+            </if>
+            <if test="welcomeBgId != null">
+                welcome_bg_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="channelName != null">
+                #{channelName,jdbcType=VARCHAR},
+            </if>
+            <if test="responsibleUserId != null">
+                #{responsibleUserId,jdbcType=BIGINT},
+            </if>
+            <if test="verifyUserId != null">
+                #{verifyUserId,jdbcType=BIGINT},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=INTEGER},
+            </if>
+            <if test="logoId != null">
+                #{logoId,jdbcType=BIGINT},
+            </if>
+            <if test="welcomeBgId != null">
+                #{welcomeBgId,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.alankin.ucenter.dao.model.ChannelExample"
+            resultType="java.lang.Integer">
+        select count(*) from channel
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update channel
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.channelName != null">
+                channel_name = #{record.channelName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.responsibleUserId != null">
+                responsible_user_id = #{record.responsibleUserId,jdbcType=BIGINT},
+            </if>
+            <if test="record.verifyUserId != null">
+                verify_user_id = #{record.verifyUserId,jdbcType=BIGINT},
+            </if>
+            <if test="record.state != null">
+                state = #{record.state,jdbcType=TINYINT},
+            </if>
+            <if test="record.createTime != null">
+                create_time = #{record.createTime,jdbcType=INTEGER},
+            </if>
+            <if test="record.updateTime != null">
+                update_time = #{record.updateTime,jdbcType=INTEGER},
+            </if>
+            <if test="record.logoId != null">
+                logo_id = #{record.logoId,jdbcType=BIGINT},
+            </if>
+            <if test="record.welcomeBgId != null">
+                welcome_bg_id = #{record.welcomeBgId,jdbcType=BIGINT},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update channel
+        set id = #{record.id,jdbcType=BIGINT},
+        channel_name = #{record.channelName,jdbcType=VARCHAR},
+        responsible_user_id = #{record.responsibleUserId,jdbcType=BIGINT},
+        verify_user_id = #{record.verifyUserId,jdbcType=BIGINT},
+        state = #{record.state,jdbcType=TINYINT},
+        create_time = #{record.createTime,jdbcType=INTEGER},
+        update_time = #{record.updateTime,jdbcType=INTEGER},
+        logo_id = #{record.logoId,jdbcType=BIGINT},
+        welcome_bg_id = #{record.welcomeBgId,jdbcType=BIGINT}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.alankin.ucenter.dao.model.Channel">
+        update channel
+        <set>
+            <if test="channelName != null">
+                channel_name = #{channelName,jdbcType=VARCHAR},
+            </if>
+            <if test="responsibleUserId != null">
+                responsible_user_id = #{responsibleUserId,jdbcType=BIGINT},
+            </if>
+            <if test="verifyUserId != null">
+                verify_user_id = #{verifyUserId,jdbcType=BIGINT},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=INTEGER},
+            </if>
+            <if test="logoId != null">
+                logo_id = #{logoId,jdbcType=BIGINT},
+            </if>
+            <if test="welcomeBgId != null">
+                welcome_bg_id = #{welcomeBgId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.alankin.ucenter.dao.model.Channel">
+    update channel
+    set channel_name = #{channelName,jdbcType=VARCHAR},
+      responsible_user_id = #{responsibleUserId,jdbcType=BIGINT},
+      verify_user_id = #{verifyUserId,jdbcType=BIGINT},
+      state = #{state,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER},
+      logo_id = #{logoId,jdbcType=BIGINT},
+      welcome_bg_id = #{welcomeBgId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+    <select id="channelList" resultType="java.util.Map">
+        select c.*,
+        responsible.user_name as responsible_user_name,
+        responsible.real_name as responsible_real_name,
+        verify.user_name      as verify_user_name,
+        verify.real_name      as verify_real_name,
+        state_dic.dic_value   as state_name,
+        logo.full_path        as logo_path,
+        bg.full_path          as bg_path,
+        logo.storage_name        as logo_name,
+        bg.storage_name          as bg_name
+        from channel c
+        left join sys_user_base responsible on c.responsible_user_id = responsible.uid
+        left join sys_user_base verify on c.verify_user_id = verify.uid
+        left join data_dic state_dic on state_dic.data_type_code = 3 and state_dic.dic_key = c.state
+        left join storage_image logo on logo.uid = c.logo_id
+        left join storage_image bg on bg.uid = c.welcome_bg_id
+
+        <where>
+            1=1
+            <if test="condition.id!=null and condition.id!=''">AND c.responsible_user_id = #{condition.id}
+            </if>
+        </where>
+        <if test="orderField != null and orderField!=''">
+            order by c.create_time ${orderField}
+        </if>
+    </select>
+
+    <select id="selectAll" resultType="java.util.Map">
+        SELECT ch.id,ch.channel_name
+        FROM channel ch
+    </select>
+
+    <select id="channelAcountList" resultType="java.util.Map">
+        select sub.*,
+        dic.dic_value as state_name
+        from sys_user_base sub
+        left join sys_role_user sru on sru.user_id = sub.uid
+        inner join sys_role sr on sr.id = sru.role_id and sr.type = 3
+        left join data_dic dic on dic.data_type_code = 4 and dic.dic_key = sub.user_role
+        <where>
+            1=1
+            <if test="condition.realName!=null and condition.realName!=''">AND real_name like
+                CONCAT('%',#{condition.realName},'%')
+            </if>
+            <if test="condition.userName!=null and condition.userName!=''">AND user_name like
+                CONCAT('%',#{condition.userName},'%')
+            </if>
+        </where>
+        <if test="orderField != null and orderField!=''">
+            order by sub.create_time ${orderField}
+        </if>
+    </select>
+
+    <select id="verifyList" resultType="java.util.Map">
+        select sub.*
+        from sys_user_base sub
+        left join sys_role_user sru on sru.user_id = sub.uid
+        inner join sys_role sr on sru.role_id = sr.id and sr.type = 2
+    </select>
+
+    <select id="adList" resultType="java.util.Map">
+        select sub.*
+        from sys_user_base sub
+        left join sys_role_user sru on sru.user_id = sub.uid
+        inner join sys_role sr on sru.role_id = sr.id and sr.type = 3
+    </select>
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+</mapper>

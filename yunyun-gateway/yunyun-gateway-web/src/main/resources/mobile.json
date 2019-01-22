@@ -1,0 +1,3425 @@
+{
+  "errorcode": "0000",
+  "message": "查询成功",
+  "data": {
+    "records": [{
+      "callPeriod": "3",
+      "callDate": "2018-09-01 12:04:22",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "10",
+      "callDate": "2018-09-01 17:27:22",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "55",
+      "callDate": "2018-09-01 18:52:24",
+      "mobile": "15881161703",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "5",
+      "callDate": "2018-09-02 12:06:27",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "31",
+      "callDate": "2018-09-02 16:11:41",
+      "mobile": "18608078919",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "31",
+      "callDate": "2018-09-02 17:31:51",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "72",
+      "callDate": "2018-09-03 13:44:15",
+      "mobile": "13408411276",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "10",
+      "callDate": "2018-09-03 18:30:32",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "8",
+      "callDate": "2018-09-03 18:46:47",
+      "mobile": "02895030",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "11",
+      "callDate": "2018-09-04 10:34:33",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "19",
+      "callDate": "2018-09-04 16:44:23",
+      "mobile": "02110100000",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "8",
+      "callDate": "2018-09-04 16:58:59",
+      "mobile": "02895217129",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "43",
+      "callDate": "2018-09-04 21:20:44",
+      "mobile": "13408411276",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "3",
+      "callDate": "2018-09-05 12:01:25",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "97",
+      "callDate": "2018-09-06 12:01:02",
+      "mobile": "13880883772",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "60",
+      "callDate": "2018-09-06 20:56:12",
+      "mobile": "17311333890",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "8",
+      "callDate": "2018-09-07 11:15:09",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "1",
+      "callDate": "2018-09-07 19:36:17",
+      "mobile": "18683978727",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "6",
+      "callDate": "2018-09-08 12:08:17",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "148",
+      "callDate": "2018-09-08 16:51:58",
+      "mobile": "15828020394",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "150",
+      "callDate": "2018-09-08 20:27:21",
+      "mobile": "15982057457",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "552",
+      "callDate": "2018-09-08 21:05:03",
+      "mobile": "4008895558",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "44",
+      "callDate": "2018-09-09 09:48:55",
+      "mobile": "15982057457",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "205",
+      "callDate": "2018-09-09 16:00:02",
+      "mobile": "4008895558",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "674",
+      "callDate": "2018-09-10 11:04:31",
+      "mobile": "02195511",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "5",
+      "callDate": "2018-09-10 12:08:21",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "28",
+      "callDate": "2018-09-10 12:59:55",
+      "mobile": "13880883772",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "12",
+      "callDate": "2018-09-11 18:17:27",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "247",
+      "callDate": "2018-09-11 19:22:43",
+      "mobile": "95555",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "106",
+      "callDate": "2018-09-13 13:02:46",
+      "mobile": "02110100000",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "18",
+      "callDate": "2018-09-13 16:42:02",
+      "mobile": "17162101279",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "95",
+      "callDate": "2018-09-14 09:25:38",
+      "mobile": "02195511",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "312",
+      "callDate": "2018-09-15 00:49:48",
+      "mobile": "13880883772",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "40",
+      "callDate": "2018-09-15 11:08:42",
+      "mobile": "15680546867",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "54",
+      "callDate": "2018-09-16 16:42:55",
+      "mobile": "18782924701",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "31",
+      "callDate": "2018-09-16 17:30:49",
+      "mobile": "15828020394",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "11",
+      "callDate": "2018-09-17 14:00:35",
+      "mobile": "13282013731",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "43",
+      "callDate": "2018-09-18 14:38:23",
+      "mobile": "4006695566",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "13",
+      "callDate": "2018-09-19 08:30:41",
+      "mobile": "02895056",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "24",
+      "callDate": "2018-09-19 09:59:48",
+      "mobile": "13880883772",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "18",
+      "callDate": "2018-09-19 16:03:12",
+      "mobile": "15982057457",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "27",
+      "callDate": "2018-09-20 09:26:09",
+      "mobile": "02867163327",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "46",
+      "callDate": "2018-09-20 10:51:30",
+      "mobile": "15198275643",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "25",
+      "callDate": "2018-09-20 11:04:37",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "31",
+      "callDate": "2018-09-20 12:49:08",
+      "mobile": "13880883772",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "26",
+      "callDate": "2018-09-20 14:57:23",
+      "mobile": "18980458165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "345",
+      "callDate": "2018-09-20 20:04:55",
+      "mobile": "18780169646",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "177",
+      "callDate": "2018-09-21 11:50:35",
+      "mobile": "02085181628",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "3",
+      "callDate": "2018-09-21 12:03:21",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "19",
+      "callDate": "2018-09-22 10:23:21",
+      "mobile": "15828020394",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "158",
+      "callDate": "2018-09-22 10:24:53",
+      "mobile": "15828020394",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "9",
+      "callDate": "2018-09-22 10:38:04",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "18",
+      "callDate": "2018-09-24 08:47:30",
+      "mobile": "18111624369",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "20",
+      "callDate": "2018-09-24 10:55:38",
+      "mobile": "13183868165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "75",
+      "callDate": "2018-09-25 10:28:55",
+      "mobile": "13880883772",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "25",
+      "callDate": "2018-09-25 11:43:58",
+      "mobile": "15828020394",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "14",
+      "callDate": "2018-09-25 12:07:35",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "25",
+      "callDate": "2018-09-25 14:00:50",
+      "mobile": "15828020394",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "13",
+      "callDate": "2018-09-25 14:17:47",
+      "mobile": "18228668439",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "26",
+      "callDate": "2018-09-25 16:19:31",
+      "mobile": "18180096746",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "31",
+      "callDate": "2018-09-26 09:01:42",
+      "mobile": "18228668439",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "26",
+      "callDate": "2018-09-26 16:24:31",
+      "mobile": "02885808788",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "7",
+      "callDate": "2018-09-27 10:52:15",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "20",
+      "callDate": "2018-09-27 16:41:06",
+      "mobile": "02895030",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "6",
+      "callDate": "2018-09-28 11:58:51",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "101",
+      "callDate": "2018-09-28 18:42:02",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "19",
+      "callDate": "2018-09-28 21:09:16",
+      "mobile": "15828020394",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "161",
+      "callDate": "2018-09-29 10:11:08",
+      "mobile": "13880883772",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "31",
+      "callDate": "2018-09-29 10:38:31",
+      "mobile": "13183868165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "7",
+      "callDate": "2018-09-30 11:06:19",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "20",
+      "callDate": "2018-09-30 16:47:55",
+      "mobile": "02895030",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "7",
+      "callDate": "2018-10-02 18:01:48",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "38",
+      "callDate": "2018-10-02 22:12:47",
+      "mobile": "15881161703",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "110",
+      "callDate": "2018-10-03 09:24:13",
+      "mobile": "18980458165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "18",
+      "callDate": "2018-10-03 11:55:09",
+      "mobile": "15881161703",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "34",
+      "callDate": "2018-10-04 08:42:36",
+      "mobile": "15881161703",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "17",
+      "callDate": "2018-10-04 08:55:55",
+      "mobile": "15881161703",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "14",
+      "callDate": "2018-10-05 11:29:33",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "60",
+      "callDate": "2018-10-05 11:51:07",
+      "mobile": "13880883772",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "10",
+      "callDate": "2018-10-05 17:57:48",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "170",
+      "callDate": "2018-10-05 18:27:01",
+      "mobile": "4008895558",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "6",
+      "callDate": "2018-10-07 10:58:43",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "23",
+      "callDate": "2018-10-07 15:15:36",
+      "mobile": "15828020394",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "8",
+      "callDate": "2018-10-07 17:48:15",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "5",
+      "callDate": "2018-10-08 11:04:59",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "7",
+      "callDate": "2018-10-08 11:31:43",
+      "mobile": "17180113818",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "5",
+      "callDate": "2018-10-08 19:20:46",
+      "mobile": "17872609196",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "24",
+      "callDate": "2018-10-09 09:29:40",
+      "mobile": "18628120635",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "6",
+      "callDate": "2018-10-09 11:51:04",
+      "mobile": "18708109872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "51",
+      "callDate": "2018-10-09 15:42:19",
+      "mobile": "4001895555",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "119",
+      "callDate": "2018-10-09 16:25:18",
+      "mobile": "15756682412",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "14",
+      "callDate": "2018-10-09 20:05:52",
+      "mobile": "057128092319",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "35",
+      "callDate": "2018-10-10 15:42:33",
+      "mobile": "02039432783",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "38",
+      "callDate": "2018-10-10 19:39:59",
+      "mobile": "17652482130",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "95",
+      "callDate": "2018-10-10 19:55:47",
+      "mobile": "18628120635",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "6",
+      "callDate": "2018-10-11 12:04:08",
+      "mobile": "19934578165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "49",
+      "callDate": "2018-10-12 14:28:48",
+      "mobile": "02195511",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "23",
+      "callDate": "2018-10-12 17:50:32",
+      "mobile": "13021412105",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "19",
+      "callDate": "2018-10-13 11:05:56",
+      "mobile": "19934578165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "20",
+      "callDate": "2018-10-13 11:54:40",
+      "mobile": "15676256314",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "142",
+      "callDate": "2018-10-13 21:53:43",
+      "mobile": "15982057457",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "8",
+      "callDate": "2018-10-14 10:51:48",
+      "mobile": "19934578165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "8",
+      "callDate": "2018-10-15 09:34:33",
+      "mobile": "19934578165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "12",
+      "callDate": "2018-10-15 14:16:07",
+      "mobile": "18957061051",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "175",
+      "callDate": "2018-10-15 16:11:28",
+      "mobile": "02883343471",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "25",
+      "callDate": "2018-10-15 17:07:42",
+      "mobile": "01058664051",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "46",
+      "callDate": "2018-10-15 21:19:32",
+      "mobile": "13183868165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "4",
+      "callDate": "2018-10-16 10:53:15",
+      "mobile": "02863107301",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "15",
+      "callDate": "2018-10-16 11:07:19",
+      "mobile": "13183868165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "36",
+      "callDate": "2018-10-16 17:37:14",
+      "mobile": "13183868165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "21",
+      "callDate": "2018-10-16 21:37:39",
+      "mobile": "18628120635",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "54",
+      "callDate": "2018-10-17 09:13:34",
+      "mobile": "18111331406",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "21",
+      "callDate": "2018-10-17 09:16:20",
+      "mobile": "18980458165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "23",
+      "callDate": "2018-10-17 10:29:20",
+      "mobile": "18111331406",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "20",
+      "callDate": "2018-10-17 14:45:48",
+      "mobile": "075582380730",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "45",
+      "callDate": "2018-10-17 17:17:07",
+      "mobile": "02885185511",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "328",
+      "callDate": "2018-10-18 10:14:14",
+      "mobile": "4006695566",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "11",
+      "callDate": "2018-10-18 10:53:52",
+      "mobile": "02889364848",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "13",
+      "callDate": "2018-10-18 13:33:03",
+      "mobile": "02884786914",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "27",
+      "callDate": "2018-10-18 18:06:52",
+      "mobile": "15528282831",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "32",
+      "callDate": "2018-10-19 18:15:13",
+      "mobile": "02131011721",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "47",
+      "callDate": "2018-10-19 18:17:43",
+      "mobile": "4001895555",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "27",
+      "callDate": "2018-10-21 09:35:22",
+      "mobile": "18380102274",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "6",
+      "callDate": "2018-10-21 11:53:13",
+      "mobile": "19934578165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "54",
+      "callDate": "2018-10-22 10:05:17",
+      "mobile": "18980458165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "22",
+      "callDate": "2018-10-22 11:15:10",
+      "mobile": "18980458165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "15",
+      "callDate": "2018-10-22 11:45:51",
+      "mobile": "19934578165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "27",
+      "callDate": "2018-10-22 12:04:15",
+      "mobile": "13183868165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "16",
+      "callDate": "2018-10-23 11:57:07",
+      "mobile": "19934578165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "13",
+      "callDate": "2018-10-24 13:23:58",
+      "mobile": "02061891781",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "72",
+      "callDate": "2018-10-24 16:26:47",
+      "mobile": "4001609511",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "83",
+      "callDate": "2018-10-24 20:28:02",
+      "mobile": "18980458165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "23",
+      "callDate": "2018-10-25 11:00:53",
+      "mobile": "02863120192",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "27",
+      "callDate": "2018-10-25 11:37:07",
+      "mobile": "037155686620",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "11",
+      "callDate": "2018-10-27 09:00:54",
+      "mobile": "18980458165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "20",
+      "callDate": "2018-10-27 09:02:45",
+      "mobile": "13183868165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "48",
+      "callDate": "2018-10-28 02:01:05",
+      "mobile": "02860195888",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "3",
+      "callDate": "2018-10-29 09:44:42",
+      "mobile": "02867833016",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "7",
+      "callDate": "2018-10-29 10:45:55",
+      "mobile": "19934578165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "142",
+      "callDate": "2018-10-29 13:38:19",
+      "mobile": "15756324832",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "9",
+      "callDate": "2018-10-29 13:59:53",
+      "mobile": "17345892231",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "5",
+      "callDate": "2018-10-31 11:58:09",
+      "mobile": "19934578165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "9",
+      "callDate": "2018-10-31 18:00:44",
+      "mobile": "0289506526",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "82",
+      "callDate": "2018-11-01 13:29:46",
+      "mobile": "02867163395",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "48",
+      "callDate": "2018-11-02 10:12:12",
+      "mobile": "18980458165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "103",
+      "callDate": "2018-11-02 10:30:31",
+      "mobile": "18980458165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "45",
+      "callDate": "2018-11-02 10:37:11",
+      "mobile": "18980458165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "12",
+      "callDate": "2018-11-02 11:11:29",
+      "mobile": "15982491301",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "5",
+      "callDate": "2018-11-02 11:52:45",
+      "mobile": "19934578165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "12",
+      "callDate": "2018-11-02 16:44:43",
+      "mobile": "02895030",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "8",
+      "callDate": "2018-11-03 11:16:53",
+      "mobile": "053159622879",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "68",
+      "callDate": "2018-11-03 15:14:40",
+      "mobile": "15756324832",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "5",
+      "callDate": "2018-11-04 12:17:21",
+      "mobile": "15143026838",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "103",
+      "callDate": "2018-11-04 19:42:52",
+      "mobile": "18628120635",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "48",
+      "callDate": "2018-11-05 10:29:28",
+      "mobile": "18248310198",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "18",
+      "callDate": "2018-11-05 11:50:41",
+      "mobile": "19934578165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "282",
+      "callDate": "2018-11-06 12:56:55",
+      "mobile": "02863203315",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "105",
+      "callDate": "2018-11-06 14:42:42",
+      "mobile": "01052801287",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "14",
+      "callDate": "2018-11-07 12:42:40",
+      "mobile": "19833177622",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "4",
+      "callDate": "2018-11-07 12:51:20",
+      "mobile": "02569583985",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "32",
+      "callDate": "2018-11-08 16:50:41",
+      "mobile": "18140186283",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "4",
+      "callDate": "2018-11-09 12:04:14",
+      "mobile": "19934578165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "7",
+      "callDate": "2018-11-10 13:51:45",
+      "mobile": "18382371300",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "14",
+      "callDate": "2018-11-12 10:56:04",
+      "mobile": "01053807247",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "33",
+      "callDate": "2018-11-12 11:36:20",
+      "mobile": "18011487876",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "26",
+      "callDate": "2018-11-12 11:37:25",
+      "mobile": "18011487876",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "14",
+      "callDate": "2018-11-12 15:37:42",
+      "mobile": "13089203018",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "40",
+      "callDate": "2018-11-12 20:38:38",
+      "mobile": "18628120635",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "2",
+      "callDate": "2018-11-13 11:19:38",
+      "mobile": "19934578165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "38",
+      "callDate": "2018-11-13 11:19:59",
+      "mobile": "19934578165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "56",
+      "callDate": "2018-11-13 18:55:22",
+      "mobile": "13880883772",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "46",
+      "callDate": "2018-11-13 19:06:39",
+      "mobile": "18628120635",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "3",
+      "callDate": "2018-11-13 19:51:48",
+      "mobile": "13086605490",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "57",
+      "callDate": "2018-11-13 22:14:50",
+      "mobile": "18628120635",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "7",
+      "callDate": "2018-11-14 16:48:11",
+      "mobile": "15608070456",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "13",
+      "callDate": "2018-11-15 10:32:32",
+      "mobile": "02861456318",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "9",
+      "callDate": "2018-11-15 13:13:10",
+      "mobile": "13096340703",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "106",
+      "callDate": "2018-11-15 14:23:19",
+      "mobile": "13183868165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "13",
+      "callDate": "2018-11-15 16:41:54",
+      "mobile": "18628120635",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "46",
+      "callDate": "2018-11-15 18:14:54",
+      "mobile": "18628120635",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "18",
+      "callDate": "2018-11-15 18:38:28",
+      "mobile": "037153398344",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "99",
+      "callDate": "2018-11-16 21:07:19",
+      "mobile": "18628120635",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "58",
+      "callDate": "2018-11-19 17:58:18",
+      "mobile": "18140186283",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "189",
+      "callDate": "2018-11-19 23:00:15",
+      "mobile": "15982057457",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "286",
+      "callDate": "2018-11-21 12:47:52",
+      "mobile": "13880883772",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "34",
+      "callDate": "2018-11-21 12:53:25",
+      "mobile": "13880883772",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "37",
+      "callDate": "2018-11-21 12:54:34",
+      "mobile": "13880883772",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "71",
+      "callDate": "2018-11-21 16:17:01",
+      "mobile": "059138259421",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "11",
+      "callDate": "2018-11-22 14:30:01",
+      "mobile": "18208108163",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "64",
+      "callDate": "2018-11-22 14:46:45",
+      "mobile": "13183868165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "158",
+      "callDate": "2018-11-22 14:59:01",
+      "mobile": "02886058160",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "94",
+      "callDate": "2018-11-22 15:42:08",
+      "mobile": "02884166238",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "5",
+      "callDate": "2018-11-22 19:58:46",
+      "mobile": "02884676490",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "55",
+      "callDate": "2018-11-23 20:11:27",
+      "mobile": "15208123120",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "7",
+      "callDate": "2018-11-23 20:18:47",
+      "mobile": "15208123120",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "14",
+      "callDate": "2018-11-23 20:19:56",
+      "mobile": "17760528922",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "34",
+      "callDate": "2018-11-23 20:57:35",
+      "mobile": "15208123120",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "11",
+      "callDate": "2018-11-23 20:59:37",
+      "mobile": "17760528922",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "16",
+      "callDate": "2018-11-23 21:04:59",
+      "mobile": "18919576644",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "7",
+      "callDate": "2018-11-24 12:00:52",
+      "mobile": "19934578165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "14",
+      "callDate": "2018-11-24 13:51:59",
+      "mobile": "13308212144",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "10",
+      "callDate": "2018-11-24 17:17:21",
+      "mobile": "18773281238",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "14",
+      "callDate": "2018-11-24 17:45:25",
+      "mobile": "19934578165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "8",
+      "callDate": "2018-11-25 12:06:02",
+      "mobile": "19934578165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "4",
+      "callDate": "2018-11-25 17:40:10",
+      "mobile": "19934578165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "26",
+      "callDate": "2018-11-25 17:40:51",
+      "mobile": "19934578165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "25",
+      "callDate": "2018-11-26 09:56:15",
+      "mobile": "13183868165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "5",
+      "callDate": "2018-11-26 11:05:04",
+      "mobile": "02895231940",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "33",
+      "callDate": "2018-11-26 11:11:50",
+      "mobile": "02867163569",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "16",
+      "callDate": "2018-11-27 10:31:36",
+      "mobile": "18080982369",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "36",
+      "callDate": "2018-11-27 11:40:18",
+      "mobile": "15370099088",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "6",
+      "callDate": "2018-11-27 11:49:24",
+      "mobile": "19934578165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "3",
+      "callDate": "2018-11-27 19:56:48",
+      "mobile": "04552879347",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "33",
+      "callDate": "2018-11-28 12:43:13",
+      "mobile": "13183868165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "21",
+      "callDate": "2018-11-28 18:54:19",
+      "mobile": "07538161151",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "20",
+      "callDate": "2018-11-28 19:43:51",
+      "mobile": "15208280335",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "67",
+      "callDate": "2018-11-29 12:57:40",
+      "mobile": "13308212144",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "4",
+      "callDate": "2018-11-29 13:04:58",
+      "mobile": "13308212144",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "18",
+      "callDate": "2018-11-29 13:54:46",
+      "mobile": "18112886930",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "156",
+      "callDate": "2018-11-29 14:15:03",
+      "mobile": "15370099088",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "43",
+      "callDate": "2018-11-29 14:18:16",
+      "mobile": "02887541477",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "6",
+      "callDate": "2018-11-29 15:56:11",
+      "mobile": "13208043635",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "302",
+      "callDate": "2018-11-29 16:59:49",
+      "mobile": "041184947888",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "107",
+      "callDate": "2018-11-29 17:08:20",
+      "mobile": "041184947888",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "38",
+      "callDate": "2018-11-29 17:12:23",
+      "mobile": "041184947888",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "43",
+      "callDate": "2018-11-30 17:26:27",
+      "mobile": "13266823653",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "138",
+      "callDate": "2018-11-30 18:30:15",
+      "mobile": "15208280335",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "133",
+      "callDate": "2018-11-30 19:48:15",
+      "mobile": "18782924701",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "79",
+      "callDate": "2018-12-01 11:08:37",
+      "mobile": "18988799593",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "30",
+      "callDate": "2018-12-02 10:41:48",
+      "mobile": "075595511",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "21",
+      "callDate": "2018-12-03 10:14:32",
+      "mobile": "02110100000",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "15",
+      "callDate": "2018-12-03 10:19:20",
+      "mobile": "17784074024",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "61",
+      "callDate": "2018-12-03 10:19:50",
+      "mobile": "17784074024",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "28",
+      "callDate": "2018-12-03 14:32:25",
+      "mobile": "17784074024",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "36",
+      "callDate": "2018-12-03 17:36:18",
+      "mobile": "13517268916",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "31",
+      "callDate": "2018-12-03 18:08:05",
+      "mobile": "02388392595",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "89",
+      "callDate": "2018-12-04 14:56:07",
+      "mobile": "17071055414",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "117",
+      "callDate": "2018-12-04 15:13:33",
+      "mobile": "4001095555",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "4",
+      "callDate": "2018-12-04 16:18:34",
+      "mobile": "13476847448",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "13",
+      "callDate": "2018-12-04 19:04:26",
+      "mobile": "18581950701",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "45",
+      "callDate": "2018-12-05 09:43:33",
+      "mobile": "17760528922",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "126",
+      "callDate": "2018-12-05 17:16:34",
+      "mobile": "15982057457",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "37",
+      "callDate": "2018-12-05 17:34:25",
+      "mobile": "15982057457",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "136",
+      "callDate": "2018-12-05 17:37:37",
+      "mobile": "15982057457",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "25",
+      "callDate": "2018-12-05 18:03:43",
+      "mobile": "15982057457",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "78",
+      "callDate": "2018-12-05 23:36:51",
+      "mobile": "02886761868",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "117",
+      "callDate": "2018-12-05 23:44:35",
+      "mobile": "02886761868",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "38",
+      "callDate": "2018-12-05 23:54:20",
+      "mobile": "02180276667",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "200",
+      "callDate": "2018-12-05 23:55:14",
+      "mobile": "15802886994",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "101",
+      "callDate": "2018-12-06 00:05:43",
+      "mobile": "15802886994",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "5",
+      "callDate": "2018-12-06 00:09:11",
+      "mobile": "15802886994",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "12",
+      "callDate": "2018-12-06 00:10:04",
+      "mobile": "15802886994",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "514",
+      "callDate": "2018-12-06 11:38:28",
+      "mobile": "15982057457",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "121",
+      "callDate": "2018-12-06 17:07:58",
+      "mobile": "18011487876",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "122",
+      "callDate": "2018-12-06 19:46:20",
+      "mobile": "4001095555",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "132",
+      "callDate": "2018-12-06 19:50:33",
+      "mobile": "15760366305",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "7",
+      "callDate": "2018-12-07 11:28:18",
+      "mobile": "18140105311",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "27",
+      "callDate": "2018-12-07 20:19:43",
+      "mobile": "15528395020",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "19",
+      "callDate": "2018-12-08 15:27:55",
+      "mobile": "02895030",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "53",
+      "callDate": "2018-12-09 17:18:22",
+      "mobile": "01086392891",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "86",
+      "callDate": "2018-12-10 16:04:41",
+      "mobile": "13183868165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "21",
+      "callDate": "2018-12-10 16:12:48",
+      "mobile": "02888326176",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "15",
+      "callDate": "2018-12-11 11:54:18",
+      "mobile": "18980458165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "20",
+      "callDate": "2018-12-11 11:55:23",
+      "mobile": "02888326176",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "40",
+      "callDate": "2018-12-11 11:57:05",
+      "mobile": "13183868165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "182",
+      "callDate": "2018-12-11 20:01:46",
+      "mobile": "15982057457",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "78",
+      "callDate": "2018-12-11 20:08:01",
+      "mobile": "02886586598",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "32",
+      "callDate": "2018-12-11 20:15:29",
+      "mobile": "02861111018",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "49",
+      "callDate": "2018-12-12 00:34:04",
+      "mobile": "02860195888",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "44",
+      "callDate": "2018-12-12 12:21:47",
+      "mobile": "02863203621",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "47",
+      "callDate": "2018-12-12 14:52:23",
+      "mobile": "17760528922",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "5",
+      "callDate": "2018-12-12 16:17:40",
+      "mobile": "13400621045",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "62",
+      "callDate": "2018-12-13 11:07:23",
+      "mobile": "13183868165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "29",
+      "callDate": "2018-12-13 14:00:19",
+      "mobile": "13880883772",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "76",
+      "callDate": "2018-12-15 15:56:14",
+      "mobile": "13260084266",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "42",
+      "callDate": "2018-12-15 16:01:55",
+      "mobile": "18988799593",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "188",
+      "callDate": "2018-12-15 16:03:47",
+      "mobile": "18988799593",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "129",
+      "callDate": "2018-12-17 10:17:54",
+      "mobile": "13260084266",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "310",
+      "callDate": "2018-12-17 13:20:55",
+      "mobile": "13880883772",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "97",
+      "callDate": "2018-12-17 15:54:37",
+      "mobile": "15756218518",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "20",
+      "callDate": "2018-12-18 16:28:40",
+      "mobile": "02895222045",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "52",
+      "callDate": "2018-12-20 14:27:22",
+      "mobile": "15502809450",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "23",
+      "callDate": "2018-12-20 14:44:07",
+      "mobile": "18108184343",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "277",
+      "callDate": "2018-12-20 23:55:19",
+      "mobile": "18011487876",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "23",
+      "callDate": "2018-12-21 11:16:43",
+      "mobile": "15502809450",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "88",
+      "callDate": "2018-12-22 16:22:13",
+      "mobile": "19825113691",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "4",
+      "callDate": "2018-12-23 10:55:26",
+      "mobile": "02885955447",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "8",
+      "callDate": "2018-12-23 18:12:53",
+      "mobile": "073158503420",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "21",
+      "callDate": "2018-12-24 10:12:49",
+      "mobile": "09521292154",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "47",
+      "callDate": "2018-12-24 10:26:31",
+      "mobile": "07902105695",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "86",
+      "callDate": "2018-12-24 12:38:48",
+      "mobile": "18606869131",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "60",
+      "callDate": "2018-12-24 16:22:00",
+      "mobile": "17013188393",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "27",
+      "callDate": "2018-12-25 16:04:31",
+      "mobile": "18055116091",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "257",
+      "callDate": "2018-12-26 10:13:59",
+      "mobile": "18055116091",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "613",
+      "callDate": "2018-12-26 10:46:56",
+      "mobile": "18055116091",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "80",
+      "callDate": "2018-12-26 11:11:28",
+      "mobile": "18055116091",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "528",
+      "callDate": "2018-12-26 11:18:04",
+      "mobile": "18055116091",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "103",
+      "callDate": "2018-12-26 13:08:53",
+      "mobile": "18055116091",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "92",
+      "callDate": "2018-12-26 15:29:11",
+      "mobile": "02810085",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "81",
+      "callDate": "2018-12-26 16:34:45",
+      "mobile": "17062690283",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "52",
+      "callDate": "2018-12-26 17:18:35",
+      "mobile": "18055116091",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "5",
+      "callDate": "2018-12-26 18:05:22",
+      "mobile": "059565324955",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "439",
+      "callDate": "2018-12-27 16:09:28",
+      "mobile": "15196604232",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "86",
+      "callDate": "2018-12-27 16:36:01",
+      "mobile": "13260084266",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "57",
+      "callDate": "2018-12-28 10:39:00",
+      "mobile": "13260084266",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "61",
+      "callDate": "2018-12-28 11:41:35",
+      "mobile": "17024268299",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "94",
+      "callDate": "2018-12-29 11:51:35",
+      "mobile": "13260084266",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "28",
+      "callDate": "2018-12-29 16:18:01",
+      "mobile": "13880883772",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "30",
+      "callDate": "2018-12-29 18:48:22",
+      "mobile": "18296172286",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "38",
+      "callDate": "2018-12-29 21:53:34",
+      "mobile": "13880883772",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "9",
+      "callDate": "2018-12-30 10:07:50",
+      "mobile": "15307297077",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "20",
+      "callDate": "2018-12-30 10:43:37",
+      "mobile": "17311352044",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "18",
+      "callDate": "2018-12-30 13:23:43",
+      "mobile": "15828020394",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "84",
+      "callDate": "2018-12-30 13:24:16",
+      "mobile": "15828020394",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "3",
+      "callDate": "2018-12-30 15:09:33",
+      "mobile": "02884520743",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "33",
+      "callDate": "2018-12-30 16:30:11",
+      "mobile": "15828020394",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "11",
+      "callDate": "2018-12-30 16:34:41",
+      "mobile": "15828020394",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "14",
+      "callDate": "2018-12-30 19:31:39",
+      "mobile": "15528395020",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "13",
+      "callDate": "2018-12-31 11:43:19",
+      "mobile": "15208123120",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "131",
+      "callDate": "2018-12-31 11:53:15",
+      "mobile": "02810086",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "104",
+      "callDate": "2018-12-31 14:46:55",
+      "mobile": "07922383746",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "24",
+      "callDate": "2018-12-31 14:49:55",
+      "mobile": "02862677193",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "88",
+      "callDate": "2018-12-31 15:30:10",
+      "mobile": "4000280955",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "218",
+      "callDate": "2018-12-31 15:53:30",
+      "mobile": "13880503369",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "43",
+      "callDate": "2018-12-31 17:24:43",
+      "mobile": "15613541683",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "74",
+      "callDate": "2018-12-31 18:37:36",
+      "mobile": "15982057457",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "41",
+      "callDate": "2019-01-01 09:55:39",
+      "mobile": "17760528922",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "7",
+      "callDate": "2019-01-01 12:17:58",
+      "mobile": "057188120741",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "94",
+      "callDate": "2019-01-01 12:33:34",
+      "mobile": "15982057457",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "5",
+      "callDate": "2019-01-01 16:25:54",
+      "mobile": "02884777883",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "16",
+      "callDate": "2019-01-01 16:34:38",
+      "mobile": "18980661247",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "20",
+      "callDate": "2019-01-01 16:35:33",
+      "mobile": "18980661247",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "54",
+      "callDate": "2019-01-01 16:43:39",
+      "mobile": "15982057457",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "8",
+      "callDate": "2019-01-01 21:32:39",
+      "mobile": "15982057457",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "74",
+      "callDate": "2019-01-01 21:33:09",
+      "mobile": "15982057457",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都市",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "333",
+      "callDate": "2019-01-02 11:21:18",
+      "mobile": "02810086",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "25",
+      "callDate": "2019-01-02 12:50:22",
+      "mobile": "13183868165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "11",
+      "callDate": "2019-01-02 16:25:31",
+      "mobile": "18011431270",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "24",
+      "callDate": "2019-01-02 16:26:06",
+      "mobile": "18011431270",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "23",
+      "callDate": "2019-01-02 16:33:45",
+      "mobile": "18011431270",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "35",
+      "callDate": "2019-01-02 16:38:51",
+      "mobile": "13558806549",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "49",
+      "callDate": "2019-01-02 16:40:48",
+      "mobile": "18659157391",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "43",
+      "callDate": "2019-01-02 17:37:26",
+      "mobile": "13558806549",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "8",
+      "callDate": "2019-01-03 15:57:38",
+      "mobile": "15760367593",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "46",
+      "callDate": "2019-01-03 16:35:46",
+      "mobile": "19983277872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "44",
+      "callDate": "2019-01-03 16:56:35",
+      "mobile": "13183868165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "17",
+      "callDate": "2019-01-03 17:38:08",
+      "mobile": "15681112229",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "4",
+      "callDate": "2019-01-04 12:05:28",
+      "mobile": "02895225546",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "20",
+      "callDate": "2019-01-04 16:54:55",
+      "mobile": "19983277872",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "96",
+      "callDate": "2019-01-04 19:35:36",
+      "mobile": "15681112229",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "41",
+      "callDate": "2019-01-05 10:52:24",
+      "mobile": "02886496373",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "21",
+      "callDate": "2019-01-05 13:11:44",
+      "mobile": "15681112229",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "32",
+      "callDate": "2019-01-05 13:14:59",
+      "mobile": "15681112229",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "71",
+      "callDate": "2019-01-05 15:06:30",
+      "mobile": "15681112229",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "183",
+      "callDate": "2019-01-05 17:34:59",
+      "mobile": "15982057457",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "496",
+      "callDate": "2019-01-05 20:07:41",
+      "mobile": "15828020394",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "26",
+      "callDate": "2019-01-06 10:37:08",
+      "mobile": "13183868165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "7",
+      "callDate": "2019-01-06 10:43:25",
+      "mobile": "15208123120",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "9",
+      "callDate": "2019-01-06 10:48:27",
+      "mobile": "17760528922",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "639",
+      "callDate": "2019-01-06 11:16:13",
+      "mobile": "18780169455",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "28",
+      "callDate": "2019-01-06 16:50:15",
+      "mobile": "18081930812",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "28",
+      "callDate": "2019-01-07 10:49:51",
+      "mobile": "13183868165",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "167",
+      "callDate": "2019-01-07 12:11:19",
+      "mobile": "15982057457",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "86",
+      "callDate": "2019-01-07 15:57:45",
+      "mobile": "13266823653",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "19",
+      "callDate": "2019-01-07 16:18:21",
+      "mobile": "02895216401",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "14",
+      "callDate": "2019-01-07 18:41:06",
+      "mobile": "18581950701",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "106",
+      "callDate": "2019-01-08 10:03:46",
+      "mobile": "13281160827",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "52",
+      "callDate": "2019-01-08 10:14:31",
+      "mobile": "18780093378",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "31",
+      "callDate": "2019-01-08 11:42:37",
+      "mobile": "17760528922",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "18",
+      "callDate": "2019-01-08 12:27:10",
+      "mobile": "17760528922",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "16",
+      "callDate": "2019-01-08 13:45:46",
+      "mobile": "075526224288",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "2",
+      "callDate": "2019-01-08 13:49:43",
+      "mobile": "02895225524",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "25",
+      "callDate": "2019-01-08 15:11:51",
+      "mobile": "02895225570",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "25",
+      "callDate": "2019-01-08 15:16:32",
+      "mobile": "17760528922",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "0",
+      "callCategory": ""
+    }, {
+      "callPeriod": "19",
+      "callDate": "2019-01-08 15:34:54",
+      "mobile": "02884530634",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "23",
+      "callDate": "2019-01-08 16:19:49",
+      "mobile": "18581950701",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "94",
+      "callDate": "2019-01-08 17:32:10",
+      "mobile": "18628223879",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "53",
+      "callDate": "2019-01-08 17:42:33",
+      "mobile": "18780169646",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }, {
+      "callPeriod": "10",
+      "callDate": "2019-01-08 19:16:19",
+      "mobile": "18180941579",
+      "callFee": "0.00",
+      "businessType": "语音通话",
+      "callLocation": "成都资阳眉山三地",
+      "callType": "1",
+      "callCategory": ""
+    }],
+    "bills": [],
+    "user": {
+      "date": "2009-05-29",
+      "num": "13688085241",
+      "name": "**豪",
+      "count": "292"
+    }
+  }
+}

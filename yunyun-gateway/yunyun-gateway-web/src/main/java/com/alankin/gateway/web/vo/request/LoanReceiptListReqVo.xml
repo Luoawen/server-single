@@ -1,0 +1,15 @@
+<where>
+1=1
+<if test="condition.realName!=null and condition.realName!=''">AND user_real_name like CONCAT('%',#{condition.realName},'%')  </if>
+<if test="condition.userName!=null and condition.userName!=''">AND user_name like CONCAT('%',#{condition.userName},'%')  </if>
+<if test="condition.brrowerRealName!=null and condition.brrowerRealName!=''">AND brrower_real_name like CONCAT('%',#{condition.brrowerRealName},'%')  </if>
+<if test="condition.brrowerUserName!=null and condition.brrowerUserName!=''">AND brrower_user_name like CONCAT('%',#{condition.brrowerUserName},'%')  </if>
+<if test="condition.state!=null and condition.state!=''">AND state = #{condition.state} </if>
+<if test="condition.receiptDateEndTime!=null and condition.receiptDateEndTime!=''"> AND lr.brower_time &lt;= #{condition.receiptDateEndTime} </if>
+<if test="condition.receiptDateStartTime!=null and condition.receiptDateStartTime!=''"> AND lr.brower_time &gt;= #{condition.receiptDateStartTime} </if>
+<if test="condition.repayDateEndTime!=null and condition.repayDateEndTime!=''"> AND lr.repay_time &lt;= #{condition.repayDateEndTime} </if>
+<if test="condition.repayDateStartTime!=null and condition.repayDateStartTime!=''"> AND lr.repay_time &gt;= #{condition.repayDateStartTime} </if>
+</where>
+<if test="orderField != null and orderField!=''">
+    order by lr.create_time ${orderField}
+</if>

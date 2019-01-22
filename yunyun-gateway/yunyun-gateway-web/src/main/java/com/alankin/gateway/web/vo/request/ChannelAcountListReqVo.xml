@@ -1,0 +1,8 @@
+<where>
+1=1
+<if test="condition.realName!=null and condition.realName!=''">AND user_real_name like CONCAT('%',#{condition.realName},'%')  </if>
+<if test="condition.userName!=null and condition.userName!=''">AND user_name like CONCAT('%',#{condition.userName},'%')  </if>
+</where>
+<if test="orderField != null and orderField!=''">
+    order by create_time ${orderField}
+</if>

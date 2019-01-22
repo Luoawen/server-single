@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 配置进行解密  -->
+    <!--<bean id="propertyConfigurer" class="com.alankin.common.plugin.EncryptPropertyPlaceholderConfigurer">-->
+        <!--<property name="locations">-->
+            <!--<list>-->
+                <!--<value>classpath:redis.properties</value>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!-- 扫描spring注解配置 -->
+    <!--<context:component-scan base-package="com.alankin.gateway.web.config">-->
+    <!--</context:component-scan>-->
+
+    <!-- 共享session -->
+    <!--<bean class="com.alankin.gateway.web.config.CustomRedisHttpSessionConfiguration">-->
+    <!--<property name="maxInactiveIntervalInSeconds" value="1800"/>-->
+    <!--</bean>-->
+
+    <!-- httpsession配置 -->
+    <!--<bean id="redisHttpSession"-->
+          <!--class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">-->
+        <!--<property name="maxInactiveIntervalInSeconds" value="1600"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="defaultCookieSerializer" class="org.springframework.session.web.http.DefaultCookieSerializer">-->
+    <!--<property name="cookieName" value="Authorization" />-->
+    <!--<property name="cookiePath" value="/" />-->
+    <!--</bean>-->
+
+    <!--<bean id="cookieHttpSessionStrategy" class="com.alankin.gateway.web.config.CustomCookieHttpSessionStrategy">-->
+    <!--<property name="cookieSerializer" ref="defaultCookieSerializer" />-->
+    <!--<property name="tokenKey" value="token" />-->
+    <!--</bean>-->
+
+    <!--redis配置 -->
+    <!--<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">-->
+        <!--<property name="maxTotal" value="${master.redis.max_active}"/>-->
+        <!--<property name="maxIdle" value="${master.redis.max_idle}"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="jedisConnectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"-->
+          <!--destroy-method="destroy">-->
+        <!--<property name="hostName" value="${master.redis.ip}"/>-->
+        <!--<property name="port" value="${master.redis.port}"/>-->
+        <!--<property name="timeout" value="${master.redis.timeout}"/>-->
+        <!--<property name="usePool" value="true"/>-->
+        <!--<property name="password" value="${master.redis.password}"/>-->
+        <!--<property name="poolConfig" ref="jedisPoolConfig"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">-->
+    <!--<property name="connectionFactory" ref="jedisConnectionFactory"/>-->
+    <!--<property name="keySerializer" ref="keySerializer"/>-->
+    <!--<property name="enableTransactionSupport" value="false"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="keySerializer" class="org.springframework.data.redis.serializer.StringRedisSerializer"/>-->
+
+</beans>
