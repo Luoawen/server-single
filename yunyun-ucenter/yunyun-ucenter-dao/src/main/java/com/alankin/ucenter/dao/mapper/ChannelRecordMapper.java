@@ -33,9 +33,11 @@ public interface ChannelRecordMapper {
 
     List<Map> channelRecordList(Object o);
 
-    Map selectOrderLogByDuration(Object o);
+    List<Map> selectOrderLogByDuration(Object o);
 
-    Map selectUserLogByDuration(Object o);
+    List<Map> selectUserLogByDuration(Object o);
 
-    List<Map> selectRecord(Object o);
+    Map selectOrderLogSummary(Object o);
+
+    Map selectUserLogSummary(Object o);
 }

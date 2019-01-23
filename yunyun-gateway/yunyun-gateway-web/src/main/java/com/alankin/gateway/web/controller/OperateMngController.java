@@ -402,7 +402,7 @@ public class OperateMngController {
         return new Result(ResultConstant.FAILED, null);
     }
 
-    //    统计相关
+    //----------------------------统计相关
     @ApiOperation(value = "selectOrderLogByDuration")
     @RequestMapping(value = "/selectOrderLogByDuration")
     @ResponseBody
@@ -413,9 +413,9 @@ public class OperateMngController {
         //orderUid
         //channelId
         //channelRespUid
-        Map map = channelRecordService.selectByMethod("selectOrderLogByDuration", params);
-        if (map != null) {
-            return new Result(ResultConstant.SUCCESS, map);
+        List<Map> maps = channelRecordService.selectAllByMethod("selectOrderLogByDuration", params);
+        if (maps != null) {
+            return new Result(ResultConstant.SUCCESS, maps);
         }
         return new Result(ResultConstant.FAILED);
     }
@@ -429,21 +429,42 @@ public class OperateMngController {
         //recordDateStartTime
         //channelId
         //channelRespUid
-        Map map = channelRecordService.selectByMethod("selectUserLogByDuration", params);
+        List<Map> maps = channelRecordService.selectAllByMethod("selectUserLogByDuration", params);
+        if (maps != null) {
+            return new Result(ResultConstant.SUCCESS, maps);
+        }
+        return new Result(ResultConstant.FAILED);
+    }
+
+    @ApiOperation(value = "selectOrderLogSummary")
+    @RequestMapping(value = "/selectOrderLogSummary")
+    @ResponseBody
+    @Transactional
+    public Result selectOrderLogSummary(@RequestBody Map<String, String> params) {
+        //recordDateEndTime
+        //recordDateStartTime
+        //orderUid
+        //channelId
+        //channelRespUid
+        Map map = channelRecordService.selectByMethod("selectOrderLogSummary", params);
         if (map != null) {
             return new Result(ResultConstant.SUCCESS, map);
         }
         return new Result(ResultConstant.FAILED);
     }
 
-    @ApiOperation(value = "selectRecord")
-    @RequestMapping(value = "/selectRecord")
+    @ApiOperation(value = "selectUserLogSummary")
+    @RequestMapping(value = "/selectUserLogSummary")
     @ResponseBody
     @Transactional
-    public Result selectRecord(@RequestBody Map<String, String> params) {
-        List<Map> maps = channelRecordService.selectAllByMethod("selectRecord", params);
-        if (maps != null) {
-            return new Result(ResultConstant.SUCCESS, maps);
+    public Result selectUserLogSummary(@RequestBody Map<String, String> params) {
+        //recordDateEndTime
+        //recordDateStartTime
+        //channelId
+        //channelRespUid
+        Map map = channelRecordService.selectByMethod("selectUserLogSummary", params);
+        if (map != null) {
+            return new Result(ResultConstant.SUCCESS, map);
         }
         return new Result(ResultConstant.FAILED);
     }

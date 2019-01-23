@@ -303,7 +303,61 @@
         </if>
     </select>
 
+    <!--按天统计-->
     <select id="selectOrderLogByDuration" resultType="java.util.Map">
+        select count(orderLog.uid) as applyTotal,
+        count(IF(orderLog.now_state = 2, true, null)) as weiqianding,
+        count(IF(orderLog.now_state = 3, true, null)) as yiqianding,
+        count(IF(orderLog.now_state = 4, true, null)) as yifangkuan,
+        count(IF(orderLog.now_state = 5, true, null)) as yijieqing,
+        count(IF(orderLog.now_state = 6, true, null)) as yuqi,
+        count(IF(orderLog.now_state = 7, true, null)) as yiquxiao,
+        FROM_UNIXTIME(orderLog.create_time, '%Y-%m-%d') as timeFormat
+        from apply_state_log orderLog
+        left join apply_order ao on ao.uid = orderLog.order_id
+        left join user_base ub on ub.uid = ao.apply_user_uid
+        left join channel c on c.id = ub.channel_id
+        <where>
+            1=1
+            <if test="recordDateEndTime!=null and recordDateEndTime!=''">AND orderLog.create_time &lt;=
+                #{recordDateEndTime}
+            </if>
+            <if test="recordDateStartTime!=null and recordDateStartTime!=''">AND orderLog.create_time &gt;=
+                #{recordDateStartTime}
+            </if>
+            <if test="orderUid!=null and orderUid!=''">AND orderLog.order_id = #{orderUid}</if>
+            <if test="channelId!=null and channelId!=''">AND c.id = #{channelId}</if>
+            <if test="channelRespUid!=null and channelRespUid!=''">AND c.responsible_user_id = #{channelRespUid}
+            </if>
+        </where>
+        GROUP BY FROM_UNIXTIME(orderLog.create_time, '%Y-%m-%d')
+    </select>
+
+    <!--按天统计-->
+    <select id="selectUserLogByDuration" resultType="java.util.Map">
+        select count(ub.uid) as register_count,
+        count(IF(ub.verify_state_key = 1||isnull(ub.verify_state_key), true, null)) as daishenhe_count,
+        count(IF(ub.verify_state_key = 2, true, null)) as jinjian_count,
+        FROM_UNIXTIME(ub.create_time, '%Y-%m-%d') as timeFormat
+        from user_base ub
+        left join channel c on c.id = ub.channel_id
+        <where>
+            1=1
+            <if test="recordDateEndTime!=null and recordDateEndTime!=''">AND ub.create_time &lt;=
+                #{recordDateEndTime}
+            </if>
+            <if test="recordDateStartTime!=null and recordDateStartTime!=''">AND ub.create_time &gt;=
+                #{recordDateStartTime}
+            </if>
+            <if test="channelId!=null and channelId!=''">AND c.id = #{channelId}</if>
+            <if test="channelRespUid!=null and channelRespUid!=''">AND c.responsible_user_id = #{channelRespUid}
+            </if>
+        </where>
+        GROUP BY FROM_UNIXTIME(ub.create_time, '%Y-%m-%d')
+    </select>
+
+    <!--统计总量-->
+    <select id="selectOrderLogSummary" resultType="java.util.Map">
         select count(orderLog.uid) as applyTotal,
         count(IF(orderLog.now_state = 2, true, null)) as weiqianding,
         count(IF(orderLog.now_state = 3, true, null)) as yiqianding,
@@ -330,9 +384,10 @@
         </where>
     </select>
 
-    <select id="selectUserLogByDuration" resultType="java.util.Map">
+    <select id="selectUserLogSummary" resultType="java.util.Map">
         select count(ub.uid) as register_count,
-        count(IF(ub.verify_state_key = 2, true, null)) as verify_count
+        count(IF(ub.verify_state_key = 1||isnull(ub.verify_state_key), true, null)) as daishenhe_count,
+        count(IF(ub.verify_state_key = 2, true, null)) as jinjian_count
         from user_base ub
         left join channel c on c.id = ub.channel_id
         <where>
@@ -348,50 +403,6 @@
             </if>
         </where>
     </select>
-
-    <select id="selectRecord" resultType="java.util.Map">
-       SELECT *
-FROM (select count(ub.uid)                                  as register_count,
-             count(IF(ub.verify_state_key = 2, true, null)) as verify_count,
-             FROM_UNIXTIME(ub.create_time, '%Y-%m-%d')      as timeFormat
-      from user_base ub
-      GROUP BY FROM_UNIXTIME(ub.create_time, '%Y-%m-%d')) t1
-       LEFT JOIN (select count(orderLog.uid)                             as applyTotal,
-                         count(IF(orderLog.now_state = 2, true, null))   as weiqianding,
-                         count(IF(orderLog.now_state = 3, true, null))   as yiqianding,
-                         count(IF(orderLog.now_state = 4, true, null))   as yifangkuan,
-                         count(IF(orderLog.now_state = 5, true, null))   as yijieqing,
-                         count(IF(orderLog.now_state = 6, true, null))   as yuqi,
-                         count(IF(orderLog.now_state = 7, true, null))   as yiquxiao,
-                         FROM_UNIXTIME(orderLog.create_time, '%Y-%m-%d') as timeFormat
-                  from apply_state_log orderLog
-                         left join apply_order ao on ao.uid = orderLog.order_id
-                         left join user_base ub on ub.uid = ao.apply_user_uid
-                         left join channel c on c.id = ub.channel_id
-                  GROUP BY FROM_UNIXTIME(orderLog.create_time, '%Y-%m-%d')) t2 on t2.timeFormat = t1.timeFormat
-UNION
-SELECT *
-FROM (select count(ub.uid)                                  as register_count,
-             count(IF(ub.verify_state_key = 2, true, null)) as verify_count,
-             FROM_UNIXTIME(ub.create_time, '%Y-%m-%d')      as timeFormat
-      from user_base ub
-      GROUP BY FROM_UNIXTIME(ub.create_time, '%Y-%m-%d')) t1
-       RIGHT JOIN (select count(orderLog.uid)                             as applyTotal,
-                          count(IF(orderLog.now_state = 2, true, null))   as weiqianding,
-                          count(IF(orderLog.now_state = 3, true, null))   as yiqianding,
-                          count(IF(orderLog.now_state = 4, true, null))   as yifangkuan,
-                          count(IF(orderLog.now_state = 5, true, null))   as yijieqing,
-                          count(IF(orderLog.now_state = 6, true, null))   as yuqi,
-                          count(IF(orderLog.now_state = 7, true, null))   as yiquxiao,
-                          FROM_UNIXTIME(orderLog.create_time, '%Y-%m-%d') as timeFormat
-                   from apply_state_log orderLog
-                          left join apply_order ao on ao.uid = orderLog.order_id
-                          left join user_base ub on ub.uid = ao.apply_user_uid
-                          left join channel c on c.id = ub.channel_id
-                   GROUP BY FROM_UNIXTIME(orderLog.create_time, '%Y-%m-%d')) t2 ON t2.timeFormat = t1.timeFormat
-
-    </select>
-
 
     <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
 </mapper>

@@ -22,7 +22,7 @@ import java.util.List;
  * @Description: TODO
  * @date 创建时间：2019/1/23　13:18
  */
-@Component
+//@Component
 public class DayTask {
     private static final Logger LOGGER = LoggerFactory.getLogger(DayTask.class);
     @Autowired
@@ -30,7 +30,7 @@ public class DayTask {
     @Autowired
     private ChannelRecordService channelRecordService;
 
-    @Scheduled(cron = "0 0 0 * * ?") // 每天0点执行记录任务
+//    @Scheduled(cron = "0 0 0 * * ?") // 每天0点执行记录任务
     public void channelTask() {
         Calendar calendar0 = Calendar.getInstance();
         calendar0.setTime(new Date());
