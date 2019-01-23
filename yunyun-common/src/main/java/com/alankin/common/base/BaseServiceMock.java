@@ -58,6 +58,11 @@ public abstract class BaseServiceMock<Mapper, Record, Example> implements BaseSe
     }
 
     @Override
+    public Map selectByMethod(String method, Object param) {
+        return null;
+    }
+
+    @Override
     public List<Map> selectAllByMethod(String method, Object param) {
         return null;
     }

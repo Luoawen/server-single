@@ -113,14 +113,14 @@ public class LoginController extends BaseWebController {
             int curentTime = SystemClock.currentTimeSecond();
             UserBase userBase = new UserBase();
             userBase.setUid(new SnowflakeIdWorker(0, 0).nextId());
-            userBase.setUserName("摇尾巴的狗" + curentTime);
+            userBase.setUserName("ShenSuDai_" + curentTime);
             userBase.setRegisterSource((byte) 1);
             userBase.setMobile(vo.getPhone());
             userBase.setRegisterSource((byte) 1);
             userBase.setMobileBindTime(curentTime);
+            userBase.setChannelId(vo.getChannelId());//设置引流渠道id
             distributUser(userBase);//分配审核人,及初始化审核状态。
             userBaseService.insertSelective(userBase);
-
             UserAuth record = new UserAuth();
             record.setIdentifier(vo.getPhone());
             record.setUid(userBase.getUid());

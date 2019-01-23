@@ -2,6 +2,7 @@ package com.alankin.ucenter.dao.mapper;
 
 import com.alankin.ucenter.dao.model.ChannelRecord;
 import com.alankin.ucenter.dao.model.ChannelRecordExample;
+
 import java.util.List;
 import java.util.Map;
 
@@ -31,4 +32,10 @@ public interface ChannelRecordMapper {
     int updateByPrimaryKey(ChannelRecord record);
 
     List<Map> channelRecordList(Object o);
+
+    Map selectOrderLogByDuration(Object o);
+
+    Map selectUserLogByDuration(Object o);
+
+    List<Map> selectRecord(Object o);
 }

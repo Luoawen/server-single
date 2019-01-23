@@ -401,4 +401,50 @@ public class OperateMngController {
         }
         return new Result(ResultConstant.FAILED, null);
     }
+
+    //    统计相关
+    @ApiOperation(value = "selectOrderLogByDuration")
+    @RequestMapping(value = "/selectOrderLogByDuration")
+    @ResponseBody
+    @Transactional
+    public Result selectOrderLogByDuration(@RequestBody Map<String, String> params) {
+        //recordDateEndTime
+        //recordDateStartTime
+        //orderUid
+        //channelId
+        //channelRespUid
+        Map map = channelRecordService.selectByMethod("selectOrderLogByDuration", params);
+        if (map != null) {
+            return new Result(ResultConstant.SUCCESS, map);
+        }
+        return new Result(ResultConstant.FAILED);
+    }
+
+    @ApiOperation(value = "selectUserLogByDuration")
+    @RequestMapping(value = "/selectUserLogByDuration")
+    @ResponseBody
+    @Transactional
+    public Result selectUserLogByDuration(@RequestBody Map<String, String> params) {
+        //recordDateEndTime
+        //recordDateStartTime
+        //channelId
+        //channelRespUid
+        Map map = channelRecordService.selectByMethod("selectUserLogByDuration", params);
+        if (map != null) {
+            return new Result(ResultConstant.SUCCESS, map);
+        }
+        return new Result(ResultConstant.FAILED);
+    }
+
+    @ApiOperation(value = "selectRecord")
+    @RequestMapping(value = "/selectRecord")
+    @ResponseBody
+    @Transactional
+    public Result selectRecord(@RequestBody Map<String, String> params) {
+        List<Map> maps = channelRecordService.selectAllByMethod("selectRecord", params);
+        if (maps != null) {
+            return new Result(ResultConstant.SUCCESS, maps);
+        }
+        return new Result(ResultConstant.FAILED);
+    }
 }

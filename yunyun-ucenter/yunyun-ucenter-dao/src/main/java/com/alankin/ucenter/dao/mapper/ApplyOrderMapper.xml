@@ -316,10 +316,10 @@
             </if>
             <if test="condition.channelId!=null and condition.channelId!=''">AND channel_id = #{condition.channelId}
             </if>
-            <if test="condition.name!=null and conditionname!=''">AND user_real_name like
+            <if test="condition.name!=null and condition.name!=''">AND user_real_name like
                 CONCAT('%',#{condition.name},'%')
             </if>
-            <if test="condition.mobile!=null and conditionmobile!=''">AND mobile like
+            <if test="condition.mobile!=null and condition.mobile!=''">AND mobile like
                 CONCAT('%',#{condition.mobile},'%')
             </if>
             <if test="condition.state!=null and condition.state!=''">AND state = #{condition.state}</if>

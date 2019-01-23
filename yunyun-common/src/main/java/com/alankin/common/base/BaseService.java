@@ -79,6 +79,8 @@ public interface BaseService<Record, Example> {
 
     List<Record> selectAllBeanByMethod(String method, Object param);
 
+    Map selectByMethod(String method, Object param);
+
     List<Map> selectAllByMethod(String method, Object param);
 
     List<Map> selectAllByMethod(String method);

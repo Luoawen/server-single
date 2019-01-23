@@ -325,6 +325,30 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
     }
 
     @Override
+    public Map selectByMethod(String method, Object param) {
+        try {
+            DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
+            Object result;
+            Method selectByExample;
+            if (param == null) {
+                selectByExample = mapper.getClass().getDeclaredMethod(method);
+                result = selectByExample.invoke(mapper);
+            } else {
+                selectByExample = mapper.getClass().getDeclaredMethod(method, Object.class);
+                result = selectByExample.invoke(mapper, param);
+            }
+            return (Map) result;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.getTargetException().printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        DynamicDataSource.clearDataSource();
+        return null;
+    }
+    @Override
     public List<Record> selectAllBeanByMethod(String method, Object param) {
         try {
             DynamicDataSource.setDataSource(DataSourceEnum.SLAVE.getName());
