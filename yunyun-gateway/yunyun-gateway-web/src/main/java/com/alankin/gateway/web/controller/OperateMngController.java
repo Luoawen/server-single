@@ -95,32 +95,6 @@ public class OperateMngController {
         return new ListResult(ResultConstant.FAILED, null);
     }
 
-
-    @ApiOperation(value = "渠道统计列表")
-    @RequestMapping(value = "/channelRecordList")
-    @ResponseBody
-    @Transactional
-    public ListResult channelRecordList(HttpServletRequest request, @RequestBody ListReqVO<ChannelRecordReqVo> listReqVO) {
-        //从session获取用户信息
-        SysUserBase sysUser = UserUtils.getSysUser(request);
-        SysRoleUserExample sysRoleUserExample = new SysRoleUserExample();
-        sysRoleUserExample.createCriteria().andUserIdEqualTo(sysUser.getUid());
-        SysRoleUser sysRoleUser = sysRoleUserService.selectFirstByExample(sysRoleUserExample);
-        SysRole sysRole = sysRoleService.selectByPrimaryKey(sysRoleUser.getRoleId());
-        PageInfo pageInfo = null;
-        //判断用户是否是超级管理员
-        if (sysRole.getType() == 1) {//如果是超级管理员，展示所有列表
-            pageInfo = channelRecordService.selectForStartPageByMethod("channelRecordList", listReqVO, listReqVO.getPageNum(), listReqVO.getPageSize());
-        } else if (sysRole.getType() == 3) {//渠道商
-            listReqVO.getCondition().setUid(sysUser.getUid());
-            pageInfo = channelRecordService.selectForStartPageByMethod("channelRecordList", listReqVO, listReqVO.getPageNum(), listReqVO.getPageSize());
-        }
-        if (pageInfo != null) {
-            return new ListResult(ResultConstant.SUCCESS, pageInfo);
-        }
-        return new ListResult(ResultConstant.FAILED, null);
-    }
-
     @ApiOperation(value = "审核人列表")
     @RequestMapping(value = "/verifyList")
     @ResponseBody
@@ -467,5 +441,67 @@ public class OperateMngController {
             return new Result(ResultConstant.SUCCESS, map);
         }
         return new Result(ResultConstant.FAILED);
+    }
+
+    @ApiOperation(value = "注册统计列表")
+    @RequestMapping(value = "/selectUserLogGroupByChanelAndTime")
+    @ResponseBody
+    @Transactional
+    public ListResult selectUserLogGroupByChanelAndTime(HttpServletRequest request, @RequestBody ListReqVO<Map<String, String>> listReqVO) {
+        //从session获取用户信息
+        SysUserBase sysUser = UserUtils.getSysUser(request);
+        SysRoleUserExample sysRoleUserExample = new SysRoleUserExample();
+        sysRoleUserExample.createCriteria().andUserIdEqualTo(sysUser.getUid());
+        SysRoleUser sysRoleUser = sysRoleUserService.selectFirstByExample(sysRoleUserExample);
+        SysRole sysRole = sysRoleService.selectByPrimaryKey(sysRoleUser.getRoleId());
+        PageInfo pageInfo = null;
+
+        Map<String, String> map = listReqVO.getCondition();
+        if (map == null) {
+            map = new HashMap<>();
+            listReqVO.setCondition(map);
+        }
+        //判断用户是否是超级管理员
+        if (sysRole.getType() == 1) {//如果是超级管理员，展示所有列表
+            map.remove("channelRespUid");//移除负责人id，从而查询全部渠道
+            pageInfo = channelRecordService.selectForStartPageByMethod("selectUserLogGroupByChanelAndTime", listReqVO, listReqVO.getPageNum(), listReqVO.getPageSize());
+        } else if (sysRole.getType() == 3) {//渠道商
+            pageInfo = channelRecordService.selectForStartPageByMethod("selectUserLogGroupByChanelAndTime", listReqVO, listReqVO.getPageNum(), listReqVO.getPageSize());
+        }
+        if (pageInfo != null) {
+            return new ListResult(ResultConstant.SUCCESS, pageInfo);
+        }
+        return new ListResult(ResultConstant.FAILED, null);
+    }
+
+    @ApiOperation(value = "订单统计列表")
+    @RequestMapping(value = "/selectOrderLogGroupByChanelAndTime")
+    @ResponseBody
+    @Transactional
+    public ListResult selectOrderLogGroupByChanelAndTime(HttpServletRequest request, @RequestBody ListReqVO<Map<String, String>> listReqVO) {
+        //从session获取用户信息
+        SysUserBase sysUser = UserUtils.getSysUser(request);
+        SysRoleUserExample sysRoleUserExample = new SysRoleUserExample();
+        sysRoleUserExample.createCriteria().andUserIdEqualTo(sysUser.getUid());
+        SysRoleUser sysRoleUser = sysRoleUserService.selectFirstByExample(sysRoleUserExample);
+        SysRole sysRole = sysRoleService.selectByPrimaryKey(sysRoleUser.getRoleId());
+        PageInfo pageInfo = null;
+
+        Map<String, String> map = listReqVO.getCondition();
+        if (map == null) {
+            map = new HashMap<>();
+            listReqVO.setCondition(map);
+        }
+        //判断用户是否是超级管理员
+        if (sysRole.getType() == 1) {//如果是超级管理员，展示所有列表
+            map.remove("channelRespUid");//移除负责人id，从而查询全部渠道
+            pageInfo = channelRecordService.selectForStartPageByMethod("selectOrderLogGroupByChanelAndTime", listReqVO, listReqVO.getPageNum(), listReqVO.getPageSize());
+        } else if (sysRole.getType() == 3) {//渠道商
+            pageInfo = channelRecordService.selectForStartPageByMethod("selectOrderLogGroupByChanelAndTime", listReqVO, listReqVO.getPageNum(), listReqVO.getPageSize());
+        }
+        if (pageInfo != null) {
+            return new ListResult(ResultConstant.SUCCESS, pageInfo);
+        }
+        return new ListResult(ResultConstant.FAILED);
     }
 }

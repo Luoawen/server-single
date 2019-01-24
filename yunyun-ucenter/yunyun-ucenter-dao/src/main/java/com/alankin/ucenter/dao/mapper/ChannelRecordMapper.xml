@@ -356,6 +356,72 @@
         GROUP BY FROM_UNIXTIME(ub.create_time, '%Y-%m-%d')
     </select>
 
+    <!--按天统计-->
+    <select id="selectOrderLogGroupByChanelAndTime" resultType="java.util.Map">
+        select count(orderLog.uid) as applyTotal,
+        count(IF(orderLog.now_state = 2, true, null)) as weiqianding,
+        count(IF(orderLog.now_state = 3, true, null)) as yiqianding,
+        count(IF(orderLog.now_state = 4, true, null)) as yifangkuan,
+        count(IF(orderLog.now_state = 5, true, null)) as yijieqing,
+        count(IF(orderLog.now_state = 6, true, null)) as yuqi,
+        count(IF(orderLog.now_state = 7, true, null)) as yiquxiao,
+        FROM_UNIXTIME(orderLog.create_time, '%Y-%m-%d') as timeFormat,
+        c.channel_name,
+        sub.user_name                                   as responsible_user_name,
+        sub.real_name                                   as responsible_real_name
+        from apply_state_log orderLog
+        left join apply_order ao on ao.uid = orderLog.order_id
+        left join user_base ub on ub.uid = ao.apply_user_uid
+        left join channel c on c.id = ub.channel_id
+        left join sys_user_base sub on sub.uid = c.responsible_user_id
+        <where>
+            1=1
+            <if test="condition.recordDateEndTime!=null and condition.recordDateEndTime!=''">AND orderLog.create_time &lt;=
+                #{condition.recordDateEndTime}
+            </if>
+            <if test="condition.recordDateStartTime!=null and condition.recordDateStartTime!=''">AND orderLog.create_time &gt;=
+                #{condition.recordDateStartTime}
+            </if>
+            <if test="condition.orderUid!=null and condition.orderUid!=''">AND orderLog.order_id = #{condition.orderUid}</if>
+            <if test="condition.channelId!=null and condition.channelId!=''">AND c.id = #{condition.channelId}</if>
+            <if test="condition.channelRespUid!=null and condition.channelRespUid!=''">AND c.responsible_user_id = #{condition.channelRespUid}
+            </if>
+        </where>
+        GROUP BY FROM_UNIXTIME(orderLog.create_time, '%Y-%m-%d'),c.id
+        <if test="orderField != null and orderField!=''">
+            order by FROM_UNIXTIME(orderLog.create_time, '%Y-%m-%d') ${orderField}
+        </if>
+    </select>
+
+    <select id="selectUserLogGroupByChanelAndTime" resultType="java.util.Map">
+        select count(ub.uid) as register_count,
+        count(IF(ub.verify_state_key = 1||isnull(ub.verify_state_key), true, null)) as daishenhe_count,
+        count(IF(ub.verify_state_key = 2, true, null)) as jinjian_count,
+        FROM_UNIXTIME(ub.create_time, '%Y-%m-%d') as timeFormat,
+        c.channel_name,
+        sub.user_name                                                                 as responsible_user_name,
+        sub.real_name                                                                 as responsible_real_name
+        from user_base ub
+        left join channel c on c.id = ub.channel_id
+        left join sys_user_base sub on sub.uid = c.responsible_user_id
+        <where>
+            1=1
+            <if test="condition.recordDateEndTime!=null and condition.recordDateEndTime!=''">AND ub.create_time &lt;=
+                #{condition.recordDateEndTime}
+            </if>
+            <if test="condition.recordDateStartTime!=null and condition.recordDateStartTime!=''">AND ub.create_time &gt;=
+                #{condition.recordDateStartTime}
+            </if>
+            <if test="condition.channelId!=null and condition.channelId!=''">AND c.id = #{condition.channelId}</if>
+            <if test="condition.channelRespUid!=null and condition.channelRespUid!=''">AND c.responsible_user_id = #{condition.channelRespUid}
+            </if>
+        </where>
+        GROUP BY FROM_UNIXTIME(ub.create_time, '%Y-%m-%d'),c.id
+        <if test="orderField != null and orderField!=''">
+            order by FROM_UNIXTIME(ub.create_time, '%Y-%m-%d') ${orderField}
+        </if>
+    </select>
+
     <!--统计总量-->
     <select id="selectOrderLogSummary" resultType="java.util.Map">
         select count(orderLog.uid) as applyTotal,
