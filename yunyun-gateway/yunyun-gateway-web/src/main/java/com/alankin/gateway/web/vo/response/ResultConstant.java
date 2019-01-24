@@ -29,6 +29,9 @@ public enum ResultConstant {
     EXCEPTION_NO_USER(101, "没有找到登录信息！"),
     EXCEPTION_ACOUNT_OR_PWD_NOT_RIGHT(102, "手机或密码输入错误!"),
     EXCEPTION_NO_ACOUNT(103, "该用户不存在!"),
+    EXCEPTION_ACOUNT_EXIST(104, "该账号已存在!"),
+    EXCEPTION_AUTH_CODE(105, "验证码输入错误!"),
+    EXCEPTION_IP(106, "访问IP与登录不一致，请重新登录！"),
     EXCEPTION(98, "未知异常!"),
 
     //----------------------------------300申请用户异常----------------------------------------

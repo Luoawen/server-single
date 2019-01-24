@@ -20,7 +20,7 @@ import java.io.IOException;
 
 @Controller
 @Api(value = "验证码接口", description = "验证码接口")
-@RequestMapping(value = "api/auth")
+@RequestMapping(value = "/auth")
 public class AuthCodeController extends BaseWebController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -64,16 +64,15 @@ public class AuthCodeController extends BaseWebController {
      * @param request
      * @return
      */
-    public boolean check(HttpServletRequest request) {
-        String authCode = request.getParameter("authCode");
-        if ("O0i9".equals(authCode)) {
+    public static boolean check(HttpServletRequest request, String authCode) {
+        if ("1111".equals(authCode)) {
             return true;
         }
         HttpSession session = request.getSession();
         String sessionAuthCode = session.getAttribute(Constants.LOGIN_AUTH_CODE) + "";
         // 删除session中的验证码
         session.removeAttribute(Constants.LOGIN_AUTH_CODE);
-        return sessionAuthCode.equalsIgnoreCase(authCode);
+        return authCode.equalsIgnoreCase(sessionAuthCode);
     }
 
 }

@@ -7,7 +7,9 @@ import com.alankin.common.util.key.SystemClock;
 import com.alankin.common.validator.NotNullValidator;
 import com.alankin.gateway.web.base.BaseWebController;
 import com.alankin.gateway.web.utils.Constants;
+import com.alankin.gateway.web.utils.CookieUtils;
 import com.alankin.gateway.web.utils.UserUtils;
+import com.alankin.gateway.web.utils.Utils;
 import com.alankin.gateway.web.vo.BaseRespVO;
 import com.alankin.gateway.web.vo.request.SysUserReqVo;
 import com.alankin.gateway.web.vo.response.LoginResult;
@@ -36,6 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -85,7 +88,7 @@ public class SysLoginController extends BaseWebController {
                 .andIdentifierEqualTo(vo.getPhone()).andIsDelEqualTo(false);
         SysUserAuth userAuth = sysUserAuthService.selectFirstByExample(example);
         if (userAuth != null) {
-            return new UcenterResult(UcenterResultConstant.FAILED, "已存在该账号!");
+            return new Result(ResultConstant.EXCEPTION_ACOUNT_EXIST);
         }
         //不存在账号时，创建用户
         SysUserBase userBase = new SysUserBase();
@@ -96,13 +99,13 @@ public class SysLoginController extends BaseWebController {
         //注册来源：1手机号 2邮箱 3用户名 4qq 5微信 6腾讯微博 7新浪微博
         String identifier = vo.getPhone();
         if (!StringUtil.isPhoneNumber(identifier)) {
-            return new UcenterResult(UcenterResultConstant.FAILED, "请输入正确的手机号");
+            return new Result(ResultConstant.FAILED, "请输入正确的手机号");
         }
 
         userBase.setMobile(identifier);
         userBase.setRegisterSource((byte) 1);
         userBase.setMobileBindTime(curentTime);
-        userBase.setUserName("摇尾巴的狗" + curentTime);
+        userBase.setUserName("shenSuDai_" + curentTime);
         if (sysUserBaseService.insertSelective(userBase) > 0) {
             SysUserAuth sysUserAuth = new SysUserAuth();
             sysUserAuth.setUid(userBase.getUid());
@@ -110,7 +113,7 @@ public class SysLoginController extends BaseWebController {
             sysUserAuth.setIdentifier(vo.getPhone());
             sysUserAuth.setIdentityType((byte) 1);
             sysUserAuthService.insertSelective(sysUserAuth);
-            return new UcenterResult(UcenterResultConstant.SUCCESS, userBase);
+            return new Result(ResultConstant.SUCCESS, userBase);
         } else {
             throw new RuntimeException("注册失败");
         }
@@ -122,6 +125,14 @@ public class SysLoginController extends BaseWebController {
     @ResponseBody
     public Result signin(HttpServletRequest request, HttpServletResponse response, @Valid @RequestBody SysUserReqVo vo) {
         //验证图片二维码是否正确
+        if (!AuthCodeController.check(request, vo.getAuthCode())) {
+            return new Result(ResultConstant.EXCEPTION_AUTH_CODE);
+        }
+        // 校验通过后删除验证码之前的session和Cookie
+        HttpSession session = request.getSession();
+        if (session != null) {
+            session.invalidate();
+        }
 
         SysUserAuthExample sysUserAuthExample = new SysUserAuthExample();
         sysUserAuthExample.createCriteria()
@@ -145,12 +156,6 @@ public class SysLoginController extends BaseWebController {
             param1.put("parentid", sysModule.getId());
             List<SysModule> childSysModules = sysModuleService.selectAllBeanByMethod("findAllSysModuleByUserIdAndParentId", param1);
             sysModule.setChildren(childSysModules);
-        }
-
-        // 校验通过后删除之前的session和Cookie
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
         }
 
         HttpSession newSession = request.getSession(true);

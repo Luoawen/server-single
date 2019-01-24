@@ -4,6 +4,7 @@ import com.alankin.common.util.DateUtilSafe;
 import com.alankin.gateway.web.vo.BaseRespVO;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.apache.commons.lang.StringUtils;
 
@@ -79,6 +80,7 @@ public class Utils {
     }
 
     public static void writeResponesObj(HttpServletResponse respones, Object o) throws IOException {
+        respones.setContentType("application/json;charset=UTF-8");
         PrintWriter out = respones.getWriter();
         out.write(objectMapper.writeValueAsString(o));
     }
@@ -92,7 +94,6 @@ public class Utils {
         } else {
             out.write(callback + "(" + respJson + ")");
         }
-
     }
 
     /**
