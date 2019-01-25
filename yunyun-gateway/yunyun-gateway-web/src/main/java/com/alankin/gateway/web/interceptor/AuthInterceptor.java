@@ -10,12 +10,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Iterator;
+import java.util.Map;
 
 public class AuthInterceptor extends HandlerInterceptorAdapter {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthInterceptor.class);
+    @Resource
+    private Map<String, String> overtApiMap;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -25,9 +30,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         uri = uri.substring(uri.indexOf("/", uri.indexOf("api/")));
 
         // 判断访问的接口是否为公开接口
-//        if (isOvertApi(uri)) {
-//            return true;
-//        }
+        if (isOvertApi(uri)) {
+            return true;
+        }
 
         // 判断用户是否已登录
         HttpSession session = request.getSession(false);
@@ -69,5 +74,19 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     @Override
     public void afterConcurrentHandlingStarted(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         super.afterConcurrentHandlingStarted(request, response, handler);
+    }
+
+    /**
+     * 校验访问的接口是否公开不需要权限控制
+     *
+     * @return
+     */
+    private boolean isOvertApi(String uri) {
+        for (Iterator<String> iterator = overtApiMap.keySet().iterator(); iterator.hasNext(); ) {
+            if (uri.startsWith(iterator.next())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

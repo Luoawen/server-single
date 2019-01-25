@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.alankin.ucenter.dao.mapper.GaodeLocationMapper" >
+  <resultMap id="BaseResultMap" type="com.alankin.ucenter.dao.model.GaodeLocation" >
+    <id column="uid" property="uid" jdbcType="BIGINT" />
+    <result column="user_uid" property="userUid" jdbcType="BIGINT" />
+    <result column="locationType" property="locationtype" jdbcType="INTEGER" />
+    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
+    <result column="accuracy" property="accuracy" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="district" property="district" jdbcType="VARCHAR" />
+    <result column="street" property="street" jdbcType="VARCHAR" />
+    <result column="streetNum" property="streetnum" jdbcType="VARCHAR" />
+    <result column="cityCode" property="citycode" jdbcType="VARCHAR" />
+    <result column="adCode" property="adcode" jdbcType="VARCHAR" />
+    <result column="aoiName" property="aoiname" jdbcType="VARCHAR" />
+    <result column="buildingId" property="buildingid" jdbcType="VARCHAR" />
+    <result column="floor" property="floor" jdbcType="VARCHAR" />
+    <result column="gpsAccuracyStatus" property="gpsaccuracystatus" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    uid, user_uid, locationType, latitude, longitude, accuracy, address, country, province, 
+    city, district, street, streetNum, cityCode, adCode, aoiName, buildingId, floor, 
+    gpsAccuracyStatus
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.alankin.ucenter.dao.model.GaodeLocationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from gaode_location
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from gaode_location
+    where uid = #{uid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from gaode_location
+    where uid = #{uid,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.alankin.ucenter.dao.model.GaodeLocationExample" >
+    delete from gaode_location
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.alankin.ucenter.dao.model.GaodeLocation" >
+    insert into gaode_location (uid, user_uid, locationType, 
+      latitude, longitude, accuracy, 
+      address, country, province, 
+      city, district, street, 
+      streetNum, cityCode, adCode, 
+      aoiName, buildingId, floor, 
+      gpsAccuracyStatus)
+    values (#{uid,jdbcType=BIGINT}, #{userUid,jdbcType=BIGINT}, #{locationtype,jdbcType=INTEGER}, 
+      #{latitude,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR}, #{accuracy,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, #{street,jdbcType=VARCHAR}, 
+      #{streetnum,jdbcType=VARCHAR}, #{citycode,jdbcType=VARCHAR}, #{adcode,jdbcType=VARCHAR}, 
+      #{aoiname,jdbcType=VARCHAR}, #{buildingid,jdbcType=VARCHAR}, #{floor,jdbcType=VARCHAR}, 
+      #{gpsaccuracystatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.alankin.ucenter.dao.model.GaodeLocation" >
+    insert into gaode_location
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="userUid != null" >
+        user_uid,
+      </if>
+      <if test="locationtype != null" >
+        locationType,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="accuracy != null" >
+        accuracy,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="country != null" >
+        country,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="district != null" >
+        district,
+      </if>
+      <if test="street != null" >
+        street,
+      </if>
+      <if test="streetnum != null" >
+        streetNum,
+      </if>
+      <if test="citycode != null" >
+        cityCode,
+      </if>
+      <if test="adcode != null" >
+        adCode,
+      </if>
+      <if test="aoiname != null" >
+        aoiName,
+      </if>
+      <if test="buildingid != null" >
+        buildingId,
+      </if>
+      <if test="floor != null" >
+        floor,
+      </if>
+      <if test="gpsaccuracystatus != null" >
+        gpsAccuracyStatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uid != null" >
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="userUid != null" >
+        #{userUid,jdbcType=BIGINT},
+      </if>
+      <if test="locationtype != null" >
+        #{locationtype,jdbcType=INTEGER},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="accuracy != null" >
+        #{accuracy,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="street != null" >
+        #{street,jdbcType=VARCHAR},
+      </if>
+      <if test="streetnum != null" >
+        #{streetnum,jdbcType=VARCHAR},
+      </if>
+      <if test="citycode != null" >
+        #{citycode,jdbcType=VARCHAR},
+      </if>
+      <if test="adcode != null" >
+        #{adcode,jdbcType=VARCHAR},
+      </if>
+      <if test="aoiname != null" >
+        #{aoiname,jdbcType=VARCHAR},
+      </if>
+      <if test="buildingid != null" >
+        #{buildingid,jdbcType=VARCHAR},
+      </if>
+      <if test="floor != null" >
+        #{floor,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsaccuracystatus != null" >
+        #{gpsaccuracystatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.alankin.ucenter.dao.model.GaodeLocationExample" resultType="java.lang.Integer" >
+    select count(*) from gaode_location
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update gaode_location
+    <set >
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=BIGINT},
+      </if>
+      <if test="record.userUid != null" >
+        user_uid = #{record.userUid,jdbcType=BIGINT},
+      </if>
+      <if test="record.locationtype != null" >
+        locationType = #{record.locationtype,jdbcType=INTEGER},
+      </if>
+      <if test="record.latitude != null" >
+        latitude = #{record.latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="record.longitude != null" >
+        longitude = #{record.longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accuracy != null" >
+        accuracy = #{record.accuracy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.country != null" >
+        country = #{record.country,jdbcType=VARCHAR},
+      </if>
+      <if test="record.province != null" >
+        province = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null" >
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.district != null" >
+        district = #{record.district,jdbcType=VARCHAR},
+      </if>
+      <if test="record.street != null" >
+        street = #{record.street,jdbcType=VARCHAR},
+      </if>
+      <if test="record.streetnum != null" >
+        streetNum = #{record.streetnum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.citycode != null" >
+        cityCode = #{record.citycode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adcode != null" >
+        adCode = #{record.adcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.aoiname != null" >
+        aoiName = #{record.aoiname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.buildingid != null" >
+        buildingId = #{record.buildingid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.floor != null" >
+        floor = #{record.floor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gpsaccuracystatus != null" >
+        gpsAccuracyStatus = #{record.gpsaccuracystatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update gaode_location
+    set uid = #{record.uid,jdbcType=BIGINT},
+      user_uid = #{record.userUid,jdbcType=BIGINT},
+      locationType = #{record.locationtype,jdbcType=INTEGER},
+      latitude = #{record.latitude,jdbcType=VARCHAR},
+      longitude = #{record.longitude,jdbcType=VARCHAR},
+      accuracy = #{record.accuracy,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      country = #{record.country,jdbcType=VARCHAR},
+      province = #{record.province,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      district = #{record.district,jdbcType=VARCHAR},
+      street = #{record.street,jdbcType=VARCHAR},
+      streetNum = #{record.streetnum,jdbcType=VARCHAR},
+      cityCode = #{record.citycode,jdbcType=VARCHAR},
+      adCode = #{record.adcode,jdbcType=VARCHAR},
+      aoiName = #{record.aoiname,jdbcType=VARCHAR},
+      buildingId = #{record.buildingid,jdbcType=VARCHAR},
+      floor = #{record.floor,jdbcType=VARCHAR},
+      gpsAccuracyStatus = #{record.gpsaccuracystatus,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.alankin.ucenter.dao.model.GaodeLocation" >
+    update gaode_location
+    <set >
+      <if test="userUid != null" >
+        user_uid = #{userUid,jdbcType=BIGINT},
+      </if>
+      <if test="locationtype != null" >
+        locationType = #{locationtype,jdbcType=INTEGER},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="accuracy != null" >
+        accuracy = #{accuracy,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="district != null" >
+        district = #{district,jdbcType=VARCHAR},
+      </if>
+      <if test="street != null" >
+        street = #{street,jdbcType=VARCHAR},
+      </if>
+      <if test="streetnum != null" >
+        streetNum = #{streetnum,jdbcType=VARCHAR},
+      </if>
+      <if test="citycode != null" >
+        cityCode = #{citycode,jdbcType=VARCHAR},
+      </if>
+      <if test="adcode != null" >
+        adCode = #{adcode,jdbcType=VARCHAR},
+      </if>
+      <if test="aoiname != null" >
+        aoiName = #{aoiname,jdbcType=VARCHAR},
+      </if>
+      <if test="buildingid != null" >
+        buildingId = #{buildingid,jdbcType=VARCHAR},
+      </if>
+      <if test="floor != null" >
+        floor = #{floor,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsaccuracystatus != null" >
+        gpsAccuracyStatus = #{gpsaccuracystatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where uid = #{uid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.alankin.ucenter.dao.model.GaodeLocation" >
+    update gaode_location
+    set user_uid = #{userUid,jdbcType=BIGINT},
+      locationType = #{locationtype,jdbcType=INTEGER},
+      latitude = #{latitude,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=VARCHAR},
+      accuracy = #{accuracy,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      district = #{district,jdbcType=VARCHAR},
+      street = #{street,jdbcType=VARCHAR},
+      streetNum = #{streetnum,jdbcType=VARCHAR},
+      cityCode = #{citycode,jdbcType=VARCHAR},
+      adCode = #{adcode,jdbcType=VARCHAR},
+      aoiName = #{aoiname,jdbcType=VARCHAR},
+      buildingId = #{buildingid,jdbcType=VARCHAR},
+      floor = #{floor,jdbcType=VARCHAR},
+      gpsAccuracyStatus = #{gpsaccuracystatus,jdbcType=INTEGER}
+    where uid = #{uid,jdbcType=BIGINT}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+</mapper>

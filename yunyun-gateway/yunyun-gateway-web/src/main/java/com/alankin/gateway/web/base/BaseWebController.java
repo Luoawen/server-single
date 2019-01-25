@@ -47,16 +47,4 @@ public class BaseWebController extends BaseController {
         }
         return new Result(ResultConstant.EXCEPTION_FIELD_INVALID);
     }
-
-    private ObjectMapper setupJsonFilter(){
-        ObjectMapper mapper = new ObjectMapper();
-        String[] beanProperties = new String[]{"password"};
-        String nonPasswordFilterName = "non-password";//需要跟User类上的注解@JsonFilter("non-password")里面的一致
-        FilterProvider filterProvider = new SimpleFilterProvider()
-                .addFilter(nonPasswordFilterName, SimpleBeanPropertyFilter.serializeAllExcept(beanProperties));
-        //serializeAllExcept 表示序列化全部，除了指定字段
-        //filterOutAllExcept 表示过滤掉全部，除了指定的字段
-        mapper.setFilterProvider(filterProvider);
-        return mapper;
-    }
 }

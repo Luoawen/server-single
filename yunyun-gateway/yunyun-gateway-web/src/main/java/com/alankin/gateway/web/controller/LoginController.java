@@ -6,6 +6,7 @@ import com.alankin.common.util.StringUtil;
 import com.alankin.common.util.key.SnowflakeIdWorker;
 import com.alankin.common.util.key.SystemClock;
 import com.alankin.common.validator.NotNullValidator;
+import com.alankin.gateway.web.base.BaseTokenResult;
 import com.alankin.gateway.web.base.BaseWebController;
 import com.alankin.gateway.web.vo.request.UserAuthReqVo;
 import com.alankin.gateway.web.vo.request.UserReqVo;
@@ -105,7 +106,7 @@ public class LoginController extends BaseWebController {
                 }
                 userBaseService.updateByPrimaryKeySelective(userBase);//更新用户
                 UserUtils.createUserSession(request, userBase);
-                return new Result(ResultConstant.SUCCESS, getUserResult(userBase));
+                return new BaseTokenResult(ResultConstant.SUCCESS, getUserResult(userBase), request.getSession().getId());
             } else {
                 return new Result(ResultConstant.FAILED, "该用户不存在");
             }
@@ -127,7 +128,7 @@ public class LoginController extends BaseWebController {
             record.setIdentityType((byte) 1);
             userAuthService.insertSelective(record);
             UserUtils.createUserSession(request, userBase);
-            return new Result(ResultConstant.SUCCESS, getUserResult(userBase));
+            return new BaseTokenResult(ResultConstant.SUCCESS, getUserResult(userBase),request.getSession().getId());
         }
     }
 

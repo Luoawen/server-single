@@ -55,18 +55,18 @@
 
         <!-- model生成 -->
         <javaModelGenerator targetPackage="com.alankin.ucenter.dao.model"
-                            targetProject="I:/alankin/songProject/loan-manage-server/yunyun-ucenter/yunyun-ucenter-dao/src/main/java"/>
+                            targetProject="F:/alankin/song-project/loan-manage-server-single/yunyun-ucenter/yunyun-ucenter-dao/src/main/java"/>
 
         <!-- MapperXML生成 -->
         <sqlMapGenerator targetPackage="com.alankin.ucenter.dao.mapper"
-                         targetProject="I:/alankin/songProject/loan-manage-server/yunyun-ucenter/yunyun-ucenter-dao/src/main/java"/>
+                         targetProject="F:/alankin/song-project/loan-manage-server-single/yunyun-ucenter/yunyun-ucenter-dao/src/main/java"/>
 
         <!-- Mapper接口生成 -->
         <javaClientGenerator targetPackage="com.alankin.ucenter.dao.mapper"
-                             targetProject="I:/alankin/songProject/loan-manage-server/yunyun-ucenter/yunyun-ucenter-dao/src/main/java" type="XMLMAPPER"/>
+                             targetProject="F:/alankin/song-project/loan-manage-server-single/yunyun-ucenter/yunyun-ucenter-dao/src/main/java" type="XMLMAPPER"/>
 
         <!-- 需要映射的表 -->
-                                    <table tableName="loan_receipt" domainObjectName="LoanReceipt"></table>
+                                    <table tableName="gaode_location" domainObjectName="GaodeLocation"></table>
                         </context>
 
 </generatorConfiguration>

@@ -54,6 +54,7 @@ import java.util.Map;
 @Controller
 @Api(value = "用户接口", description = "用户接口")
 @RequestMapping(value = "api/user", method = RequestMethod.POST)
+@Transactional
 public class UserController extends BaseWebController {
     //运营商认证常量
     public static String userid = "gmtxsm01";
@@ -81,6 +82,8 @@ public class UserController extends BaseWebController {
 
     @Autowired
     private UserEmergencyContactService emergencyContactService;
+    @Autowired
+    private UserContactsService contactsService;
 
     @Autowired
     private UserOtherAcountService userOtherAcountService;
@@ -233,7 +236,73 @@ public class UserController extends BaseWebController {
         }
         return new Result(ResultConstant.FAILED);
     }
+
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<用户紧急联系人*/
+
+    /*用户联系人认证>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+    @ApiOperation(value = "用户通讯录认证")
+    @RequestMapping(value = "contactsVerify")
+    @ResponseBody
+    @Transactional
+    public Result contactsVerify(HttpServletRequest request, @RequestBody List<Map<String, String>> contactList) {
+        UserBase user = UserUtils.getUser(request);
+        Long userUid = user.getUid();
+        if (contactList == null || contactList.size() < 1) {
+            return new Result(ResultConstant.FAILED);
+        }
+        UserContactsExample example = new UserContactsExample();
+        for (Map<String, String> contactMap : contactList) {
+            String contactName = contactMap.get("contactName");
+            String contactMobile = contactMap.get("contactMobile").trim().replace(" ", "");
+            //清理查询条件
+            example.clear();
+            example.createCriteria()
+                    .andUserUidEqualTo(userUid)
+                    .andContactMobileEqualTo(contactMobile)
+                    .andContactMobileEqualTo(contactMobile);
+            UserContacts userContacts = contactsService.selectFirstByExample(example);
+            if (userContacts == null) {
+                UserContacts record = new UserContacts();
+                record.setUid(userUid);
+                record.setContactName(contactName);
+                record.setContactMobile(contactMobile);
+                contactsService.insertSelective(record);
+            }
+        }
+        return new Result(ResultConstant.SUCCESS);
+    }
+
+    @ApiOperation(value = "获取通讯录")
+    @RequestMapping(value = "getContacts")
+    @ResponseBody
+    public Result getContacts(HttpServletRequest request, ListReqVO listReqVO) {
+        UserBase user = UserUtils.getUser(request);
+        UserContactsExample example = new UserContactsExample();
+        example.createCriteria().andUserUidEqualTo(user.getUid());
+        PageInfo<UserContacts> pageInfo = contactsService.selectByExampleForStartPage(example, listReqVO.getPageNum(), listReqVO.getPageSize());
+        return new Result(ResultConstant.SUCCESS, pageInfo);
+    }
+    /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<用户通讯录*/
+
+    /*定位>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+    @ApiOperation(value = "上传用户定位")
+    @RequestMapping(value = "uploadGaoDeLocation")
+    @ResponseBody
+    @Transactional
+    public Result uploadLocation(HttpServletRequest request, @RequestBody List<Map<String, String>> contactList) {
+        UserBase user = UserUtils.getUser(request);
+        return new Result(ResultConstant.SUCCESS);
+    }
+
+    @ApiOperation(value = "获取用户定位")
+    @RequestMapping(value = "getGaoDeLocation")
+    @ResponseBody
+    public Result getGaoDeLocation(HttpServletRequest request, ListReqVO listReqVO) {
+        UserBase user = UserUtils.getUser(request);
+
+        return new Result(ResultConstant.FAILED);
+    }
+    /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<定位*/
 
     /*借条账号认证>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
     @ApiOperation(value = "借条账号认证")
