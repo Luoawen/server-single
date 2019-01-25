@@ -93,10 +93,15 @@ public class UserController extends BaseWebController {
 
     @Autowired
     private ApplyOrderService applyOrderService;
+
     @Autowired
     private LoanReceiptService loanReceiptService;
+
     @Autowired
     private ApplyStateLogService applyStateLogService;
+
+    @Autowired
+    private GaodeLocationService gaodeLocationService;
 
     //用户认证
     @ApiOperation(value = "用户认证")
@@ -289,17 +294,26 @@ public class UserController extends BaseWebController {
     @RequestMapping(value = "uploadGaoDeLocation")
     @ResponseBody
     @Transactional
-    public Result uploadLocation(HttpServletRequest request, @RequestBody List<Map<String, String>> contactList) {
+    public Result uploadLocation(HttpServletRequest request, @RequestBody GaodeLocation location) {
         UserBase user = UserUtils.getUser(request);
-        return new Result(ResultConstant.SUCCESS);
+        location.setUserUid(user.getUid());
+        if (gaodeLocationService.insertSelective(location) > 0) {
+            return new Result(ResultConstant.SUCCESS);
+        }
+        return new Result(ResultConstant.FAILED);
     }
 
     @ApiOperation(value = "获取用户定位")
     @RequestMapping(value = "getGaoDeLocation")
     @ResponseBody
-    public Result getGaoDeLocation(HttpServletRequest request, ListReqVO listReqVO) {
+    public Result getGaoDeLocation(HttpServletRequest request, @RequestBody ListReqVO listReqVO) {
         UserBase user = UserUtils.getUser(request);
-
+        GaodeLocationExample example = new GaodeLocationExample();
+        example.createCriteria().andUidEqualTo(user.getUid());
+        PageInfo<GaodeLocation> pageInfo = gaodeLocationService.selectByExampleForStartPage(example, listReqVO.getPageNum(), listReqVO.getPageSize());
+        if (pageInfo != null) {
+            return new Result(ResultConstant.SUCCESS, pageInfo);
+        }
         return new Result(ResultConstant.FAILED);
     }
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<定位*/

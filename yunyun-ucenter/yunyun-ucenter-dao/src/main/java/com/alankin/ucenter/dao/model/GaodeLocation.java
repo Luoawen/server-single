@@ -131,6 +131,10 @@ public class GaodeLocation implements Serializable {
      */
     private Integer gpsaccuracystatus;
 
+    private Integer createTime;
+
+    private Integer updateTime;
+
     private static final long serialVersionUID = 1L;
 
     public Long getUid() {
@@ -285,6 +289,22 @@ public class GaodeLocation implements Serializable {
         this.gpsaccuracystatus = gpsaccuracystatus;
     }
 
+    public Integer getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Integer createTime) {
+        this.createTime = createTime;
+    }
+
+    public Integer getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Integer updateTime) {
+        this.updateTime = updateTime;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -310,6 +330,8 @@ public class GaodeLocation implements Serializable {
         sb.append(", buildingid=").append(buildingid);
         sb.append(", floor=").append(floor);
         sb.append(", gpsaccuracystatus=").append(gpsaccuracystatus);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", updateTime=").append(updateTime);
         sb.append("]");
         return sb.toString();
     }
@@ -344,7 +366,9 @@ public class GaodeLocation implements Serializable {
             && (this.getAoiname() == null ? other.getAoiname() == null : this.getAoiname().equals(other.getAoiname()))
             && (this.getBuildingid() == null ? other.getBuildingid() == null : this.getBuildingid().equals(other.getBuildingid()))
             && (this.getFloor() == null ? other.getFloor() == null : this.getFloor().equals(other.getFloor()))
-            && (this.getGpsaccuracystatus() == null ? other.getGpsaccuracystatus() == null : this.getGpsaccuracystatus().equals(other.getGpsaccuracystatus()));
+            && (this.getGpsaccuracystatus() == null ? other.getGpsaccuracystatus() == null : this.getGpsaccuracystatus().equals(other.getGpsaccuracystatus()))
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()));
     }
 
     @Override
@@ -370,6 +394,8 @@ public class GaodeLocation implements Serializable {
         result = prime * result + ((getBuildingid() == null) ? 0 : getBuildingid().hashCode());
         result = prime * result + ((getFloor() == null) ? 0 : getFloor().hashCode());
         result = prime * result + ((getGpsaccuracystatus() == null) ? 0 : getGpsaccuracystatus().hashCode());
+        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
+        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         return result;
     }
 }
