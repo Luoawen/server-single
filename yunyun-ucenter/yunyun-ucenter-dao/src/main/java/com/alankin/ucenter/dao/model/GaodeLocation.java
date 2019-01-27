@@ -17,7 +17,7 @@ public class GaodeLocation implements Serializable {
      *
      * @mbggenerated
      */
-    private Integer locationtype;
+    private Integer locationType;
 
     /**
      * 获取纬度
@@ -87,35 +87,35 @@ public class GaodeLocation implements Serializable {
      *
      * @mbggenerated
      */
-    private String streetnum;
+    private String streetNum;
 
     /**
      * 城市编码
      *
      * @mbggenerated
      */
-    private String citycode;
+    private String cityCode;
 
     /**
      * 地区编码
      *
      * @mbggenerated
      */
-    private String adcode;
+    private String adCode;
 
     /**
      * 定位点的AOI信息
      *
      * @mbggenerated
      */
-    private String aoiname;
+    private String aoiName;
 
     /**
      * 建筑物Id
      *
      * @mbggenerated
      */
-    private String buildingid;
+    private String buildingId;
 
     /**
      * 楼层
@@ -129,7 +129,7 @@ public class GaodeLocation implements Serializable {
      *
      * @mbggenerated
      */
-    private Integer gpsaccuracystatus;
+    private Integer gpsAccuracyStatus;
 
     private Integer createTime;
 
@@ -153,12 +153,12 @@ public class GaodeLocation implements Serializable {
         this.userUid = userUid;
     }
 
-    public Integer getLocationtype() {
-        return locationtype;
+    public Integer getLocationType() {
+        return locationType;
     }
 
-    public void setLocationtype(Integer locationtype) {
-        this.locationtype = locationtype;
+    public void setLocationType(Integer locationType) {
+        this.locationType = locationType;
     }
 
     public String getLatitude() {
@@ -233,44 +233,44 @@ public class GaodeLocation implements Serializable {
         this.street = street;
     }
 
-    public String getStreetnum() {
-        return streetnum;
+    public String getStreetNum() {
+        return streetNum;
     }
 
-    public void setStreetnum(String streetnum) {
-        this.streetnum = streetnum;
+    public void setStreetNum(String streetNum) {
+        this.streetNum = streetNum;
     }
 
-    public String getCitycode() {
-        return citycode;
+    public String getCityCode() {
+        return cityCode;
     }
 
-    public void setCitycode(String citycode) {
-        this.citycode = citycode;
+    public void setCityCode(String cityCode) {
+        this.cityCode = cityCode;
     }
 
-    public String getAdcode() {
-        return adcode;
+    public String getAdCode() {
+        return adCode;
     }
 
-    public void setAdcode(String adcode) {
-        this.adcode = adcode;
+    public void setAdCode(String adCode) {
+        this.adCode = adCode;
     }
 
-    public String getAoiname() {
-        return aoiname;
+    public String getAoiName() {
+        return aoiName;
     }
 
-    public void setAoiname(String aoiname) {
-        this.aoiname = aoiname;
+    public void setAoiName(String aoiName) {
+        this.aoiName = aoiName;
     }
 
-    public String getBuildingid() {
-        return buildingid;
+    public String getBuildingId() {
+        return buildingId;
     }
 
-    public void setBuildingid(String buildingid) {
-        this.buildingid = buildingid;
+    public void setBuildingId(String buildingId) {
+        this.buildingId = buildingId;
     }
 
     public String getFloor() {
@@ -281,12 +281,12 @@ public class GaodeLocation implements Serializable {
         this.floor = floor;
     }
 
-    public Integer getGpsaccuracystatus() {
-        return gpsaccuracystatus;
+    public Integer getGpsAccuracyStatus() {
+        return gpsAccuracyStatus;
     }
 
-    public void setGpsaccuracystatus(Integer gpsaccuracystatus) {
-        this.gpsaccuracystatus = gpsaccuracystatus;
+    public void setGpsAccuracyStatus(Integer gpsAccuracyStatus) {
+        this.gpsAccuracyStatus = gpsAccuracyStatus;
     }
 
     public Integer getCreateTime() {
@@ -313,7 +313,7 @@ public class GaodeLocation implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", uid=").append(uid);
         sb.append(", userUid=").append(userUid);
-        sb.append(", locationtype=").append(locationtype);
+        sb.append(", locationType=").append(locationType);
         sb.append(", latitude=").append(latitude);
         sb.append(", longitude=").append(longitude);
         sb.append(", accuracy=").append(accuracy);
@@ -323,13 +323,13 @@ public class GaodeLocation implements Serializable {
         sb.append(", city=").append(city);
         sb.append(", district=").append(district);
         sb.append(", street=").append(street);
-        sb.append(", streetnum=").append(streetnum);
-        sb.append(", citycode=").append(citycode);
-        sb.append(", adcode=").append(adcode);
-        sb.append(", aoiname=").append(aoiname);
-        sb.append(", buildingid=").append(buildingid);
+        sb.append(", streetNum=").append(streetNum);
+        sb.append(", cityCode=").append(cityCode);
+        sb.append(", adCode=").append(adCode);
+        sb.append(", aoiName=").append(aoiName);
+        sb.append(", buildingId=").append(buildingId);
         sb.append(", floor=").append(floor);
-        sb.append(", gpsaccuracystatus=").append(gpsaccuracystatus);
+        sb.append(", gpsAccuracyStatus=").append(gpsAccuracyStatus);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append("]");
@@ -350,7 +350,7 @@ public class GaodeLocation implements Serializable {
         GaodeLocation other = (GaodeLocation) that;
         return (this.getUid() == null ? other.getUid() == null : this.getUid().equals(other.getUid()))
             && (this.getUserUid() == null ? other.getUserUid() == null : this.getUserUid().equals(other.getUserUid()))
-            && (this.getLocationtype() == null ? other.getLocationtype() == null : this.getLocationtype().equals(other.getLocationtype()))
+            && (this.getLocationType() == null ? other.getLocationType() == null : this.getLocationType().equals(other.getLocationType()))
             && (this.getLatitude() == null ? other.getLatitude() == null : this.getLatitude().equals(other.getLatitude()))
             && (this.getLongitude() == null ? other.getLongitude() == null : this.getLongitude().equals(other.getLongitude()))
             && (this.getAccuracy() == null ? other.getAccuracy() == null : this.getAccuracy().equals(other.getAccuracy()))
@@ -360,13 +360,13 @@ public class GaodeLocation implements Serializable {
             && (this.getCity() == null ? other.getCity() == null : this.getCity().equals(other.getCity()))
             && (this.getDistrict() == null ? other.getDistrict() == null : this.getDistrict().equals(other.getDistrict()))
             && (this.getStreet() == null ? other.getStreet() == null : this.getStreet().equals(other.getStreet()))
-            && (this.getStreetnum() == null ? other.getStreetnum() == null : this.getStreetnum().equals(other.getStreetnum()))
-            && (this.getCitycode() == null ? other.getCitycode() == null : this.getCitycode().equals(other.getCitycode()))
-            && (this.getAdcode() == null ? other.getAdcode() == null : this.getAdcode().equals(other.getAdcode()))
-            && (this.getAoiname() == null ? other.getAoiname() == null : this.getAoiname().equals(other.getAoiname()))
-            && (this.getBuildingid() == null ? other.getBuildingid() == null : this.getBuildingid().equals(other.getBuildingid()))
+            && (this.getStreetNum() == null ? other.getStreetNum() == null : this.getStreetNum().equals(other.getStreetNum()))
+            && (this.getCityCode() == null ? other.getCityCode() == null : this.getCityCode().equals(other.getCityCode()))
+            && (this.getAdCode() == null ? other.getAdCode() == null : this.getAdCode().equals(other.getAdCode()))
+            && (this.getAoiName() == null ? other.getAoiName() == null : this.getAoiName().equals(other.getAoiName()))
+            && (this.getBuildingId() == null ? other.getBuildingId() == null : this.getBuildingId().equals(other.getBuildingId()))
             && (this.getFloor() == null ? other.getFloor() == null : this.getFloor().equals(other.getFloor()))
-            && (this.getGpsaccuracystatus() == null ? other.getGpsaccuracystatus() == null : this.getGpsaccuracystatus().equals(other.getGpsaccuracystatus()))
+            && (this.getGpsAccuracyStatus() == null ? other.getGpsAccuracyStatus() == null : this.getGpsAccuracyStatus().equals(other.getGpsAccuracyStatus()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()));
     }
@@ -377,7 +377,7 @@ public class GaodeLocation implements Serializable {
         int result = 1;
         result = prime * result + ((getUid() == null) ? 0 : getUid().hashCode());
         result = prime * result + ((getUserUid() == null) ? 0 : getUserUid().hashCode());
-        result = prime * result + ((getLocationtype() == null) ? 0 : getLocationtype().hashCode());
+        result = prime * result + ((getLocationType() == null) ? 0 : getLocationType().hashCode());
         result = prime * result + ((getLatitude() == null) ? 0 : getLatitude().hashCode());
         result = prime * result + ((getLongitude() == null) ? 0 : getLongitude().hashCode());
         result = prime * result + ((getAccuracy() == null) ? 0 : getAccuracy().hashCode());
@@ -387,13 +387,13 @@ public class GaodeLocation implements Serializable {
         result = prime * result + ((getCity() == null) ? 0 : getCity().hashCode());
         result = prime * result + ((getDistrict() == null) ? 0 : getDistrict().hashCode());
         result = prime * result + ((getStreet() == null) ? 0 : getStreet().hashCode());
-        result = prime * result + ((getStreetnum() == null) ? 0 : getStreetnum().hashCode());
-        result = prime * result + ((getCitycode() == null) ? 0 : getCitycode().hashCode());
-        result = prime * result + ((getAdcode() == null) ? 0 : getAdcode().hashCode());
-        result = prime * result + ((getAoiname() == null) ? 0 : getAoiname().hashCode());
-        result = prime * result + ((getBuildingid() == null) ? 0 : getBuildingid().hashCode());
+        result = prime * result + ((getStreetNum() == null) ? 0 : getStreetNum().hashCode());
+        result = prime * result + ((getCityCode() == null) ? 0 : getCityCode().hashCode());
+        result = prime * result + ((getAdCode() == null) ? 0 : getAdCode().hashCode());
+        result = prime * result + ((getAoiName() == null) ? 0 : getAoiName().hashCode());
+        result = prime * result + ((getBuildingId() == null) ? 0 : getBuildingId().hashCode());
         result = prime * result + ((getFloor() == null) ? 0 : getFloor().hashCode());
-        result = prime * result + ((getGpsaccuracystatus() == null) ? 0 : getGpsaccuracystatus().hashCode());
+        result = prime * result + ((getGpsAccuracyStatus() == null) ? 0 : getGpsAccuracyStatus().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         return result;

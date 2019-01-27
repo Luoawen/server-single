@@ -1,5 +1,7 @@
 package com.alankin.gateway.web.controller;
 
+import com.alankin.common.util.DateUtils;
+import com.alankin.common.util.RequestUtil;
 import com.alankin.common.util.key.SnowflakeIdWorker;
 import com.alankin.common.util.key.SystemClock;
 import com.alankin.gateway.web.base.BaseWebController;
@@ -16,6 +18,7 @@ import com.alankin.ucenter.common.constant.UcenterResultConstant;
 import com.alankin.ucenter.dao.model.*;
 import com.alankin.ucenter.rpc.api.*;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.zhicheng.echo.star.enums.ReasonEnum;
@@ -42,10 +45,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 注册控制器
@@ -248,7 +248,6 @@ public class UserController extends BaseWebController {
     @ApiOperation(value = "用户通讯录认证")
     @RequestMapping(value = "contactsVerify")
     @ResponseBody
-    @Transactional
     public Result contactsVerify(HttpServletRequest request, @RequestBody List<Map<String, String>> contactList) {
         UserBase user = UserUtils.getUser(request);
         Long userUid = user.getUid();
@@ -263,15 +262,15 @@ public class UserController extends BaseWebController {
             example.clear();
             example.createCriteria()
                     .andUserUidEqualTo(userUid)
-                    .andContactMobileEqualTo(contactMobile)
+                    .andContactNameEqualTo(contactName)
                     .andContactMobileEqualTo(contactMobile);
             UserContacts userContacts = contactsService.selectFirstByExample(example);
             if (userContacts == null) {
                 UserContacts record = new UserContacts();
-                record.setUid(userUid);
+                record.setUserUid(userUid);
                 record.setContactName(contactName);
                 record.setContactMobile(contactMobile);
-                contactsService.insertSelective(record);
+                contactsService.insert(record);
             }
         }
         return new Result(ResultConstant.SUCCESS);
@@ -294,7 +293,7 @@ public class UserController extends BaseWebController {
     @RequestMapping(value = "uploadGaoDeLocation")
     @ResponseBody
     @Transactional
-    public Result uploadLocation(HttpServletRequest request, @RequestBody GaodeLocation location) {
+    public Result uploadGaoDeLocation(HttpServletRequest request, @RequestBody GaodeLocation location) {
         UserBase user = UserUtils.getUser(request);
         location.setUserUid(user.getUid());
         if (gaodeLocationService.insertSelective(location) > 0) {
@@ -431,7 +430,7 @@ public class UserController extends BaseWebController {
                 record.setCertificate(vo.getPassword());
                 record.setIdentifier(vo.getUsername());
                 record.setIdentityType((byte) 2);
-                userOtherAuthService.insertSelective(record);
+                userOtherAuthService.insert(record);
             }
         }
         return s;
@@ -529,7 +528,11 @@ public class UserController extends BaseWebController {
     @ApiOperation(value = "淘宝登录")
     @RequestMapping(value = "taobaoLogin")
     @ResponseBody
-    public Object taobaoLogin(@RequestBody ThirdLoginReqVo vo) {
+    public Object taobaoLogin(HttpServletRequest request, @RequestBody ThirdLoginReqVo vo) {
+        UserBase user = UserUtils.getUser(request);
+        if (user == null) {
+            return new Result(ResultConstant.EXCEPTION_INVALID);
+        }
         MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap();
         multiValueMap.add("userid", userid);
         multiValueMap.add("sign", DigestUtils.md5Hex(userid + apiKey));
@@ -537,7 +540,30 @@ public class UserController extends BaseWebController {
         multiValueMap.add("username", vo.getUsername());
         multiValueMap.add("password", vo.getPassword());
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.postForObject(taobaoApi, multiValueMap, String.class);
+        String s = restTemplate.postForObject(taobaoApi, multiValueMap, String.class);
+        JSONObject jsonObject = JSON.parseObject(s);
+        String errorcode = jsonObject.getString("errorcode");
+        if (errorcode.equals("0000")) {
+            UserOtherAuthExample example = new UserOtherAuthExample();
+            example.createCriteria().andUidEqualTo(user.getUid()).andIdentityTypeEqualTo((byte) 1);
+            UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExample(example);
+            if (userOtherAuth != null) {//存在
+                String certificate = userOtherAuth.getCertificate();
+                if (!StringUtils.isEmpty(certificate) && !certificate.equals(vo.getPassword())) {
+                    //并且密码有改变
+                    userOtherAuth.setCertificate(vo.getPassword());
+                    userOtherAuthService.updateByPrimaryKeySelective(userOtherAuth);
+                }
+            } else {//不存在
+                UserOtherAuth record = new UserOtherAuth();
+                record.setUid(user.getUid());
+                record.setCertificate(vo.getPassword());
+                record.setIdentifier(vo.getUsername());
+                record.setIdentityType((byte) 1);
+                userOtherAuthService.insert(record);
+            }
+        }
+        return s;
     }
 
     @ApiOperation(value = "淘宝验证码接口")
@@ -583,7 +609,8 @@ public class UserController extends BaseWebController {
     @ApiOperation(value = "淘宝获取数据接口")
     @RequestMapping(value = "taobaoGetData")
     @ResponseBody
-    public Object taobaoGetData(@RequestBody GetDataReqVo vo) {
+    public Object taobaoGetData(HttpServletRequest request, @RequestBody GetDataReqVo vo) {
+        UserBase user = UserUtils.getUser(request);
         MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap();
         multiValueMap.add("userid", userid);
         multiValueMap.add("sign", DigestUtils.md5Hex(userid + apiKey));
@@ -591,7 +618,19 @@ public class UserController extends BaseWebController {
         multiValueMap.add("username", vo.getUsername());
         multiValueMap.add("sid", vo.getSid());
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.postForObject(taobaoApi, multiValueMap, String.class);
+        String s = restTemplate.postForObject(taobaoApi, multiValueMap, String.class);
+        JSONObject jsonObject = JSON.parseObject(s);
+        String errorcode = jsonObject.getString("errorcode");
+        if (errorcode.equals("0000")) {
+            String data = jsonObject.getString("data");
+            UserOtherAuthExample example = new UserOtherAuthExample();
+            example.createCriteria().andUidEqualTo(user.getUid()).andIdentityTypeEqualTo((byte) 1);
+            UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExample(example);
+            //添加数据
+            userOtherAuth.setThirdData(data);
+            userOtherAuthService.updateByPrimaryKeySelective(userOtherAuth);
+        }
+        return s;
     }
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<淘宝接口*/
 
@@ -605,13 +644,22 @@ public class UserController extends BaseWebController {
     @ApiOperation(value = "多头接口")
     @RequestMapping(value = "mutiData")
     @ResponseBody
-    public Object mutiData(@RequestBody MutiReqVo vo) {
+    public Object mutiData(HttpServletRequest request, @RequestBody MutiReqVo vo) {
+        UserBase user = UserUtils.getUser(request);
+        if (user == null) {
+            return new Result(ResultConstant.EXCEPTION_INVALID);
+        }
+        UserOtherAuthExample example = new UserOtherAuthExample();
+        example.createCriteria().andUidEqualTo(user.getUid()).andIdentityTypeEqualTo((byte) 3);
+        UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExample(example);
+        if (userOtherAuth != null && !StringUtils.isEmpty(userOtherAuth.getThirdData())) {//存在
+            return new Result(ResultConstant.SUCCESS);
+        }
+
         /*查询条件拼接 开始*/
         JSONObject dataJson = new JSONObject();
         dataJson.put("id_no", vo.getIdNo());//被查询人身份证号 18 位以内
         dataJson.put("name", vo.getName());//被查询人姓名 2-30 位
-        /*查询条件拼接 完成*/
-
         //开始查询
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
         //用户名
@@ -626,9 +674,166 @@ public class UserController extends BaseWebController {
         nameValuePairs.add(new BasicNameValuePair("query_reason", ReasonEnum.LOAN_AUDIT.getType()));
         //查询条件,格式为 json 格式
         nameValuePairs.add(new BasicNameValuePair("params", dataJson.toJSONString()));
-        return HttpClientUtil.doPost(url, nameValuePairs, "utf-8");
+        String s = HttpClientUtil.doPost(url, nameValuePairs, "utf-8");
+        JSONObject jsonObject = JSON.parseObject(s);
+        String code = jsonObject.getString("code");
+        if (code.equals("10000")) {
+            if (userOtherAuth != null && !StringUtils.isEmpty(userOtherAuth.getThirdData())) {//存在,但是没有三方数据
+                userOtherAuth.setThirdData(jsonObject.getString("data"));
+                userOtherAuthService.updateByPrimaryKeySelective(userOtherAuth);
+                return new Result(ResultConstant.SUCCESS);
+            } else {//不存在
+                UserOtherAuth record = new UserOtherAuth();
+                record.setUid(user.getUid());
+                record.setCertificate(vo.getIdNo());
+                record.setIdentifier(vo.getName());
+                record.setIdentityType((byte) 3);
+                record.setThirdData(jsonObject.getString("data"));
+                userOtherAuthService.insert(record);
+                return new Result(ResultConstant.SUCCESS);
+            }
+        }else {
+            return new Result(Integer.parseInt(code), jsonObject.getString("msg"));
+        }
     }
-    /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<淘宝接口*/
+    /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<多头接口*/
+
+    /*欺诈甄别接口>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+    @ApiOperation(value = "欺诈甄别接口")
+    @RequestMapping(value = "qizhaData")
+    @ResponseBody
+    public Object qizhaData(HttpServletRequest request, @RequestBody Map<String, String> vo) {
+        UserBase user = UserUtils.getUser(request);
+        if (user == null) {
+            return new Result(ResultConstant.EXCEPTION_INVALID);
+        }
+        UserOtherAuthExample example = new UserOtherAuthExample();
+        example.createCriteria().andUidEqualTo(user.getUid()).andIdentityTypeEqualTo((byte) 4);
+        UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExample(example);
+        if (userOtherAuth != null && !StringUtils.isEmpty(userOtherAuth.getThirdData())) {//存在
+            return new Result(ResultConstant.SUCCESS);
+        }
+
+        //开始查询
+        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+        //用户名
+        nameValuePairs.add(new BasicNameValuePair("user_name", user_name));
+        //rc4秘钥
+        nameValuePairs.add(new BasicNameValuePair("sign", sign));
+        //接口业务码 参考接口文档
+        nameValuePairs.add(new BasicNameValuePair("api_name", api_name));
+        // 查询原因
+        // LOAN_AUDIT：贷款审批 LOAN_MANAGE：贷后管理 CREDIT_CARD_AUDIT：信用卡审批
+        // GUARANTEE_AUDIT:担保资格审查 PRE_GUARANTEE_AUDIT:保前审查
+        nameValuePairs.add(new BasicNameValuePair("query_reason", "LOAN_AUDIT"));
+        //查询条件,格式为 json 格式
+        nameValuePairs.add(new BasicNameValuePair("params", gennerateRequetParam(request, vo).toJSONString()));
+        String s = HttpClientUtil.doPost(url, nameValuePairs, "utf-8");
+        JSONObject jsonObject = JSON.parseObject(s);
+        String code = jsonObject.getString("code");
+        if (code.equals("10000")) {
+            if (userOtherAuth != null && !StringUtils.isEmpty(userOtherAuth.getThirdData())) {//存在,但是没有三方数据
+                userOtherAuth.setThirdData(jsonObject.getString("data"));
+                userOtherAuthService.updateByPrimaryKeySelective(userOtherAuth);
+                return new Result(ResultConstant.SUCCESS);
+            } else {//不存在
+                UserOtherAuth record = new UserOtherAuth();
+                record.setUid(user.getUid());
+                record.setCertificate(user.getIdCard());
+                record.setIdentifier(user.getUserRealName());
+                record.setIdentityType((byte) 4);
+                record.setThirdData(jsonObject.getString("data"));
+                userOtherAuthService.insert(record);
+                return new Result(ResultConstant.SUCCESS);
+            }
+        } else {
+            return new Result(Integer.parseInt(code), jsonObject.getString("msg"));
+        }
+    }
+
+    public JSONObject gennerateRequetParam(HttpServletRequest request, Map<String, String> vo) {
+        UserBase user = UserUtils.getUser(request);
+        UserLocation userLocation = userLocationService.selectByPrimaryKey(user.getCompanyLocationUid());
+        JSONObject dataJson = new JSONObject();
+        dataJson.put("queryFraudScreening", "true");
+        dataJson.put("queryDevicePrint", "true");
+        dataJson.put("amount_business", "0");
+        JSONArray addrArray = new JSONArray();
+        addrArray.add("SELF_MOBILE_1_FAMILY_ADDR");
+        addrArray.add("SELF_MOBILE_1_CORP_ADDR");
+        dataJson.put("addr_detection_types", addrArray);
+        dataJson.put("id_no", user.getIdCard());//被查询人身份证号 18 位以内
+        dataJson.put("name", user.getUserRealName());//被查询人姓名 2-30 位
+        dataJson.put("mobile", user.getMobile());
+        dataJson.put("bank_no", "");
+        JSONObject corp_addr_json = new JSONObject();
+        corp_addr_json.put("address", userLocation.getLocation());
+        corp_addr_json.put("city", userLocation.getCurrCity());
+        corp_addr_json.put("county", userLocation.getCurrDistrict());
+        corp_addr_json.put("province", userLocation.getCurrProvince());
+        corp_addr_json.put("postal", "");
+        dataJson.put("corp_addr", corp_addr_json);
+        dataJson.put("corp_name", user.getCompanyName());
+        dataJson.put("corp_tel", user.getCompanyPhone());
+        //联系人信息添加开始
+//        JSONArray contacts = new JSONArray();
+//        JSONObject contactJson = new JSONObject();
+//        contactJson.put("contact_id_no", "370633197005042513");
+//        contactJson.put("contact_mobile", "15002035914");
+//        contactJson.put("contact_name", "高求");
+//        contactJson.put("contact_type", "SPOUSE");
+//        JSONObject corp_addrjson = new JSONObject();
+//        corp_addrjson.put("address", "温特莱B座1910");
+//        corp_addrjson.put("city", "北京市");
+//        corp_addrjson.put("county", "朝阳区");
+//        corp_addrjson.put("province", "北京市");
+//        corp_addrjson.put("postal", "100000");
+//        contactJson.put("corp_addr", corp_addrjson);
+//
+//        contactJson.put("corp_name", "微商科技有限公司");
+//        contactJson.put("corp_tel", "010-61300110");
+//        contactJson.put("email", "123qq@qq.com");
+//        JSONObject contactfamily_addrjson = new JSONObject();
+//        contactfamily_addrjson.put("address", "温特莱B座1910");
+//        contactfamily_addrjson.put("city", "北京市");
+//        contactfamily_addrjson.put("county", "朝阳区");
+//        contactfamily_addrjson.put("province", "北京市");
+//        contactfamily_addrjson.put("postal", "100000");
+//        contactJson.put("family_addr", contactfamily_addrjson);
+//        contactJson.put("family_tel", "010-61300110");
+//        contacts.add(contactJson);
+//        dataJson.put("contacts", contacts);
+        //联系人封装结束;
+
+        dataJson.put("email", user.getEmail());
+        JSONObject family_addrjson = new JSONObject();
+//        family_addrjson.put("address", "温特莱B座1910");
+//        family_addrjson.put("city", "北京市");
+//        family_addrjson.put("county", "朝阳区");
+//        family_addrjson.put("province", "北京市");
+        dataJson.put("family_addr", family_addrjson);
+        //设备指纹事件信息
+        JSONObject eventObj = new JSONObject();
+        eventObj.put("time", DateUtils.date2String(new Date(), "YYYY-MM-DDHH:mm:ss.SSS"));
+//        eventObj.put("source", "WEB");
+        JSONObject deviceObj = new JSONObject();
+        deviceObj.put("ip", RequestUtil.getIpAddr(request));
+        JSONObject header = new JSONObject();
+        header.put("content-length", request.getContentLength());
+        deviceObj.put("headers", header);
+        // deviceObj.put("userIdentityCookies",{});
+        deviceObj.put("jsc", vo.get("jsc"));
+        eventObj.put("device", deviceObj);
+//        JSONObject sessionObj = new JSONObject();
+//        sessionObj.put("id", "sadhausdas929123");
+//        sessionObj.put("durationInMillis", "2178000");
+//        sessionObj.put("activityPageCode", "login001");
+//        eventObj.put("session", sessionObj);
+        dataJson.put("event", eventObj);
+        return dataJson;
+    }
+    /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<欺诈甄别接口*/
+
 
     /*申请>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 
