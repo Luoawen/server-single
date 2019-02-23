@@ -42,9 +42,9 @@ public class Generator {
 //		String[] tables={"sys_user_auth","sys_user_base","user_auth","user_base"};
 //		String[] tables={"user_other_acount","user_emergency_contact"};
 //		String[] tables={"user_contacts"};
-//		String[] tables={"gaode_location"};
-//		MybatisGeneratorUtil.generatorByAppoint(JDBC_DRIVER, JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD, MODULE, DATABASE, tables, PACKAGE_NAME, LAST_INSERT_ID_TABLES);
-		System.out.println(DateUtils.date2String(new Date(),"YYYY-MM-DDHH:mm:ss.SSS"));
+		String[] tables={"user_base"};
+		MybatisGeneratorUtil.generatorByAppoint(JDBC_DRIVER, JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD, MODULE, DATABASE, tables, PACKAGE_NAME, LAST_INSERT_ID_TABLES);
+//		System.out.println(DateUtils.date2String(new Date(),"YYYY-MM-DDHH:mm:ss.SSS"));
 //		int i = new Random().nextInt(2);
 //		System.out.println(">>>>>>>>>>>>>>>>>>>>> "+i);
 	}

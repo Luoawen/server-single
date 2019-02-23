@@ -8,6 +8,7 @@ import com.alankin.common.util.key.SystemClock;
 import com.alankin.common.validator.NotNullValidator;
 import com.alankin.gateway.web.base.BaseTokenResult;
 import com.alankin.gateway.web.base.BaseWebController;
+import com.alankin.gateway.web.utils.MsgCodeUtil;
 import com.alankin.gateway.web.vo.request.UserAuthReqVo;
 import com.alankin.gateway.web.vo.request.UserReqVo;
 import com.alankin.gateway.web.utils.Constants;
@@ -38,6 +39,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -54,6 +56,7 @@ public class LoginController extends BaseWebController {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
     @Autowired
     private UserBaseService userBaseService;
+
     @Autowired
     private UserAuthService userAuthService;
 
@@ -72,27 +75,37 @@ public class LoginController extends BaseWebController {
     @ResponseBody
     public Object signin(HttpServletRequest request, HttpServletResponse response, @RequestBody UserReqVo vo) {
         LOGGER.info("=================收到http请求：用户登录=================" + RequestUtil.getIpAddr(request));
-// 校验通过后删除验证码之前的session和Cookie
+
+        // 校验通过后删除验证码之前的session和Cookie
         HttpSession session = request.getSession();
-        if (session != null) {
-            session.invalidate();
-        }
+
         CookieUtils.delCookie(request, response, Constants.AUTH_CODE_SESSION_ID);
         ComplexResult result = FluentValidator.checkAll()
                 .on(vo.getPhone(), new NotNullValidator("Phone"))
-                .on(vo.getAuthCode(), new NotNullValidator("AuthCode"))
+//                .on(vo.getAuthCode(), new NotNullValidator("AuthCode"))
                 .on(vo.getPhoneCode(), new NotNullValidator("PhoneCode"))
                 .doValidate()
                 .result(ResultCollectors.toComplex());
         if (!result.isSuccess()) {
-            return result.getErrors().get(0);
+            return new Result(0, result.getErrors().get(0).getErrorMsg());
         }
 
         if (!StringUtil.isPhoneNumber(vo.getPhone())) {
-            return new Result(ResultConstant.FAILED, "请输入正确的手机号！");
+            return new Result(0, "请输入正确的手机号！");
         }
 
-        //验证图片码和手机短信
+        //验证图片码
+//        if (!AuthCodeController.check(request, vo.getAuthCode())) {
+//            return new Result(ResultConstant.EXCEPTION_AUTH_CODE);
+//        }
+        //手机短信
+        if (!MsgCodeUtil.validateCode(vo.getPhone(), vo.getPhoneCode(), session)) {
+            return new Result(ResultConstant.EXCEPTION_MSG_CODE);
+        }
+
+//        if (session != null) {
+//            session.invalidate();
+//        }
 
         UserAuthExample example = new UserAuthExample();
         example.createCriteria().andIdentifierEqualTo(vo.getPhone()).andIsDelEqualTo(false);
@@ -108,7 +121,7 @@ public class LoginController extends BaseWebController {
                 UserUtils.createUserSession(request, userBase);
                 return new BaseTokenResult(ResultConstant.SUCCESS, getUserResult(userBase), request.getSession().getId());
             } else {
-                return new Result(ResultConstant.FAILED, "该用户不存在");
+                return new Result(0, "该用户不存在");
             }
         } else {//不存在则创建用户
             int curentTime = SystemClock.currentTimeSecond();
@@ -128,7 +141,7 @@ public class LoginController extends BaseWebController {
             record.setIdentityType((byte) 1);
             userAuthService.insertSelective(record);
             UserUtils.createUserSession(request, userBase);
-            return new BaseTokenResult(ResultConstant.SUCCESS, getUserResult(userBase),request.getSession().getId());
+            return new BaseTokenResult(ResultConstant.SUCCESS, getUserResult(userBase), request.getSession().getId());
         }
     }
 
@@ -182,13 +195,17 @@ public class LoginController extends BaseWebController {
     private UserAuthReqVo getUserResult(UserBase userBase) {
         UserAuthReqVo userAuthReqVo = new UserAuthReqVo();
         BeanUtils.copyProperties(userBase, userAuthReqVo);
-        UserLocationExample example = new UserLocationExample();
-        example.createCriteria().andUidEqualTo(userBase.getCompanyLocationUid());
-        UserLocation userLocation = userLocationService.selectFirstByExample(example);
-        userAuthReqVo.setCompanyProvance(userLocation.getCurrProvince());
-        userAuthReqVo.setCompanyCity(userLocation.getCurrCity());
-        userAuthReqVo.setCompanyArea(userLocation.getCurrDistrict());
-        userAuthReqVo.setCompanyLocationDetail(userLocation.getLocation());
+        if (userBase.getCompanyLocationUid() != null) {
+            UserLocationExample example = new UserLocationExample();
+            example.createCriteria().andUidEqualTo(userBase.getCompanyLocationUid());
+            UserLocation userLocation = userLocationService.selectFirstByExample(example);
+            if (userLocation != null) {
+                userAuthReqVo.setCompanyProvance(userLocation.getCurrProvince());
+                userAuthReqVo.setCompanyCity(userLocation.getCurrCity());
+                userAuthReqVo.setCompanyArea(userLocation.getCurrDistrict());
+                userAuthReqVo.setCompanyLocationDetail(userLocation.getLocation());
+            }
+        }
         return userAuthReqVo;
     }
 

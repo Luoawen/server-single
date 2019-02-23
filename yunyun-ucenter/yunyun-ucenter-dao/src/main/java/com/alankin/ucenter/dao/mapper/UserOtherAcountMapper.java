@@ -3,6 +3,8 @@ package com.alankin.ucenter.dao.mapper;
 import com.alankin.ucenter.dao.model.UserOtherAcount;
 import com.alankin.ucenter.dao.model.UserOtherAcountExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface UserOtherAcountMapper {
@@ -27,4 +29,6 @@ public interface UserOtherAcountMapper {
     int updateByPrimaryKeySelective(UserOtherAcount record);
 
     int updateByPrimaryKey(UserOtherAcount record);
+
+    List<Map> selectUserOtherAcountsByUserUid(Object reqVo);
 }

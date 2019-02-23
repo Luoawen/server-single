@@ -66,7 +66,7 @@
                              targetProject="I:/alankin/songProject/loan-server-single/yunyun-ucenter/yunyun-ucenter-dao/src/main/java" type="XMLMAPPER"/>
 
         <!-- 需要映射的表 -->
-                                    <table tableName="gaode_location" domainObjectName="GaodeLocation"></table>
+                                    <table tableName="user_base" domainObjectName="UserBase"></table>
                         </context>
 
 </generatorConfiguration>

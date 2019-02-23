@@ -1397,6 +1397,66 @@ public class GaodeLocationExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andLoacationDataSourceIsNull() {
+            addCriterion("loacation_data_source is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoacationDataSourceIsNotNull() {
+            addCriterion("loacation_data_source is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoacationDataSourceEqualTo(Integer value) {
+            addCriterion("loacation_data_source =", value, "loacationDataSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoacationDataSourceNotEqualTo(Integer value) {
+            addCriterion("loacation_data_source <>", value, "loacationDataSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoacationDataSourceGreaterThan(Integer value) {
+            addCriterion("loacation_data_source >", value, "loacationDataSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoacationDataSourceGreaterThanOrEqualTo(Integer value) {
+            addCriterion("loacation_data_source >=", value, "loacationDataSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoacationDataSourceLessThan(Integer value) {
+            addCriterion("loacation_data_source <", value, "loacationDataSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoacationDataSourceLessThanOrEqualTo(Integer value) {
+            addCriterion("loacation_data_source <=", value, "loacationDataSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoacationDataSourceIn(List<Integer> values) {
+            addCriterion("loacation_data_source in", values, "loacationDataSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoacationDataSourceNotIn(List<Integer> values) {
+            addCriterion("loacation_data_source not in", values, "loacationDataSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoacationDataSourceBetween(Integer value1, Integer value2) {
+            addCriterion("loacation_data_source between", value1, value2, "loacationDataSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andLoacationDataSourceNotBetween(Integer value1, Integer value2) {
+            addCriterion("loacation_data_source not between", value1, value2, "loacationDataSource");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateTimeIsNull() {
             addCriterion("create_time is null");
             return (Criteria) this;

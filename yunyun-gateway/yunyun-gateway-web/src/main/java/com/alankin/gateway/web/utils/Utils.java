@@ -10,8 +10,7 @@ import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.Enumeration;
@@ -150,5 +149,36 @@ public class Utils {
             }
         }
         return filename;
+    }
+
+    public static InputStream string2InputStream(String str) {
+        ByteArrayInputStream stream = null;
+        try {
+            stream = new ByteArrayInputStream(str.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return stream;
+    }
+
+    public static String inputStream2String(InputStream is) throws IOException {
+        BufferedReader in = new BufferedReader(new InputStreamReader(is));
+        StringBuffer buffer = new StringBuffer();
+        String line = "";
+        while ((line = in.readLine()) != null) {
+            buffer.append(line);
+        }
+        return buffer.toString();
+    }
+
+    public static void inputstreamtofile(InputStream ins, File file) throws IOException {
+        OutputStream os = new FileOutputStream(file);
+        int bytesRead = 0;
+        byte[] buffer = new byte[8192];
+        while ((bytesRead = ins.read(buffer, 0, 8192)) != -1) {
+            os.write(buffer, 0, bytesRead);
+        }
+        os.close();
+        ins.close();
     }
 }

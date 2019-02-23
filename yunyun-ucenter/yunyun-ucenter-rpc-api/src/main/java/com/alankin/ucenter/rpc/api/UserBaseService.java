@@ -6,7 +6,7 @@ import com.alankin.ucenter.dao.model.UserBaseExample;
 
 /**
 * UserBaseService接口
-* Created by alankin on 2019/1/19.
+* Created by alankin on 2019/2/22.
 */
 public interface UserBaseService extends BaseService<UserBase, UserBaseExample> {
 

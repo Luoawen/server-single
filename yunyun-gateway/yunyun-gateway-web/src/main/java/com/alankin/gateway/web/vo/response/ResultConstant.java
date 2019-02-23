@@ -33,6 +33,7 @@ public enum ResultConstant {
     EXCEPTION_AUTH_CODE(105, "验证码输入错误!"),
     EXCEPTION_IP(106, "访问IP与登录不一致，请重新登录！"),
     EXCEPTION(98, "未知异常!"),
+    EXCEPTION_MSG_CODE(107, "手机验证码输入错误!"),
 
     //----------------------------------300申请用户异常----------------------------------------
     /**
@@ -41,9 +42,20 @@ public enum ResultConstant {
     NO_DISTRIBUTE_VERIFY(300, "没有分配审核人"),
     VERIFY_EXCEPTION(301, "审核人状态异常"),
     VERIFY_NOT_PASS(302, "审核未通过"),
-    NO_DISTRIBUTE_BROWER(303, "没有分配借款人，无法申请");
+    NO_DISTRIBUTE_BROWER(303, "没有分配借款人，无法申请"),
     //----------------------------------110全局自定义消息异常----------------------------------------
 
+
+    //----------------------------------手机验证码异常----------------------------------------
+    ERROR_MOBILE(1001002, "请填写正确的手机号码"),
+    MESSAGE_TIME_ERROR(1001003, "60秒内只能发送一次短信,请稍后再试"),
+    MESSAGE_SEND_ERROR(1001004, "发送短信出错,请稍后再试"),
+    MOBILE_NOT_SEND_CODE(1001005, "该手机号未获取验证码,请先获取验证码"),
+    MOBILE_CAN_NOT_CHANGE(1001006, "此手机号与获取验证码的手机号不一致"),
+    MESSAGE_CODE_INVALID(1001007, "此验证码失效,请重新获取验证码"),
+    MESSAGE_CODE_ERROR(1001008, "验证码错误"),
+    MESSAGE_CODE_NO_SEND(1001009, "验证码没有发送"),
+    MESSAGE_CODE_IS_ERROR(1001008, "验证码错误");
     public int code;
 
     public String message;

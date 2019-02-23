@@ -10,7 +10,6 @@ import com.alankin.gateway.web.vo.ListVo.ListReqVO;
 import com.alankin.gateway.web.vo.request.ChannelAcountEditReqVo;
 import com.alankin.gateway.web.vo.request.ChannelAcountListReqVo;
 import com.alankin.gateway.web.vo.request.ChannelEditReqVo;
-import com.alankin.gateway.web.vo.request.ChannelRecordReqVo;
 import com.alankin.gateway.web.vo.response.ListResult;
 import com.alankin.gateway.web.vo.response.Result;
 import com.alankin.gateway.web.vo.response.ResultConstant;
@@ -230,7 +229,14 @@ public class OperateMngController {
                 .andIdentifierEqualTo(acountEditReqVo.getMobile()).andIsDelEqualTo(false);
         SysUserAuth userAuth = sysUserAuthService.selectFirstByExample(example);
         if (userAuth != null) {
-            return new Result(ResultConstant.FAILED, "已存在该账号!");
+            return new Result(0, "已存在该账号!");
+        }
+        SysUserBaseExample userBaseExample = new SysUserBaseExample();
+        userBaseExample.createCriteria()
+                .andUserNameEqualTo(acountEditReqVo.getUserName());
+        SysUserBase sysUserBase = sysUserBaseService.selectFirstByExample(userBaseExample);
+        if (sysUserBase != null) {
+            return new Result(0, "已存在该用户名!");
         }
         //不存在账号时，创建用户
         SysUserBase userBase = new SysUserBase();
@@ -241,7 +247,14 @@ public class OperateMngController {
         //注册来源：1手机号 2邮箱 3用户名 4qq 5微信 6腾讯微博 7新浪微博
         String identifier = acountEditReqVo.getMobile();
         if (!StringUtil.isPhoneNumber(identifier)) {
-            return new Result(ResultConstant.FAILED, "请输入正确的手机号");
+            return new Result(0, "请输入正确的手机号");
+        }
+
+        userBaseExample.clear();
+        userBaseExample.createCriteria()
+                .andMobileEqualTo(acountEditReqVo.getMobile());
+        if (sysUserBaseService.selectFirstByExample(userBaseExample) != null) {
+            return new Result(0, "已存在该手机号!");
         }
 
         userBase.setMobile(identifier);
@@ -446,7 +459,6 @@ public class OperateMngController {
     @ApiOperation(value = "注册统计列表")
     @RequestMapping(value = "/selectUserLogGroupByChanelAndTime")
     @ResponseBody
-    @Transactional
     public ListResult selectUserLogGroupByChanelAndTime(HttpServletRequest request, @RequestBody ListReqVO<Map<String, String>> listReqVO) {
         //从session获取用户信息
         SysUserBase sysUser = UserUtils.getSysUser(request);
@@ -466,7 +478,41 @@ public class OperateMngController {
             map.remove("channelRespUid");//移除负责人id，从而查询全部渠道
             pageInfo = channelRecordService.selectForStartPageByMethod("selectUserLogGroupByChanelAndTime", listReqVO, listReqVO.getPageNum(), listReqVO.getPageSize());
         } else if (sysRole.getType() == 3) {//渠道商
+            map.put("channelRespUid", String.valueOf(sysUser.getUid()));
             pageInfo = channelRecordService.selectForStartPageByMethod("selectUserLogGroupByChanelAndTime", listReqVO, listReqVO.getPageNum(), listReqVO.getPageSize());
+        }
+        if (pageInfo != null) {
+            return new ListResult(ResultConstant.SUCCESS, pageInfo);
+        }
+        return new ListResult(ResultConstant.FAILED, null);
+    }
+
+    @ApiOperation(value = "查询用户注册列表")
+    @RequestMapping(value = "/selectUserLogList")
+    @ResponseBody
+    public ListResult selectUserLogList(HttpServletRequest request, @RequestBody ListReqVO<Map<String, String>> listReqVO) {
+        //从session获取用户信息
+        SysUserBase sysUser = UserUtils.getSysUser(request);
+        SysRoleUserExample sysRoleUserExample = new SysRoleUserExample();
+        sysRoleUserExample.createCriteria().andUserIdEqualTo(sysUser.getUid());
+        SysRoleUser sysRoleUser = sysRoleUserService.selectFirstByExample(sysRoleUserExample);
+        SysRole sysRole = sysRoleService.selectByPrimaryKey(sysRoleUser.getRoleId());
+        PageInfo pageInfo = null;
+
+        Map<String, String> map = listReqVO.getCondition();
+        if (map == null) {
+            map = new HashMap<>();
+            listReqVO.setCondition(map);
+        }
+        //判断用户是否是超级管理员
+        if (sysRole.getType() == 1) {//如果是超级管理员，展示所有列表
+            if (map.containsKey("channelRespUid")) {
+                map.remove("channelRespUid");//移除负责人id，从而查询全部渠道
+            }
+            pageInfo = channelRecordService.selectForStartPageByMethod("selectUserLogList", listReqVO, listReqVO.getPageNum(), listReqVO.getPageSize());
+        } else if (sysRole.getType() == 3) {//渠道商
+            map.put("channelRespUid", String.valueOf(sysUser.getUid()));
+            pageInfo = channelRecordService.selectForStartPageByMethod("selectUserLogList", listReqVO, listReqVO.getPageNum(), listReqVO.getPageSize());
         }
         if (pageInfo != null) {
             return new ListResult(ResultConstant.SUCCESS, pageInfo);
@@ -477,7 +523,6 @@ public class OperateMngController {
     @ApiOperation(value = "订单统计列表")
     @RequestMapping(value = "/selectOrderLogGroupByChanelAndTime")
     @ResponseBody
-    @Transactional
     public ListResult selectOrderLogGroupByChanelAndTime(HttpServletRequest request, @RequestBody ListReqVO<Map<String, String>> listReqVO) {
         //从session获取用户信息
         SysUserBase sysUser = UserUtils.getSysUser(request);
@@ -494,9 +539,12 @@ public class OperateMngController {
         }
         //判断用户是否是超级管理员
         if (sysRole.getType() == 1) {//如果是超级管理员，展示所有列表
-            map.remove("channelRespUid");//移除负责人id，从而查询全部渠道
+            if (map.containsKey("channelRespUid")) {
+                map.remove("channelRespUid");//移除负责人id，从而查询全部渠道
+            }
             pageInfo = channelRecordService.selectForStartPageByMethod("selectOrderLogGroupByChanelAndTime", listReqVO, listReqVO.getPageNum(), listReqVO.getPageSize());
         } else if (sysRole.getType() == 3) {//渠道商
+            map.put("channelRespUid", String.valueOf(sysUser.getUid()));
             pageInfo = channelRecordService.selectForStartPageByMethod("selectOrderLogGroupByChanelAndTime", listReqVO, listReqVO.getPageNum(), listReqVO.getPageSize());
         }
         if (pageInfo != null) {

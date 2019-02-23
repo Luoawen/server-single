@@ -1,5 +1,6 @@
 package com.alankin.gateway.web;
 
+import net.sf.json.JSONObject;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -14,9 +15,12 @@ import java.util.Map;
  * @date 创建时间：2019/1/8　17:06
  */
 public class ThirdTest {
-    public static String userid = "gmtxsm01";
-    public static String apiKey = "110978967496774c";
-    public static String api = "https://www.afufintech.com/ZSS/api/yixin_yys/V1";
+//    public static String userid = "gmtxsm01";
+    public static String userid = "shensudai01";
+//    public static String apiKey = "110978967496774c";
+    public static String apiKey = "57577d636f1e193b";
+    //    public static String api = "https://www.afufintech.com/ZSS/api/yixin_yys/V1";
+    public static String api = "https://www.zhichengcredit.com/echo-center/api/authFetchApi/report";
     public static String username = "13688085241";
     public static String password = "114790";
     public static String name = "宋豪";
@@ -62,9 +66,10 @@ public class ThirdTest {
         MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap();
         multiValueMap.add("userid", userid);
         multiValueMap.add("sign", DigestUtils.md5Hex(userid + apiKey));
-        multiValueMap.add("op", "get");
-        multiValueMap.add("username", username);
-        multiValueMap.add("sid", "jjw38q5D1546948129776");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("name",name);
+        jsonObject.put("idCard",idNumber);
+        multiValueMap.add("params", jsonObject.toString());
         RestTemplate restTemplate = new RestTemplate();
         String msg = restTemplate.postForObject(api, multiValueMap, String.class);
         System.out.println(msg);

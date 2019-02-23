@@ -2,7 +2,10 @@ package com.alankin.ucenter.dao.mapper;
 
 import com.alankin.ucenter.dao.model.UserOtherAuth;
 import com.alankin.ucenter.dao.model.UserOtherAuthExample;
+
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface UserOtherAuthMapper {
@@ -33,4 +36,5 @@ public interface UserOtherAuthMapper {
     int updateByPrimaryKeyWithBLOBs(UserOtherAuth record);
 
     int updateByPrimaryKey(UserOtherAuth record);
+
 }

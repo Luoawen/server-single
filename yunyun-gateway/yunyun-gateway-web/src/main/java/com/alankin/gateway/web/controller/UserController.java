@@ -1,14 +1,17 @@
 package com.alankin.gateway.web.controller;
 
-import com.alankin.common.util.DateUtils;
 import com.alankin.common.util.RequestUtil;
 import com.alankin.common.util.key.SnowflakeIdWorker;
 import com.alankin.common.util.key.SystemClock;
 import com.alankin.gateway.web.base.BaseWebController;
 import com.alankin.gateway.web.utils.UserUtils;
+import com.alankin.gateway.web.utils.Utils;
 import com.alankin.gateway.web.vo.ListVo.IdReqVO;
 import com.alankin.gateway.web.vo.ListVo.ListReqVO;
-import com.alankin.gateway.web.vo.request.*;
+import com.alankin.gateway.web.vo.request.CreateApplyOrderReqVo;
+import com.alankin.gateway.web.vo.request.EmergencyReqVo;
+import com.alankin.gateway.web.vo.request.UserAuthReqVo;
+import com.alankin.gateway.web.vo.request.UserOtherAcountReqVo;
 import com.alankin.gateway.web.vo.response.ListResult;
 import com.alankin.gateway.web.vo.response.Result;
 import com.alankin.gateway.web.vo.response.ResultConstant;
@@ -33,6 +36,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -45,7 +50,14 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 注册控制器
@@ -79,6 +91,8 @@ public class UserController extends BaseWebController {
 
     @Autowired
     private UserOtherAuthService userOtherAuthService;
+    @Autowired
+    private UserContactsService userContactsService;
 
     @Autowired
     private UserEmergencyContactService emergencyContactService;
@@ -118,7 +132,9 @@ public class UserController extends BaseWebController {
     @RequestMapping(value = "isPassVerify")
     @ResponseBody
     public Result isPassVerify(HttpServletRequest request) {
-        UserBase userBase = UserUtils.getUser(request);
+        UserBase user = UserUtils.getUser(request);
+        UserBase userBase = userBaseService.selectByPrimaryKey(user.getUid());
+        UserUtils.createUserSession(request, userBase);
         if (userBase.getDistributStateKey() != 1) {//不等于1为未分配审核人
             return new Result(ResultConstant.NO_DISTRIBUTE_VERIFY);
         }
@@ -145,10 +161,7 @@ public class UserController extends BaseWebController {
     @ResponseBody
     public Result identityVerify(HttpServletRequest request, @RequestBody UserAuthReqVo vo) {
         UserBase user = UserUtils.getUser(request);
-        UserLocationExample example = new UserLocationExample();
-        example.createCriteria().andUidEqualTo(user.getCompanyLocationUid());
-        UserLocation userLocation = userLocationService.selectFirstByExample(example);
-        if (userLocation == null) {
+        if (user.getCompanyLocationUid() == null) {//没有公司地址
             UserLocation record = new UserLocation();
             record.setUid(new SnowflakeIdWorker(0, 0).nextId());
             record.setCurrNation("中国");
@@ -160,13 +173,29 @@ public class UserController extends BaseWebController {
                 user.setCompanyLocationUid(record.getUid());
             }
         } else {
-            userLocation.setCurrNation("中国");
-            userLocation.setCurrProvince(vo.getCompanyProvance());
-            userLocation.setCurrCity(vo.getCompanyCity());
-            userLocation.setCurrDistrict(vo.getCompanyArea());
-            userLocation.setLocation(vo.getCompanyLocationDetail());
-            if (userLocationService.updateByPrimaryKeySelective(userLocation) > 0) {
-                user.setCompanyLocationUid(userLocation.getUid());
+            UserLocationExample example = new UserLocationExample();
+            example.createCriteria().andUidEqualTo(user.getCompanyLocationUid());
+            UserLocation userLocation = userLocationService.selectFirstByExample(example);
+            if (userLocation == null) {
+                UserLocation record = new UserLocation();
+                record.setUid(new SnowflakeIdWorker(0, 0).nextId());
+                record.setCurrNation("中国");
+                record.setCurrProvince(vo.getCompanyProvance());
+                record.setCurrCity(vo.getCompanyCity());
+                record.setCurrDistrict(vo.getCompanyArea());
+                record.setLocation(vo.getCompanyLocationDetail());
+                if (userLocationService.insertSelective(record) > 0) {
+                    user.setCompanyLocationUid(record.getUid());
+                }
+            } else {
+                userLocation.setCurrNation("中国");
+                userLocation.setCurrProvince(vo.getCompanyProvance());
+                userLocation.setCurrCity(vo.getCompanyCity());
+                userLocation.setCurrDistrict(vo.getCompanyArea());
+                userLocation.setLocation(vo.getCompanyLocationDetail());
+                if (userLocationService.updateByPrimaryKeySelective(userLocation) > 0) {
+                    user.setCompanyLocationUid(userLocation.getUid());
+                }
             }
         }
         BeanUtils.copyProperties(vo, user);
@@ -207,7 +236,7 @@ public class UserController extends BaseWebController {
         UserBase user = UserUtils.getUser(request);
         for (EmergencyReqVo reqVo : reqVos) {
             UserEmergencyContactExample example = new UserEmergencyContactExample();
-            example.createCriteria().andAcountTypeKeyEqualTo(reqVo.getAcountTypeKey());
+            example.createCriteria().andUserUidEqualTo(user.getUid()).andAcountTypeKeyEqualTo(reqVo.getAcountTypeKey());
             UserEmergencyContact userEmergencyContact = emergencyContactService.selectFirstByExample(example);
             if (userEmergencyContact == null) {//不存在新增
                 UserEmergencyContact record = new UserEmergencyContact();
@@ -236,10 +265,7 @@ public class UserController extends BaseWebController {
             BeanUtils.copyProperties(userEmergencyContact, emergencyReqVo);
             ret.add(emergencyReqVo);
         }
-        if (ret.size() > 0) {
-            return new Result(ResultConstant.SUCCESS, ret);
-        }
-        return new Result(ResultConstant.FAILED);
+        return new Result(ResultConstant.SUCCESS, ret);
     }
 
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<用户紧急联系人*/
@@ -248,6 +274,7 @@ public class UserController extends BaseWebController {
     @ApiOperation(value = "用户通讯录认证")
     @RequestMapping(value = "contactsVerify")
     @ResponseBody
+    @Transactional
     public Result contactsVerify(HttpServletRequest request, @RequestBody List<Map<String, String>> contactList) {
         UserBase user = UserUtils.getUser(request);
         Long userUid = user.getUid();
@@ -257,7 +284,7 @@ public class UserController extends BaseWebController {
         UserContactsExample example = new UserContactsExample();
         for (Map<String, String> contactMap : contactList) {
             String contactName = contactMap.get("contactName");
-            String contactMobile = contactMap.get("contactMobile").trim().replace(" ", "");
+            String contactMobile = contactMap.get("contactMobile").trim().replace(" ", "").replace("-", "").replace("+86", "");
             //清理查询条件
             example.clear();
             example.createCriteria()
@@ -279,12 +306,11 @@ public class UserController extends BaseWebController {
     @ApiOperation(value = "获取通讯录")
     @RequestMapping(value = "getContacts")
     @ResponseBody
-    public Result getContacts(HttpServletRequest request, ListReqVO listReqVO) {
-        UserBase user = UserUtils.getUser(request);
+    public ListResult getContacts(HttpServletRequest request, @RequestBody ListReqVO<IdReqVO> listReqVO) {
         UserContactsExample example = new UserContactsExample();
-        example.createCriteria().andUserUidEqualTo(user.getUid());
+        example.createCriteria().andUserUidEqualTo(listReqVO.getCondition().getId());
         PageInfo<UserContacts> pageInfo = contactsService.selectByExampleForStartPage(example, listReqVO.getPageNum(), listReqVO.getPageSize());
-        return new Result(ResultConstant.SUCCESS, pageInfo);
+        return new ListResult(ResultConstant.SUCCESS, pageInfo);
     }
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<用户通讯录*/
 
@@ -325,7 +351,7 @@ public class UserController extends BaseWebController {
         UserBase user = UserUtils.getUser(request);
         for (UserOtherAcountReqVo reqVo : reqVos) {
             UserOtherAcountExample example = new UserOtherAcountExample();
-            example.createCriteria().andAcountTypeKeyEqualTo(reqVo.getAcountTypeKey());
+            example.createCriteria().andUserUidEqualTo(user.getUid()).andAcountTypeKeyEqualTo(reqVo.getAcountTypeKey());
             UserOtherAcount userOtherAcount = userOtherAcountService.selectFirstByExample(example);
             if (userOtherAcount == null) {//不存在新增
                 UserOtherAcount record = new UserOtherAcount();
@@ -386,7 +412,7 @@ public class UserController extends BaseWebController {
         UserBase user = UserUtils.getUser(request);
         UserOtherAuthExample example = new UserOtherAuthExample();
         example.createCriteria().andUidEqualTo(user.getUid()).andIdentityTypeEqualTo((byte) 2);
-        UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExample(example);
+        UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
         if (userOtherAuth != null && !StringUtils.isEmpty(userOtherAuth.getThirdData())) {
             return new Result(ResultConstant.SUCCESS);
         }
@@ -447,7 +473,8 @@ public class UserController extends BaseWebController {
         multiValueMap.add("checkcode", vo.getCheckcode());
         multiValueMap.add("sid", vo.getSid());
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.postForObject(operateApi, multiValueMap, String.class);
+        String s = restTemplate.postForObject(operateApi, multiValueMap, String.class);
+        return s;
     }
 
     @ApiOperation(value = "运营商验证码刷新接口")
@@ -460,7 +487,8 @@ public class UserController extends BaseWebController {
         multiValueMap.add("op", "code");
         multiValueMap.add("sid", vo.getSid());
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.postForObject(operateApi, multiValueMap, String.class);
+        String s = restTemplate.postForObject(operateApi, multiValueMap, String.class);
+        return s;
     }
 
     @ApiOperation(value = "运营商获取数据接口")
@@ -480,15 +508,160 @@ public class UserController extends BaseWebController {
         JSONObject jsonObject = JSON.parseObject(s);
         String errorcode = jsonObject.getString("errorcode");
         if (errorcode.equals("0000")) {
-            String data = jsonObject.getString("data");
+//            String data = jsonObject.getString("data");
             UserOtherAuthExample example = new UserOtherAuthExample();
             example.createCriteria().andUidEqualTo(user.getUid()).andIdentityTypeEqualTo((byte) 2);
-            UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExample(example);
+            UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
             //添加数据
-            userOtherAuth.setThirdData(data);
+            userOtherAuth.setThirdData(s);
             userOtherAuthService.updateByPrimaryKeySelective(userOtherAuth);
         }
         return s;
+    }
+
+    static String userid1 = "shensudai01";
+    static String apiKey1 = "57577d636f1e193b";
+    static String api1 = "https://www.zhichengcredit.com/echo-center/api/authFetchApi/report";
+    static String name1 = "宋豪";
+    static String idNumber1 = "510129199202114911";
+
+    @ApiOperation(value = "运营商获取分析报告接口")
+    @RequestMapping(value = "operateGetAnlyasisData")
+    @ResponseBody
+    public Object operateGetAnlyasisData(HttpServletRequest request, @RequestBody IdReqVO vo) {
+        UserOtherAuthExample example = new UserOtherAuthExample();
+        example.createCriteria().andUidEqualTo(vo.getId()).andIdentityTypeEqualTo((byte) 6);
+        UserOtherAuth userOtherAuth1 = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
+        String thirdData1 = userOtherAuth1 != null ? userOtherAuth1.getThirdData() : null;
+
+        if (userOtherAuth1 != null && !StringUtils.isEmpty(thirdData1)) {//运营商分析报告不为空，直接返回
+            return matchContactInOperateReportData(vo.getId(), thirdData1);
+        } else {//没有运营商分析报告,通过运营商基础数据去请求
+            example.clear();
+            example.createCriteria().andUidEqualTo(vo.getId()).andIdentityTypeEqualTo((byte) 2);
+            UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
+            String thirdData = userOtherAuth != null ? userOtherAuth.getThirdData() : null;
+            if (userOtherAuth == null || StringUtils.isEmpty(thirdData)) {
+                return new Result(0, "运营商数据为空，无法获取分析报告");
+            }
+
+            JSONObject jsonObject = JSON.parseObject(thirdData);
+            String data = jsonObject.getString("data");
+            InputStream inputStream = Utils.string2InputStream(data);
+            //上传文件路径
+            String path = request.getSession().getServletContext().getRealPath("/temp/");
+
+            String filename = userOtherAuth.getUid() + ".txt";
+
+            File filepath = new File(path, filename);
+            //判断路径是否存在，如果不存在就创建一个
+            if (!filepath.getParentFile().exists()) {
+                filepath.getParentFile().mkdirs();
+            }
+
+            try {
+                Utils.inputstreamtofile(inputStream, filepath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            String respBody = null;
+            try {
+                String sign = DigestUtils.md5Hex(userid1 + apiKey1);
+
+                JSONObject params = new JSONObject();
+                params.put("name", name1);
+                params.put("idCard", idNumber1);
+
+//            File file = new File("D:\\AuthFetchTest\\13800138000-1.txt");
+                FileSystemResource resource = new FileSystemResource(filepath);
+
+                MultiValueMap<String, Object> paraMap = new LinkedMultiValueMap<String, Object>();
+                paraMap.add("userid", userid1);
+                paraMap.add("sign", sign);
+                paraMap.add("params", params.toJSONString());
+                paraMap.add("file", resource);
+                paraMap.add("fileName", "yys-data.txt");
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+                HttpEntity<MultiValueMap<String, Object>> entity = new HttpEntity<MultiValueMap<String, Object>>(paraMap, headers);
+                RestTemplate restTemplate = new RestTemplate();
+                String url = "https://www.zhichengcredit.com/echo-center/api/authFetchApi/report";
+                ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+                respBody = responseEntity.getBody();
+                filepath.delete();//请求完成之后删除
+
+                JSONObject jsonObject1 = JSON.parseObject(respBody);
+                String errorcode = jsonObject1.getString("errorCode");
+                if (errorcode.equals("0000")) {
+                    if (userOtherAuth1 != null) {
+                        userOtherAuth1.setThirdData(respBody);
+                        userOtherAuthService.updateByPrimaryKeySelective(userOtherAuth1);
+                    } else {
+                        UserOtherAuth record = new UserOtherAuth();
+                        record.setUid(vo.getId());
+                        record.setCertificate("");
+                        record.setIdentifier("");
+                        record.setIdentityType((byte) 6);
+                        record.setThirdData(respBody);
+                        userOtherAuthService.insert(record);
+                    }
+                    return matchContactInOperateReportData(vo.getId(), respBody);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return respBody;
+        }
+    }
+
+    /**
+     * 匹配通讯录
+     *
+     * @param userUid
+     * @param callCountsList
+     * @param mobileKey
+     * @param cache          缓存
+     * @return
+     */
+    private JSONArray matchContacts(Long userUid, JSONArray callCountsList, String mobileKey, Map<String, String> cache) {
+        for (Object o : callCountsList) {
+            JSONObject temp = (JSONObject) o;
+            String mobile = temp.getString(mobileKey);
+            String contactName = null;
+
+            if (cache.containsKey(mobile)) {//存在该号码缓存
+                contactName = cache.get(mobile);
+                temp.put("contactName", contactName);
+            } else {//不存在查找数据库
+                UserContactsExample contactsExample = new UserContactsExample();
+                contactsExample.createCriteria().andUserUidEqualTo(userUid).andContactMobileEqualTo(mobile);
+                UserContacts userContacts = contactsService.selectFirstByExample(contactsExample);
+                if (userContacts != null && !StringUtils.isEmpty(userContacts.getContactName())) {
+                    contactName = userContacts.getContactName();
+                } else {
+                    contactName = "";
+                }
+                temp.put("contactName", contactName);
+                cache.put(mobile, contactName);
+            }
+        }
+        return callCountsList;
+    }
+
+    private String matchContactInOperateReportData(Long userUid, String thirdData) {
+        Map<String, String> cache = new HashMap<>();
+        JSONObject jsonObject = JSON.parseObject(thirdData);
+        JSONObject dataJson = jsonObject.getJSONObject("data");
+        //匹配通讯录
+        matchContacts(userUid, dataJson.getJSONArray("callCountsList"), "mobile", cache);
+        matchContacts(userUid, dataJson.getJSONArray("callTimesList"), "mobile", cache);
+        matchContacts(userUid, dataJson.getJSONArray("singleCallList"), "mobile", cache);
+        matchContacts(userUid, dataJson.getJSONArray("detailsCallList"), "mobile", cache);
+        cache.clear();
+        cache = null;
+        return jsonObject.toString();
     }
 
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<运营商接口*/
@@ -622,12 +795,12 @@ public class UserController extends BaseWebController {
         JSONObject jsonObject = JSON.parseObject(s);
         String errorcode = jsonObject.getString("errorcode");
         if (errorcode.equals("0000")) {
-            String data = jsonObject.getString("data");
+//            String data = jsonObject.getString("data");
             UserOtherAuthExample example = new UserOtherAuthExample();
             example.createCriteria().andUidEqualTo(user.getUid()).andIdentityTypeEqualTo((byte) 1);
-            UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExample(example);
+            UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
             //添加数据
-            userOtherAuth.setThirdData(data);
+            userOtherAuth.setThirdData(s);
             userOtherAuthService.updateByPrimaryKeySelective(userOtherAuth);
         }
         return s;
@@ -637,6 +810,8 @@ public class UserController extends BaseWebController {
     /*多头接口>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
     //请求致诚阿福群星接口地址
     private static String api_name = "credit.evaluation.share.api";
+    private static String api_name1 = "fraud.screening.device.api";
+    private static String api_name_jinjie = "fraud.screening.advance.api";
     private static String url = "https://starapi.zhichengcredit.com/submit";
     private static String user_name = "shensudai_testusr";//用户名
     private static String sign = "ec6aef1d861d493e";//rc4秘钥
@@ -651,7 +826,7 @@ public class UserController extends BaseWebController {
         }
         UserOtherAuthExample example = new UserOtherAuthExample();
         example.createCriteria().andUidEqualTo(user.getUid()).andIdentityTypeEqualTo((byte) 3);
-        UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExample(example);
+        UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
         if (userOtherAuth != null && !StringUtils.isEmpty(userOtherAuth.getThirdData())) {//存在
             return new Result(ResultConstant.SUCCESS);
         }
@@ -678,8 +853,9 @@ public class UserController extends BaseWebController {
         JSONObject jsonObject = JSON.parseObject(s);
         String code = jsonObject.getString("code");
         if (code.equals("10000")) {
-            if (userOtherAuth != null && !StringUtils.isEmpty(userOtherAuth.getThirdData())) {//存在,但是没有三方数据
-                userOtherAuth.setThirdData(jsonObject.getString("data"));
+            if (userOtherAuth != null) {//存在,但是没有三方数据
+//                userOtherAuth.setThirdData(jsonObject.getString("data"));
+                userOtherAuth.setThirdData(s);
                 userOtherAuthService.updateByPrimaryKeySelective(userOtherAuth);
                 return new Result(ResultConstant.SUCCESS);
             } else {//不存在
@@ -688,14 +864,17 @@ public class UserController extends BaseWebController {
                 record.setCertificate(vo.getIdNo());
                 record.setIdentifier(vo.getName());
                 record.setIdentityType((byte) 3);
-                record.setThirdData(jsonObject.getString("data"));
+//                record.setThirdData(jsonObject.getString("data"));
+                record.setThirdData(s);
                 userOtherAuthService.insert(record);
                 return new Result(ResultConstant.SUCCESS);
             }
-        }else {
+        } else {
             return new Result(Integer.parseInt(code), jsonObject.getString("msg"));
         }
     }
+
+
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<多头接口*/
 
     /*欺诈甄别接口>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
@@ -709,7 +888,7 @@ public class UserController extends BaseWebController {
         }
         UserOtherAuthExample example = new UserOtherAuthExample();
         example.createCriteria().andUidEqualTo(user.getUid()).andIdentityTypeEqualTo((byte) 4);
-        UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExample(example);
+        UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
         if (userOtherAuth != null && !StringUtils.isEmpty(userOtherAuth.getThirdData())) {//存在
             return new Result(ResultConstant.SUCCESS);
         }
@@ -721,7 +900,7 @@ public class UserController extends BaseWebController {
         //rc4秘钥
         nameValuePairs.add(new BasicNameValuePair("sign", sign));
         //接口业务码 参考接口文档
-        nameValuePairs.add(new BasicNameValuePair("api_name", api_name));
+        nameValuePairs.add(new BasicNameValuePair("api_name", api_name_jinjie));
         // 查询原因
         // LOAN_AUDIT：贷款审批 LOAN_MANAGE：贷后管理 CREDIT_CARD_AUDIT：信用卡审批
         // GUARANTEE_AUDIT:担保资格审查 PRE_GUARANTEE_AUDIT:保前审查
@@ -732,8 +911,9 @@ public class UserController extends BaseWebController {
         JSONObject jsonObject = JSON.parseObject(s);
         String code = jsonObject.getString("code");
         if (code.equals("10000")) {
-            if (userOtherAuth != null && !StringUtils.isEmpty(userOtherAuth.getThirdData())) {//存在,但是没有三方数据
-                userOtherAuth.setThirdData(jsonObject.getString("data"));
+            if (userOtherAuth != null) {//存在,但是没有三方数据
+//                userOtherAuth.setThirdData(jsonObject.getString("data"));
+                userOtherAuth.setThirdData(s);
                 userOtherAuthService.updateByPrimaryKeySelective(userOtherAuth);
                 return new Result(ResultConstant.SUCCESS);
             } else {//不存在
@@ -742,7 +922,8 @@ public class UserController extends BaseWebController {
                 record.setCertificate(user.getIdCard());
                 record.setIdentifier(user.getUserRealName());
                 record.setIdentityType((byte) 4);
-                record.setThirdData(jsonObject.getString("data"));
+//                record.setThirdData(jsonObject.getString("data"));
+                record.setThirdData(s);
                 userOtherAuthService.insert(record);
                 return new Result(ResultConstant.SUCCESS);
             }
@@ -751,30 +932,118 @@ public class UserController extends BaseWebController {
         }
     }
 
-    public JSONObject gennerateRequetParam(HttpServletRequest request, Map<String, String> vo) {
+    /*欺诈甄别接口>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+    @ApiOperation(value = "欺诈甄别TDL测试接口")
+    @RequestMapping(value = "qizhaDataTDL")
+    @ResponseBody
+    public Object qizhaDataTDL(HttpServletRequest request, @RequestBody Map<String, String> vo) {
+        //开始查询
+        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+        //用户名
+        nameValuePairs.add(new BasicNameValuePair("user_name", user_name));
+        //rc4秘钥
+        nameValuePairs.add(new BasicNameValuePair("sign", sign));
+        //接口业务码 参考接口文档
+        nameValuePairs.add(new BasicNameValuePair("api_name", api_name_jinjie));
+        // 查询原因
+        // LOAN_AUDIT：贷款审批 LOAN_MANAGE：贷后管理 CREDIT_CARD_AUDIT：信用卡审批
+        // GUARANTEE_AUDIT:担保资格审查 PRE_GUARANTEE_AUDIT:保前审查
+        nameValuePairs.add(new BasicNameValuePair("query_reason", "LOAN_AUDIT"));
+        //查询条件,格式为 json 格式
+        nameValuePairs.add(new BasicNameValuePair("params", gennerateRequetParam(request, vo).toJSONString()));
+        String s = HttpClientUtil.doPost(url, nameValuePairs, "utf-8");
+        JSONObject jsonObject = JSON.parseObject(s);
+        String code = jsonObject.getString("code");
+        return new Result(Integer.parseInt(code), jsonObject.getString("msg"));
+    }
+
+
+    @ApiOperation(value = "欺诈甄别设备指纹接口")
+    @RequestMapping(value = "devicePrintData")
+    @ResponseBody
+    public Object devicePrintData(HttpServletRequest request, @RequestBody Map<String, String> vo) {
+        UserBase user = UserUtils.getUser(request);
+        if (user == null) {
+            return new Result(ResultConstant.EXCEPTION_INVALID);
+        }
+        UserOtherAuthExample example = new UserOtherAuthExample();
+        example.createCriteria().andUidEqualTo(user.getUid()).andIdentityTypeEqualTo((byte) 5);
+        UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
+        if (userOtherAuth != null && !StringUtils.isEmpty(userOtherAuth.getThirdData())) {//存在
+            return new Result(ResultConstant.SUCCESS);
+        }
+
+        //开始查询
+        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+        //用户名
+        nameValuePairs.add(new BasicNameValuePair("user_name", user_name));
+        //rc4秘钥
+        nameValuePairs.add(new BasicNameValuePair("sign", sign));
+        //接口业务码 参考接口文档
+        nameValuePairs.add(new BasicNameValuePair("api_name", api_name1));
+        // 查询原因
+        // LOAN_AUDIT：贷款审批 LOAN_MANAGE：贷后管理 CREDIT_CARD_AUDIT：信用卡审批
+        // GUARANTEE_AUDIT:担保资格审查 PRE_GUARANTEE_AUDIT:保前审查
+        nameValuePairs.add(new BasicNameValuePair("query_reason", "LOAN_AUDIT"));
+        //查询条件,格式为 json 格式
+        nameValuePairs.add(new BasicNameValuePair("params", gennerateDevicePrintRequetParam(request, vo).toJSONString()));
+        String s = HttpClientUtil.doPost(url, nameValuePairs, "utf-8");
+        JSONObject jsonObject = JSON.parseObject(s);
+        String code = jsonObject.getString("code");
+        if (code.equals("10000")) {
+            if (userOtherAuth != null) {//存在,但是没有三方数据
+//                userOtherAuth.setThirdData(jsonObject.getString("data"));
+                userOtherAuth.setThirdData(s);
+                userOtherAuthService.updateByPrimaryKeySelective(userOtherAuth);
+                return new Result(ResultConstant.SUCCESS);
+            } else {//不存在
+                UserOtherAuth record = new UserOtherAuth();
+                record.setUid(user.getUid());
+                record.setCertificate(user.getIdCard());
+                record.setIdentifier(user.getUserRealName());
+                record.setIdentityType((byte) 5);
+//                record.setThirdData(jsonObject.getString("data"));
+                record.setThirdData(s);
+                userOtherAuthService.insert(record);
+                return new Result(ResultConstant.SUCCESS);
+            }
+        } else {
+            return new Result(Integer.parseInt(code), jsonObject.getString("msg"));
+        }
+    }
+
+
+    /**
+     * 设备指纹参数构建
+     *
+     * @param request
+     * @param vo
+     * @return
+     */
+    public JSONObject gennerateDevicePrintRequetParam(HttpServletRequest request, Map<String, String> vo) {
         UserBase user = UserUtils.getUser(request);
         UserLocation userLocation = userLocationService.selectByPrimaryKey(user.getCompanyLocationUid());
         JSONObject dataJson = new JSONObject();
-        dataJson.put("queryFraudScreening", "true");
-        dataJson.put("queryDevicePrint", "true");
+        dataJson.put("queryFraudScreening", "false");//不要进阶版
+        dataJson.put("queryDevicePrint", "true");//需要设备指纹
         dataJson.put("amount_business", "0");
-        JSONArray addrArray = new JSONArray();
-        addrArray.add("SELF_MOBILE_1_FAMILY_ADDR");
-        addrArray.add("SELF_MOBILE_1_CORP_ADDR");
-        dataJson.put("addr_detection_types", addrArray);
+//        JSONArray addrArray = new JSONArray();
+//        addrArray.add("SELF_MOBILE_1_FAMILY_ADDR");
+//        addrArray.add("SELF_MOBILE_1_CORP_ADDR");
+//        dataJson.put("addr_detection_types", addrArray);
         dataJson.put("id_no", user.getIdCard());//被查询人身份证号 18 位以内
         dataJson.put("name", user.getUserRealName());//被查询人姓名 2-30 位
         dataJson.put("mobile", user.getMobile());
-        dataJson.put("bank_no", "");
-        JSONObject corp_addr_json = new JSONObject();
-        corp_addr_json.put("address", userLocation.getLocation());
-        corp_addr_json.put("city", userLocation.getCurrCity());
-        corp_addr_json.put("county", userLocation.getCurrDistrict());
-        corp_addr_json.put("province", userLocation.getCurrProvince());
-        corp_addr_json.put("postal", "");
-        dataJson.put("corp_addr", corp_addr_json);
-        dataJson.put("corp_name", user.getCompanyName());
-        dataJson.put("corp_tel", user.getCompanyPhone());
+//        dataJson.put("bank_no", "");
+//        JSONObject corp_addr_json = new JSONObject();
+//        corp_addr_json.put("address", userLocation.getLocation());
+//        corp_addr_json.put("city", userLocation.getCurrCity());
+//        corp_addr_json.put("county", userLocation.getCurrDistrict());
+//        corp_addr_json.put("province", userLocation.getCurrProvince());
+//        corp_addr_json.put("postal", "");
+//        dataJson.put("corp_addr", corp_addr_json);
+//        dataJson.put("corp_name", user.getCompanyName());
+//        dataJson.put("corp_tel", user.getCompanyPhone());
         //联系人信息添加开始
 //        JSONArray contacts = new JSONArray();
 //        JSONObject contactJson = new JSONObject();
@@ -806,15 +1075,17 @@ public class UserController extends BaseWebController {
         //联系人封装结束;
 
         dataJson.put("email", user.getEmail());
-        JSONObject family_addrjson = new JSONObject();
+//        JSONObject family_addrjson = new JSONObject();
 //        family_addrjson.put("address", "温特莱B座1910");
 //        family_addrjson.put("city", "北京市");
 //        family_addrjson.put("county", "朝阳区");
 //        family_addrjson.put("province", "北京市");
-        dataJson.put("family_addr", family_addrjson);
+//        dataJson.put("family_addr", family_addrjson);
         //设备指纹事件信息
         JSONObject eventObj = new JSONObject();
-        eventObj.put("time", DateUtils.date2String(new Date(), "YYYY-MM-DDHH:mm:ss.SSS"));
+        LocalDateTime now = LocalDateTime.now();
+//        eventObj.put("time", DateUtils.date2String(new Date(), "YYYY-MM-DD HH:mm:ss.SSS").replace(" ", "T") + "Z");
+        eventObj.put("time", now.toString() + "Z");
 //        eventObj.put("source", "WEB");
         JSONObject deviceObj = new JSONObject();
         deviceObj.put("ip", RequestUtil.getIpAddr(request));
@@ -830,6 +1101,49 @@ public class UserController extends BaseWebController {
 //        sessionObj.put("activityPageCode", "login001");
 //        eventObj.put("session", sessionObj);
         dataJson.put("event", eventObj);
+        return dataJson;
+    }
+
+    /**
+     * 进阶版（无设备指纹参数构建）
+     *
+     * @param request
+     * @param vo
+     * @return
+     */
+    public static JSONObject gennerateRequetParam(HttpServletRequest request, Map<String, String> vo) {
+        UserBase user = UserUtils.getUser(request);
+        JSONObject dataJson = new JSONObject();
+        dataJson.put("amount_business", "0");
+        dataJson.put("id_no", user.getIdCard());//被查询人身份证号 18 位以内
+        dataJson.put("name", user.getUserRealName());//被查询人姓名 2-30 位
+        dataJson.put("mobile", user.getMobile());//被查询人姓名 2-30 位
+        dataJson.put("bank_no", "");
+//        JSONObject corp_addr_json = new JSONObject();
+//        corp_addr_json.put("address", "温特莱B座1910");
+//        corp_addr_json.put("city", "北京市");
+//        corp_addr_json.put("county", "朝阳区");
+//        corp_addr_json.put("province", "北京市");
+//        dataJson.put("corp_addr", corp_addr_json);
+
+//        dataJson.put("corp_tel", "010-61300110");
+//        JSONArray contacts = new JSONArray();
+//        JSONObject cpntactJson = new JSONObject();
+//        cpntactJson.put("contact_id_no", "370633197005042513");
+//        cpntactJson.put("contact_mobile", "15002035914");
+//        cpntactJson.put("contact_name", "高求");
+//        cpntactJson.put("contact_type", "SPOUSE");
+//        contacts.add(cpntactJson);
+//        dataJson.put("contacts", contacts);
+        dataJson.put("email", user.getEmail());
+//        JSONObject family_addrjson = new JSONObject();
+//        family_addrjson.put("address", "温特莱B座1910");
+//        family_addrjson.put("city", "北京市");
+//        family_addrjson.put("county", "朝阳区");
+//        family_addrjson.put("province", "北京市");
+//        dataJson.put("family_addr", family_addrjson);
+//        dataJson.put("family_tel", "010-61300110");
+//        dataJson.put("qq", "532537296");
         return dataJson;
     }
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<欺诈甄别接口*/
@@ -848,6 +1162,7 @@ public class UserController extends BaseWebController {
         if (user.getBrowerUid() == null) {
             return new Result(ResultConstant.NO_DISTRIBUTE_BROWER);
         }
+
         ApplyOrder record = new ApplyOrder();
         record.setApplyUserUid(user.getUid());
         record.setState(1);//未签订状态
@@ -921,4 +1236,255 @@ public class UserController extends BaseWebController {
         return new Result(ResultConstant.FAILED);
     }
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<申请*/
+
+
+    @ApiOperation(value = "获取运营商报告")
+    @RequestMapping(value = "getOperateData")
+    @ResponseBody
+    public Result getOperateData(HttpServletRequest request, @RequestBody IdReqVO vo) {
+        UserOtherAuthExample example = new UserOtherAuthExample();
+        example.createCriteria().andUidEqualTo(vo.getId()).andIdentityTypeEqualTo((byte) 2);
+        UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
+        if (userOtherAuth == null || StringUtils.isEmpty(userOtherAuth.getThirdData())) {
+            return new Result(ResultConstant.SUCCESS);
+        }
+        String thirdData = userOtherAuth.getThirdData();
+        Map map = JSON.parseObject(thirdData, Map.class);
+        return new Result(ResultConstant.SUCCESS, map);
+    }
+
+    @ApiOperation(value = "获取淘宝报告")
+    @RequestMapping(value = "getTaobaoData")
+    @ResponseBody
+    public Result getTaobaoData(HttpServletRequest request, @RequestBody IdReqVO vo) {
+        UserOtherAuthExample example = new UserOtherAuthExample();
+        example.createCriteria().andUidEqualTo(vo.getId()).andIdentityTypeEqualTo((byte) 1);
+        UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
+        if (userOtherAuth == null || StringUtils.isEmpty(userOtherAuth.getThirdData())) {
+            return new Result(ResultConstant.SUCCESS);
+        }
+        String thirdData = userOtherAuth.getThirdData();
+        Map map = JSON.parseObject(thirdData, Map.class);
+        return new Result(ResultConstant.SUCCESS, map);
+    }
+
+    @ApiOperation(value = "获取多头报告")
+    @RequestMapping(value = "getMutiPartData")
+    @ResponseBody
+    public Result getMutiPartData(HttpServletRequest request, @RequestBody IdReqVO vo) {
+        UserOtherAuthExample example = new UserOtherAuthExample();
+        example.createCriteria().andUidEqualTo(vo.getId()).andIdentityTypeEqualTo((byte) 3);
+        UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
+        if (userOtherAuth == null || StringUtils.isEmpty(userOtherAuth.getThirdData())) {
+            return new Result(ResultConstant.SUCCESS);
+        }
+        String thirdData = userOtherAuth.getThirdData();
+        Map map = JSON.parseObject(thirdData, Map.class);
+        return new Result(ResultConstant.SUCCESS, map);
+    }
+
+    @ApiOperation(value = "获取反欺诈报告")
+    @RequestMapping(value = "getFanQizhaData")
+    @ResponseBody
+    public Result getFanQizhaData(HttpServletRequest request, @RequestBody IdReqVO vo) {
+        UserOtherAuthExample example = new UserOtherAuthExample();
+        example.createCriteria().andUidEqualTo(vo.getId()).andIdentityTypeEqualTo((byte) 4);
+        UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
+        if (userOtherAuth == null || StringUtils.isEmpty(userOtherAuth.getThirdData())) {
+            return new Result(ResultConstant.SUCCESS);
+        }
+        String thirdData = userOtherAuth.getThirdData();
+        Map map = JSON.parseObject(thirdData, Map.class);
+        return new Result(ResultConstant.SUCCESS, map);
+    }
+
+
+    @ApiOperation(value = "获取认证结果")
+    @RequestMapping(value = "/getVerifyResult")
+    @ResponseBody
+    @Transactional
+    public Result getVerifyResult(HttpServletRequest request) {
+        UserBase user = UserUtils.getUser(request);
+        Map map = new HashMap();
+        rateJiben(map, user);
+        UserOtherAuthExample example = new UserOtherAuthExample();
+        example.createCriteria().andUidEqualTo(user.getUid()).andIdentityTypeEqualTo((byte) 1);
+        UserOtherAuth taobao = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
+        if (taobao == null || StringUtils.isEmpty(taobao.getThirdData())) {
+            map.put("isTaobaoVerify", false);
+        } else {
+            map.put("isTaobaoVerify", true);
+        }
+//        example.clear();
+//        example.createCriteria().andUidEqualTo(user.getUid()).andIdentityTypeEqualTo((byte) 2);
+//        UserOtherAuth yunyin = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
+        UserBase userBase = userBaseService.selectByPrimaryKey(user.getUid());
+        if (userBase.getOperateBaiqishiState() == 0) {
+            map.put("isYunyinVerify", false);
+        } else {
+            map.put("isYunyinVerify", true);
+        }
+        example.clear();
+        example.createCriteria().andUidEqualTo(user.getUid()).andIdentityTypeEqualTo((byte) 3);
+        UserOtherAuth duotou = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
+        if (duotou == null || StringUtils.isEmpty(duotou.getThirdData())) {
+            map.put("isDuotouVerify", false);
+        } else {
+            map.put("isDuotouVerify", true);
+        }
+        example.clear();
+        example.createCriteria().andUidEqualTo(user.getUid()).andIdentityTypeEqualTo((byte) 4);
+        UserOtherAuth qizha = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
+        if (qizha == null || StringUtils.isEmpty(qizha.getThirdData())) {
+            map.put("isqizhaVerify", false);
+        } else {
+            map.put("isqizhaVerify", true);
+        }
+        UserContactsExample contactsExample = new UserContactsExample();
+        contactsExample.createCriteria().andUserUidEqualTo(user.getUid());
+        int count = userContactsService.countByExample(contactsExample);
+        map.put("contactsCount", count);
+        UserEmergencyContactExample emergencyContactExample = new UserEmergencyContactExample();
+        emergencyContactExample.createCriteria().andUserUidEqualTo(user.getUid()).andContactNameNotEqualTo("").andContactMobileNotEqualTo("");
+        int emergencyCount = emergencyContactService.countByExample(emergencyContactExample);
+        map.put("emergencyCount", emergencyCount);
+        UserOtherAcountExample otherAcountExample = new UserOtherAcountExample();
+        otherAcountExample.createCriteria().andUserUidEqualTo(user.getUid()).andAcountNotEqualTo("").andAcountPasswordNotEqualTo("");
+        int otherAcountCount = userOtherAcountService.countByExample(otherAcountExample);
+        map.put("otherAcountCount", otherAcountCount);
+        return new Result(ResultConstant.SUCCESS, map);
+    }
+
+    /**
+     * 计算基本资料百分比
+     *
+     * @param map
+     * @param user
+     */
+    private void rateJiben(Map map, UserBase user) {
+        int count = 0;
+        if (!StringUtils.isEmpty(user.getUserRealName())) {
+            count++;
+        }
+        if (!StringUtils.isEmpty(user.getIdCard())) {
+            count++;
+        }
+        if (user.getIdCardPhoto1() != null) {
+            count++;
+        }
+        if (user.getIdCardPhoto2() != null) {
+            count++;
+        }
+        if (user.getIdCardPhoto3() != null) {
+            count++;
+        }
+        if (!StringUtils.isEmpty(user.getWchatId())) {
+            count++;
+        }
+        if (user.getAliScore() != null && user.getAliScore() > 0) {
+            count++;
+        }
+        if (!StringUtils.isEmpty(user.getCompanyName())) {
+            count++;
+        }
+        if (user.getCompanyLocationUid() != null) {
+            count++;
+        }
+        if (!StringUtils.isEmpty(user.getCompanyPhone())) {
+            count++;
+        }
+        if (user.getSalary() != null && user.getSalary() > 0) {
+            count++;
+        }
+        if (!StringUtils.isEmpty(user.getCompanyJob())) {
+            count++;
+        }
+        map.put("jibenRate", count / 12f);
+    }
+
+    @Autowired
+    private ChannelService channelService;
+
+    @ApiOperation(value = "根据id获取渠道")
+    @RequestMapping(value = "getChannel")
+    @ResponseBody
+    public Result getChannel(@RequestBody IdReqVO vo) {
+        Channel channel = channelService.selectByPrimaryKey(vo.getId());
+        if (channel == null) {
+            return new Result(ResultConstant.FAILED);
+        }
+        return new Result(ResultConstant.SUCCESS, channel);
+    }
+
+
+    @ApiOperation(value = "获取管理用户信息")
+    @RequestMapping(value = "/getSysUser")
+    @ResponseBody
+    public Result getSysUser(HttpServletRequest request) {
+        UserBase user = UserUtils.getUser(request);
+        UserBase userBase = userBaseService.selectByPrimaryKey(user.getUid());
+        UserUtils.createUserSession(request, userBase);
+        Map map = new HashMap();
+        Long verifyUid = userBase.getVerifyUid();
+        if (verifyUid != null && verifyUid != 0) {
+            SysUserBase verifyBase = sysUserBaseService.selectByPrimaryKey(verifyUid);
+            Long wchatQrcode = verifyBase.getWchatQrcode();
+            if (wchatQrcode == null) {
+                map.put("verifyWchatQrcodePath", "");
+            } else {
+                StorageImage storageImage = storageImageService.selectByPrimaryKey(wchatQrcode);
+                map.put("verifyWchatQrcodePath", storageImage != null ? storageImage.getFullPath() : "");
+            }
+        } else {
+            map.put("verifyWchatQrcodePath", "");
+        }
+        Long browerUid = userBase.getBrowerUid();
+        if (browerUid != null && browerUid != 0) {
+            SysUserBase browerBase = sysUserBaseService.selectByPrimaryKey(browerUid);
+            Long wchatQrcode = browerBase.getWchatQrcode();
+            if (wchatQrcode == null) {
+                map.put("browerBaseWchatQrcodePath", "");
+            } else {
+                StorageImage storageImage = storageImageService.selectByPrimaryKey(wchatQrcode);
+                map.put("browerBaseWchatQrcodePath", storageImage != null ? storageImage.getFullPath() : "");
+            }
+        } else {
+            map.put("browerBaseWchatQrcodePath", "");
+        }
+        return new Result(ResultConstant.SUCCESS, map);
+    }
+
+    //白骑士相关接口
+    @ApiOperation(value = "更新运营商认证状态")
+    @RequestMapping(value = "/updateOperateBaiqishiState")
+    @ResponseBody
+    public Result updateOperateBaiqishiState(HttpServletRequest request, @RequestBody Map<String, String> data) {
+//        certNo	申请人填写的身份证
+//        mobile	申请人填写的手机号
+//        name	申请人填写的姓名
+        String certNo = data.get("certNo");
+        String mobile = data.get("mobile");
+        String name = data.get("name");
+        if (StringUtils.isEmpty(certNo)) {
+            return new Result(0, "身份证不能为空");
+        }
+        if (StringUtils.isEmpty(mobile)) {
+            return new Result(0, "手机号不能为空");
+        }
+        if (StringUtils.isEmpty(name)) {
+            return new Result(0, "姓名不能为空");
+        }
+
+        UserBaseExample example = new UserBaseExample();
+        example.createCriteria().andMobileEqualTo(mobile);
+        UserBase userBase = userBaseService.selectFirstByExample(example);
+        if (userBase == null) {
+            return new Result(0, "不存在该用户");
+        }
+        userBase.setOperateBaiqishiState(1);
+        if (userBaseService.updateByPrimaryKeySelective(userBase) > 0) {
+            return new Result(ResultConstant.SUCCESS);
+        }
+        return new Result(ResultConstant.FAILED);
+    }
 }

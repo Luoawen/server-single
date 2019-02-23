@@ -2476,6 +2476,66 @@ public class UserBaseExample implements Serializable {
             addCriterion("brower_uid not between", value1, value2, "browerUid");
             return (Criteria) this;
         }
+
+        public Criteria andOperateBaiqishiStateIsNull() {
+            addCriterion("operate_baiqishi_state is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateBaiqishiStateIsNotNull() {
+            addCriterion("operate_baiqishi_state is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateBaiqishiStateEqualTo(Integer value) {
+            addCriterion("operate_baiqishi_state =", value, "operateBaiqishiState");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateBaiqishiStateNotEqualTo(Integer value) {
+            addCriterion("operate_baiqishi_state <>", value, "operateBaiqishiState");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateBaiqishiStateGreaterThan(Integer value) {
+            addCriterion("operate_baiqishi_state >", value, "operateBaiqishiState");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateBaiqishiStateGreaterThanOrEqualTo(Integer value) {
+            addCriterion("operate_baiqishi_state >=", value, "operateBaiqishiState");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateBaiqishiStateLessThan(Integer value) {
+            addCriterion("operate_baiqishi_state <", value, "operateBaiqishiState");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateBaiqishiStateLessThanOrEqualTo(Integer value) {
+            addCriterion("operate_baiqishi_state <=", value, "operateBaiqishiState");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateBaiqishiStateIn(List<Integer> values) {
+            addCriterion("operate_baiqishi_state in", values, "operateBaiqishiState");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateBaiqishiStateNotIn(List<Integer> values) {
+            addCriterion("operate_baiqishi_state not in", values, "operateBaiqishiState");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateBaiqishiStateBetween(Integer value1, Integer value2) {
+            addCriterion("operate_baiqishi_state between", value1, value2, "operateBaiqishiState");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateBaiqishiStateNotBetween(Integer value1, Integer value2) {
+            addCriterion("operate_baiqishi_state not between", value1, value2, "operateBaiqishiState");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria implements Serializable {

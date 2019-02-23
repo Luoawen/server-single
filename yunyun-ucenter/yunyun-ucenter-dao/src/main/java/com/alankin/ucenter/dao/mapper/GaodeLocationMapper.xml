@@ -21,6 +21,7 @@
     <result column="building_id" property="buildingId" jdbcType="VARCHAR" />
     <result column="floor" property="floor" jdbcType="VARCHAR" />
     <result column="gps_accuracy_status" property="gpsAccuracyStatus" jdbcType="INTEGER" />
+    <result column="loacation_data_source" property="loacationDataSource" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="INTEGER" />
     <result column="update_time" property="updateTime" jdbcType="INTEGER" />
   </resultMap>
@@ -85,7 +86,7 @@
   <sql id="Base_Column_List" >
     uid, user_uid, location_type, latitude, longitude, accuracy, address, country, province, 
     city, district, street, street_num, city_code, ad_code, aoi_name, building_id, floor, 
-    gps_accuracy_status, create_time, update_time
+    gps_accuracy_status, loacation_data_source, create_time, update_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.alankin.ucenter.dao.model.GaodeLocationExample" >
     select
@@ -124,16 +125,16 @@
       city, district, street, 
       street_num, city_code, ad_code, 
       aoi_name, building_id, floor, 
-      gps_accuracy_status, create_time, update_time
-      )
+      gps_accuracy_status, loacation_data_source, 
+      create_time, update_time)
     values (#{uid,jdbcType=BIGINT}, #{userUid,jdbcType=BIGINT}, #{locationType,jdbcType=INTEGER}, 
       #{latitude,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR}, #{accuracy,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
       #{city,jdbcType=VARCHAR}, #{district,jdbcType=VARCHAR}, #{street,jdbcType=VARCHAR}, 
       #{streetNum,jdbcType=VARCHAR}, #{cityCode,jdbcType=VARCHAR}, #{adCode,jdbcType=VARCHAR}, 
       #{aoiName,jdbcType=VARCHAR}, #{buildingId,jdbcType=VARCHAR}, #{floor,jdbcType=VARCHAR}, 
-      #{gpsAccuracyStatus,jdbcType=INTEGER}, #{createTime,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER}
-      )
+      #{gpsAccuracyStatus,jdbcType=INTEGER}, #{loacationDataSource,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.alankin.ucenter.dao.model.GaodeLocation" >
     insert into gaode_location
@@ -194,6 +195,9 @@
       </if>
       <if test="gpsAccuracyStatus != null" >
         gps_accuracy_status,
+      </if>
+      <if test="loacationDataSource != null" >
+        loacation_data_source,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -259,6 +263,9 @@
       </if>
       <if test="gpsAccuracyStatus != null" >
         #{gpsAccuracyStatus,jdbcType=INTEGER},
+      </if>
+      <if test="loacationDataSource != null" >
+        #{loacationDataSource,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=INTEGER},
@@ -334,6 +341,9 @@
       <if test="record.gpsAccuracyStatus != null" >
         gps_accuracy_status = #{record.gpsAccuracyStatus,jdbcType=INTEGER},
       </if>
+      <if test="record.loacationDataSource != null" >
+        loacation_data_source = #{record.loacationDataSource,jdbcType=INTEGER},
+      </if>
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=INTEGER},
       </if>
@@ -366,6 +376,7 @@
       building_id = #{record.buildingId,jdbcType=VARCHAR},
       floor = #{record.floor,jdbcType=VARCHAR},
       gps_accuracy_status = #{record.gpsAccuracyStatus,jdbcType=INTEGER},
+      loacation_data_source = #{record.loacationDataSource,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=INTEGER}
     <if test="_parameter != null" >
@@ -429,6 +440,9 @@
       <if test="gpsAccuracyStatus != null" >
         gps_accuracy_status = #{gpsAccuracyStatus,jdbcType=INTEGER},
       </if>
+      <if test="loacationDataSource != null" >
+        loacation_data_source = #{loacationDataSource,jdbcType=INTEGER},
+      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=INTEGER},
       </if>
@@ -458,6 +472,7 @@
       building_id = #{buildingId,jdbcType=VARCHAR},
       floor = #{floor,jdbcType=VARCHAR},
       gps_accuracy_status = #{gpsAccuracyStatus,jdbcType=INTEGER},
+      loacation_data_source = #{loacationDataSource,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=INTEGER}
     where uid = #{uid,jdbcType=BIGINT}

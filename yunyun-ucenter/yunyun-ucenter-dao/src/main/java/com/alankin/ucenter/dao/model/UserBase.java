@@ -262,6 +262,13 @@ public class UserBase implements Serializable {
      */
     private Long browerUid;
 
+    /**
+     * 白骑士运营商认证， 0为未认证   1为已认证
+     *
+     * @mbggenerated
+     */
+    private Integer operateBaiqishiState;
+
     private static final long serialVersionUID = 1L;
 
     public Long getUid() {
@@ -560,6 +567,14 @@ public class UserBase implements Serializable {
         this.browerUid = browerUid;
     }
 
+    public Integer getOperateBaiqishiState() {
+        return operateBaiqishiState;
+    }
+
+    public void setOperateBaiqishiState(Integer operateBaiqishiState) {
+        this.operateBaiqishiState = operateBaiqishiState;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -603,6 +618,7 @@ public class UserBase implements Serializable {
         sb.append(", verifyStateTime=").append(verifyStateTime);
         sb.append(", verifyUid=").append(verifyUid);
         sb.append(", browerUid=").append(browerUid);
+        sb.append(", operateBaiqishiState=").append(operateBaiqishiState);
         sb.append("]");
         return sb.toString();
     }
@@ -655,7 +671,8 @@ public class UserBase implements Serializable {
             && (this.getVerifyStateKey() == null ? other.getVerifyStateKey() == null : this.getVerifyStateKey().equals(other.getVerifyStateKey()))
             && (this.getVerifyStateTime() == null ? other.getVerifyStateTime() == null : this.getVerifyStateTime().equals(other.getVerifyStateTime()))
             && (this.getVerifyUid() == null ? other.getVerifyUid() == null : this.getVerifyUid().equals(other.getVerifyUid()))
-            && (this.getBrowerUid() == null ? other.getBrowerUid() == null : this.getBrowerUid().equals(other.getBrowerUid()));
+            && (this.getBrowerUid() == null ? other.getBrowerUid() == null : this.getBrowerUid().equals(other.getBrowerUid()))
+            && (this.getOperateBaiqishiState() == null ? other.getOperateBaiqishiState() == null : this.getOperateBaiqishiState().equals(other.getOperateBaiqishiState()));
     }
 
     @Override
@@ -699,6 +716,7 @@ public class UserBase implements Serializable {
         result = prime * result + ((getVerifyStateTime() == null) ? 0 : getVerifyStateTime().hashCode());
         result = prime * result + ((getVerifyUid() == null) ? 0 : getVerifyUid().hashCode());
         result = prime * result + ((getBrowerUid() == null) ? 0 : getBrowerUid().hashCode());
+        result = prime * result + ((getOperateBaiqishiState() == null) ? 0 : getOperateBaiqishiState().hashCode());
         return result;
     }
 }

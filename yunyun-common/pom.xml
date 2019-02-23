@@ -265,6 +265,10 @@
             <artifactId>fastdfs-client</artifactId>
             <version>1.26.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

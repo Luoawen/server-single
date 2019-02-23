@@ -188,7 +188,8 @@ public class StringUtil {
     public static boolean isPhoneNumber(String phoneNumber) {
         if (phoneNumber == null || "".equals(phoneNumber))
             return false;
-        String regex = "^1[3|4|5|8][0-9]\\d{8}$";
+        String regex = "^1[0-9][0-9]\\d{8}$";
+//        String regex = "^1[3|4|5|7|8][0-9]\\d{8}$";
         return phoneNumber.matches(regex);
     }
 

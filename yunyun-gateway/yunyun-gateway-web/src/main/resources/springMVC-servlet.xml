@@ -3,21 +3,22 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
     <!-- 根目录'/'对应页面 -->
     <!--<mvc:view-controller path="/" view-name="/index.jsp"/>-->
 
     <!-- 支持跨域访问  -->
     <!--<mvc:cors>-->
-        <!--<mvc:mapping path="/**"-->
-                     <!--allowed-origins="*"-->
-                     <!--allowed-methods="POST, GET, OPTIONS, DELETE, PUT"-->
-                     <!--allowed-headers="Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"-->
-                     <!--allow-credentials="true"/>-->
+    <!--<mvc:mapping path="/**"-->
+    <!--allowed-origins="*"-->
+    <!--allowed-methods="POST, GET, OPTIONS, DELETE, PUT"-->
+    <!--allowed-headers="Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"-->
+    <!--allow-credentials="true"/>-->
     <!--</mvc:cors>-->
 
     <!-- 拦截器 -->
@@ -72,6 +73,66 @@
 
     <!-- 免权限的接口集合 -->
     <bean id="overtApiMap" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-        <property name="location" value="classpath:overtApi.properties" />
+        <property name="location" value="classpath:overtApi.properties"/>
     </bean>
+
+    <!-- 设备规则分类 -->
+    <util:map id="gzTypeMap" map-class="java.util.HashMap">
+        <entry key="AQZD" value="设备信息风险"/>
+        <entry key="AQZV" value="操作速度异常"/>
+        <entry key="AQZB" value="设别信息黑名单"/>
+        <entry key="AQZU" value="设备信息非常用"/>
+        <entry key="AQZN" value="设备参数为空"/>
+        <entry key="AQZT" value="设备时间异常"/>
+        <entry key="AQZC" value="设备组合规则"/>
+    </util:map>
+
+    <!-- 设备风险提示 -->
+    <util:map id="deviceFengXianMap" map-class="java.util.HashMap">
+        <entry key="R101" value-ref="R101"/>
+        <entry key="R102" value-ref="R102"/>
+        <entry key="R103" value-ref="R103"/>
+        <entry key="R104" value-ref="R104"/>
+        <entry key="R105" value-ref="R105"/>
+        <entry key="R201" value-ref="R201"/>
+        <entry key="R202" value-ref="R202"/>
+        <entry key="R203" value-ref="R203"/>
+        <entry key="R204" value-ref="R204"/>
+    </util:map>
+    <util:map id="R101" map-class="java.util.HashMap">
+        <entry key="RiskLevel " value="1"/>
+        <entry key="Description" value="设备已越狱"/>
+    </util:map>
+    <util:map id="R102" map-class="java.util.HashMap">
+        <entry key="RiskLevel " value="1"/>
+        <entry key="Description" value="设备时间异常"/>
+    </util:map>
+    <util:map id="R103" map-class="java.util.HashMap">
+        <entry key="RiskLevel " value="1"/>
+        <entry key="Description" value="设备抓取参数异常"/>
+    </util:map>
+    <util:map id="R104" map-class="java.util.HashMap">
+        <entry key="RiskLevel " value="1"/>
+        <entry key="Description" value="设备存在恶意软件签名"/>
+    </util:map>
+    <util:map id="R105" map-class="java.util.HashMap">
+        <entry key="RiskLevel " value="1"/>
+        <entry key="Description" value="短时间内设备或进件信息被重复使用"/>
+    </util:map>
+    <util:map id="R201" map-class="java.util.HashMap">
+        <entry key="RiskLevel " value="1"/>
+        <entry key="Description" value="存在篡改信息或被劫持风险"/>
+    </util:map>
+    <util:map id="R202" map-class="java.util.HashMap">
+        <entry key="RiskLevel " value="1"/>
+        <entry key="Description" value="疑似多头申请或频繁进件"/>
+    </util:map>
+    <util:map id="R203" map-class="java.util.HashMap">
+        <entry key="RiskLevel " value="1"/>
+        <entry key="Description" value="申请设备信息或进件信息中命中黑名单"/>
+    </util:map>
+    <util:map id="R204" map-class="java.util.HashMap">
+        <entry key="RiskLevel " value="1"/>
+        <entry key="Description" value="申请设备信息或进件信息中命中白名单"/>
+    </util:map>
 </beans>

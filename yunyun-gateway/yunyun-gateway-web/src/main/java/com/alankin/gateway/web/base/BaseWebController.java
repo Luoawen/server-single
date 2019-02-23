@@ -47,4 +47,10 @@ public class BaseWebController extends BaseController {
         }
         return new Result(ResultConstant.EXCEPTION_FIELD_INVALID);
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseBody
+    public Result handleIllegalParamException(RuntimeException e) {
+        return new Result(0, e.getMessage());
+    }
 }

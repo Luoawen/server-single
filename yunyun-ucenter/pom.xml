@@ -9,4 +9,11 @@
     <artifactId>yunyun-ucenter</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
+
+    <modules>
+        <module>yunyun-ucenter-common</module>
+        <module>yunyun-ucenter-dao</module>
+        <module>yunyun-ucenter-rpc-api</module>
+        <module>yunyun-ucenter-rpc-service</module>
+    </modules>
 </project>

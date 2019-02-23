@@ -262,34 +262,57 @@
   </update>
 
     <select id="selectBySysUserId" resultType="java.util.Map">
-        SELECT * FROM (
-        SELECT d.*,
+        SELECT *
+        FROM (
+        SELECT d.uid,
+        d.create_time,
+        d.update_time,
+        d.apply_user_uid,
+        d.order_money,
+        d.loan_duration,
+        d.verify_user_id,
         ub.user_real_name,
         ub.user_name,
-        ub.uid as user_id,
+        ub.uid               as user_id,
         ub.email,
         ub.mobile,
         ub.company_name,
-        verify.user_name as vf_username,
-        verify.real_name as vf_real_name,
-        c.id as channel_id,
+        verify.user_name     as vf_username,
+        verify.real_name     as vf_real_name,
+        c.id                 as channel_id,
         c.channel_name,
-        ad.uid as ad_uid,
-        ad.user_name as ad_username,
-        ad.real_name as ad_real_name,
-        ub.brower_uid as brower_uid,
-        brower.user_name as brower_user_name,
-        brower.real_name as brower_real_name,
-        state_dic.dic_value as state_name,
+        ad.uid               as ad_uid,
+        ad.user_name         as ad_username,
+        ad.real_name         as ad_real_name,
+        ub.brower_uid        as brower_uid,
+        brower.user_name     as brower_user_name,
+        brower.real_name     as brower_real_name,
         ub.verify_state_time as verify_time,
-        log1.create_time as weiqianding_time,
-        log2.create_time as qianding_time,
-        log3.create_time as fangkuan_time,
-        log4.create_time as jieqing_time,
-        log5.create_time as yuqi_time,
-        log6.create_time as shilian_time,
-        log7.create_time as quxiao_time
+        log1.create_time     as weiqianding_time,
+        log2.create_time     as qianding_time,
+        log3.create_time     as fangkuan_time,
+        log4.create_time     as jieqing_time,
+        log5.create_time     as yuqi_time,
+        log6.create_time     as shilian_time,
+        log7.create_time     as quxiao_time,
+        (case
+        when
+        state_dic.dic_key = 4 and FROM_UNIXTIME(lr.repay_time, '%Y-%m-%d') &lt; date_format(now(), '%Y-%m-%d')
+        then '逾期'
+        else
+        state_dic.dic_value
+        end
+        )                  as state_name,
+        (case
+        when
+        state_dic.dic_key = 4 and FROM_UNIXTIME(lr.repay_time, '%Y-%m-%d') &lt; date_format(now(), '%Y-%m-%d')
+        then 6
+        else
+        lr.state
+        end
+        )                  as state
         FROM apply_order d
+        left join loan_receipt lr on lr.apply_order_uid = d.uid
         left join user_base ub on d.apply_user_uid = ub.uid
         left JOIN sys_user_base brower on brower.uid = ub.brower_uid
         left join channel c on c.id = ub.channel_id
@@ -340,10 +363,13 @@
         c.id as channel_id,
         c.channel_name,
         brower.real_name as brower_real_name,
-        brower.user_name as brower_user_name
+        brower.user_name as brower_user_name,
+        verify.real_name as verify_real_name,
+        verify.user_name as verify_user_name
         from user_base ub
         left join channel c on ub.channel_id = c.id
         left join sys_user_base brower on brower.uid = ub.brower_uid
+        left join sys_user_base verify on verify.uid = ub.verify_uid
         <where>
             1=1
             <if test="condition.registerDateEndTime!=null and condition.registerDateEndTime!=''">AND ub.create_time &lt;=

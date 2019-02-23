@@ -144,8 +144,16 @@ public class SystemMngController extends BaseWebController {
                 .andIdentifierEqualTo(verifyEditReqVo.getMobile()).andIsDelEqualTo(false);
         SysUserAuth userAuth = sysUserAuthService.selectFirstByExample(example);
         if (userAuth != null) {
-            return new Result(ResultConstant.FAILED, "已存在该账号!");
+            return new Result(0, "已存在该账号!");
         }
+        SysUserBaseExample userBaseExample = new SysUserBaseExample();
+        userBaseExample.createCriteria()
+                .andUserNameEqualTo(verifyEditReqVo.getUserName());
+        SysUserBase sysUserBase = sysUserBaseService.selectFirstByExample(userBaseExample);
+        if (sysUserBase != null) {
+            return new Result(0, "已存在该用户名!");
+        }
+
         //不存在账号时，创建用户
         SysUserBase userBase = new SysUserBase();
         userBase.setUid(new SnowflakeIdWorker(0, 0).nextId());
@@ -155,7 +163,14 @@ public class SystemMngController extends BaseWebController {
         //注册来源：1手机号 2邮箱 3用户名 4qq 5微信 6腾讯微博 7新浪微博
         String identifier = verifyEditReqVo.getMobile();
         if (!StringUtil.isPhoneNumber(identifier)) {
-            return new Result(ResultConstant.FAILED, "请输入正确的手机号");
+            return new Result(0, "请输入正确的手机号");
+        }
+
+        userBaseExample.clear();
+        userBaseExample.createCriteria()
+                .andMobileEqualTo(verifyEditReqVo.getMobile());
+        if (sysUserBaseService.selectFirstByExample(userBaseExample) != null) {
+            return new Result(0, "已存在该手机号!");
         }
 
         userBase.setMobile(identifier);

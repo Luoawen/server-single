@@ -312,9 +312,11 @@
 
     <select id="channelAcountList" resultType="java.util.Map">
         select sub.*,
+        auth.certificate,
         dic.dic_value as state_name
         from sys_user_base sub
         left join sys_role_user sru on sru.user_id = sub.uid
+        left join sys_user_auth auth on auth.uid = sub.uid
         inner join sys_role sr on sr.id = sru.role_id and sr.type = 3
         left join data_dic dic on dic.data_type_code = 4 and dic.dic_key = sub.user_role
         <where>

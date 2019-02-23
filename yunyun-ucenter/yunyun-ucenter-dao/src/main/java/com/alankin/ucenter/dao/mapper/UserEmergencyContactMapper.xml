@@ -240,5 +240,23 @@
       update_time = #{updateTime,jdbcType=INTEGER}
     where uid = #{uid,jdbcType=BIGINT}
   </update>
+
+  <select id="getEmergencyByUserUid" resultType="java.util.Map">
+    select uec.user_uid,
+    uec.contact_name,
+    uec.contact_mobile,
+    dict.dic_value
+    from user_emergency_contact uec
+    left join data_dic dict on dict.data_type_code = '12' and uec.acount_type_key = dict.dic_key
+    <where>
+      1=1
+      and uec.contact_name != ''
+      and !isnull(uec.contact_name)
+      and uec.contact_mobile != ''
+      and !isnull(uec.contact_mobile)
+      <if test="id!=null and id!=''">AND uec.user_uid = #{id}</if>
+    </where>
+
+  </select>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

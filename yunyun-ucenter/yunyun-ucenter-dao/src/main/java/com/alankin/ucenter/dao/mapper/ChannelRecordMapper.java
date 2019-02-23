@@ -35,6 +35,8 @@ public interface ChannelRecordMapper {
 
     List<Map> selectOrderLogByDuration(Object o);
 
+    List<Map> selectUserLogList(Object o);
+
     List<Map> selectUserLogByDuration(Object o);
 
     List<Map> selectOrderLogGroupByChanelAndTime(Object o);

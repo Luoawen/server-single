@@ -7,7 +7,7 @@ import com.alankin.ucenter.dao.model.UserBaseExample;
 
 /**
 * 降级实现UserBaseService接口
-* Created by alankin on 2019/1/19.
+* Created by alankin on 2019/2/22.
 */
 public class UserBaseServiceMock extends BaseServiceMock<UserBaseMapper, UserBase, UserBaseExample> implements UserBaseService {
 

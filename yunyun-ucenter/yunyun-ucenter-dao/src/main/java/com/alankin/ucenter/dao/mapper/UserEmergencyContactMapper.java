@@ -3,6 +3,8 @@ package com.alankin.ucenter.dao.mapper;
 import com.alankin.ucenter.dao.model.UserEmergencyContact;
 import com.alankin.ucenter.dao.model.UserEmergencyContactExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface UserEmergencyContactMapper {
@@ -27,4 +29,6 @@ public interface UserEmergencyContactMapper {
     int updateByPrimaryKeySelective(UserEmergencyContact record);
 
     int updateByPrimaryKey(UserEmergencyContact record);
+
+    List<Map>  getEmergencyByUserUid(Object reqVo);
 }
