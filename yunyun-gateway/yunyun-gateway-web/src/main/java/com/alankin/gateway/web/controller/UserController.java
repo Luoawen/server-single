@@ -306,9 +306,22 @@ public class UserController extends BaseWebController {
     @ApiOperation(value = "获取通讯录")
     @RequestMapping(value = "getContacts")
     @ResponseBody
-    public ListResult getContacts(HttpServletRequest request, @RequestBody ListReqVO<IdReqVO> listReqVO) {
+    public Result getContacts(HttpServletRequest request, @RequestBody ListReqVO<Map<String, String>> listReqVO) {
         UserContactsExample example = new UserContactsExample();
-        example.createCriteria().andUserUidEqualTo(listReqVO.getCondition().getId());
+        Map<String, String> condition = listReqVO.getCondition();
+        String id = condition.get("id");
+        if (StringUtils.isEmpty(id)) {
+            return new Result(0, "id不能为空");
+        }
+        String contactName = condition.get("contactName");
+        String contactMobile = condition.get("contactMobile");
+        UserContactsExample.Criteria criteria = example.createCriteria().andUserUidEqualTo(Long.valueOf(id));
+        if (!StringUtils.isEmpty(contactName)) {
+            criteria.andContactNameLike("%" + contactName + "%");
+        }
+        if (!StringUtils.isEmpty(contactMobile)) {
+            criteria.andContactMobileLike("%" + contactMobile + "%");
+        }
         PageInfo<UserContacts> pageInfo = contactsService.selectByExampleForStartPage(example, listReqVO.getPageNum(), listReqVO.getPageSize());
         return new ListResult(ResultConstant.SUCCESS, pageInfo);
     }
@@ -1305,12 +1318,13 @@ public class UserController extends BaseWebController {
     @Transactional
     public Result getVerifyResult(HttpServletRequest request) {
         UserBase user = UserUtils.getUser(request);
+        UserBase userBase = userBaseService.selectByPrimaryKey(user.getUid());
         Map map = new HashMap();
         rateJiben(map, user);
         UserOtherAuthExample example = new UserOtherAuthExample();
-        example.createCriteria().andUidEqualTo(user.getUid()).andIdentityTypeEqualTo((byte) 1);
-        UserOtherAuth taobao = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
-        if (taobao == null || StringUtils.isEmpty(taobao.getThirdData())) {
+//        example.createCriteria().andUidEqualTo(user.getUid()).andIdentityTypeEqualTo((byte) 1);
+//        UserOtherAuth taobao = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
+        if (userBase.getTaobaoBaiqishiState() == 0) {
             map.put("isTaobaoVerify", false);
         } else {
             map.put("isTaobaoVerify", true);
@@ -1318,7 +1332,7 @@ public class UserController extends BaseWebController {
 //        example.clear();
 //        example.createCriteria().andUidEqualTo(user.getUid()).andIdentityTypeEqualTo((byte) 2);
 //        UserOtherAuth yunyin = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
-        UserBase userBase = userBaseService.selectByPrimaryKey(user.getUid());
+
         if (userBase.getOperateBaiqishiState() == 0) {
             map.put("isYunyinVerify", false);
         } else {
@@ -1482,6 +1496,37 @@ public class UserController extends BaseWebController {
             return new Result(0, "不存在该用户");
         }
         userBase.setOperateBaiqishiState(1);
+        if (userBaseService.updateByPrimaryKeySelective(userBase) > 0) {
+            return new Result(ResultConstant.SUCCESS);
+        }
+        return new Result(ResultConstant.FAILED);
+    }
+
+    //白骑士相关接口
+    @ApiOperation(value = "更新淘宝认证状态")
+    @RequestMapping(value = "/updateTaoboBaiqishiState")
+    @ResponseBody
+    public Result updateTaoboBaiqishiState(HttpServletRequest request, @RequestBody Map<String, String> data) {
+        String certNo = data.get("certNo");
+        String mobile = data.get("mobile");
+        String name = data.get("name");
+        if (StringUtils.isEmpty(certNo)) {
+            return new Result(0, "身份证不能为空");
+        }
+        if (StringUtils.isEmpty(mobile)) {
+            return new Result(0, "手机号不能为空");
+        }
+        if (StringUtils.isEmpty(name)) {
+            return new Result(0, "姓名不能为空");
+        }
+
+        UserBaseExample example = new UserBaseExample();
+        example.createCriteria().andMobileEqualTo(mobile);
+        UserBase userBase = userBaseService.selectFirstByExample(example);
+        if (userBase == null) {
+            return new Result(0, "不存在该用户");
+        }
+        userBase.setTaobaoBaiqishiState(1);//更新淘宝状态
         if (userBaseService.updateByPrimaryKeySelective(userBase) > 0) {
             return new Result(ResultConstant.SUCCESS);
         }

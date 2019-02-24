@@ -2536,6 +2536,66 @@ public class UserBaseExample implements Serializable {
             addCriterion("operate_baiqishi_state not between", value1, value2, "operateBaiqishiState");
             return (Criteria) this;
         }
+
+        public Criteria andTaobaoBaiqishiStateIsNull() {
+            addCriterion("taobao_baiqishi_state is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaobaoBaiqishiStateIsNotNull() {
+            addCriterion("taobao_baiqishi_state is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaobaoBaiqishiStateEqualTo(Integer value) {
+            addCriterion("taobao_baiqishi_state =", value, "taobaoBaiqishiState");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaobaoBaiqishiStateNotEqualTo(Integer value) {
+            addCriterion("taobao_baiqishi_state <>", value, "taobaoBaiqishiState");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaobaoBaiqishiStateGreaterThan(Integer value) {
+            addCriterion("taobao_baiqishi_state >", value, "taobaoBaiqishiState");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaobaoBaiqishiStateGreaterThanOrEqualTo(Integer value) {
+            addCriterion("taobao_baiqishi_state >=", value, "taobaoBaiqishiState");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaobaoBaiqishiStateLessThan(Integer value) {
+            addCriterion("taobao_baiqishi_state <", value, "taobaoBaiqishiState");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaobaoBaiqishiStateLessThanOrEqualTo(Integer value) {
+            addCriterion("taobao_baiqishi_state <=", value, "taobaoBaiqishiState");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaobaoBaiqishiStateIn(List<Integer> values) {
+            addCriterion("taobao_baiqishi_state in", values, "taobaoBaiqishiState");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaobaoBaiqishiStateNotIn(List<Integer> values) {
+            addCriterion("taobao_baiqishi_state not in", values, "taobaoBaiqishiState");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaobaoBaiqishiStateBetween(Integer value1, Integer value2) {
+            addCriterion("taobao_baiqishi_state between", value1, value2, "taobaoBaiqishiState");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaobaoBaiqishiStateNotBetween(Integer value1, Integer value2) {
+            addCriterion("taobao_baiqishi_state not between", value1, value2, "taobaoBaiqishiState");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria implements Serializable {

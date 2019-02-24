@@ -32,10 +32,10 @@ public class SqlWhereGenerator {
      */
     public static void main(String[] args) throws Exception {
 //        generatorListReqWhere(ApplyOrderReqVo.class, TARGET_CLASS_PACKAGE_NAME);
-//        generatorListReqWhere(CusUserListReqVo.class, TARGET_CLASS_PACKAGE_NAME);
+        generatorListReqWhere(CusUserListReqVo.class, TARGET_CLASS_PACKAGE_NAME);
 //        generatorListReqWhere(ChannelAcountListReqVo.class, TARGET_CLASS_PACKAGE_NAME);
 //        generatorListReqWhere(LoanReceiptListReqVo.class, TARGET_CLASS_PACKAGE_NAME);
-        generatorListReqWhere(BrrowerListReqVo.class, TARGET_CLASS_PACKAGE_NAME);
+//        generatorListReqWhere(BrrowerListReqVo.class, TARGET_CLASS_PACKAGE_NAME);
     }
 
     // generatorConfig模板路径

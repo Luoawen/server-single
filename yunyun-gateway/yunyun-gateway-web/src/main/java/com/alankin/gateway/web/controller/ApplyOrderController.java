@@ -1,7 +1,9 @@
 package com.alankin.gateway.web.controller;
 
+import com.alankin.common.util.SessionUtil;
 import com.alankin.common.util.key.SystemClock;
 import com.alankin.gateway.web.base.BaseWebController;
+import com.alankin.gateway.web.utils.Constants;
 import com.alankin.gateway.web.utils.UserUtils;
 import com.alankin.gateway.web.utils.Utils;
 import com.alankin.gateway.web.vo.ListVo.IdReqVO;
@@ -232,7 +234,7 @@ public class ApplyOrderController extends BaseWebController {
             decorate(pageInfo);
             return new ListResult(ResultConstant.SUCCESS, pageInfo);
         }
-        return new ListResult(ResultConstant.FAILED, null);
+        return new ListResult(ResultConstant.FAILED);
     }
 
     private void decorate(PageInfo pageInfo) {
@@ -561,10 +563,10 @@ public class ApplyOrderController extends BaseWebController {
     public static final String VERIFYKEY = "0d4aea86b58e4eb781f78966f281ecaa";
     public static final String PARTNERID = "lfme";
 
-    @ApiOperation(value = "获取运营商Token")
-    @RequestMapping(value = "getOperateToken")
+    @ApiOperation(value = "获取报告Token 每个用户拥有不同的token")
+    @RequestMapping(value = "getToken")
     @ResponseBody
-    public Result getOperateToken(@RequestBody IdReqVO idReqVO) {
+    public Result getToken(HttpServletRequest request, @RequestBody IdReqVO idReqVO) {
         UserBase userBase = userBaseService.selectByPrimaryKey(idReqVO.getId());
         if (userBase == null) {
             return new Result(ResultConstant.EXCEPTION_NO_ACOUNT);
@@ -579,6 +581,17 @@ public class ApplyOrderController extends BaseWebController {
             return new Result(0, "用户姓名不完善");
         }
 
+        long timeStamp = new Date().getTime();//为当前时间戳
+
+        Map<String, String> lastMap = (Map<String, String>) SessionUtil.getSessionAttribute(idReqVO.getId() + "");
+        if (lastMap != null) {
+            String lastTimeStamp = lastMap.get("timeStamp");
+            if ((timeStamp - Long.parseLong(lastTimeStamp)) < 30 * 1000) {//小于30秒
+//                lastMap.put("timeStamp", timeStamp + "");
+                return new Result(ResultConstant.SUCCESS, lastMap);//直接返回上一次的map
+            }
+        }
+
         String url = "https://credit.baiqishi.com/clweb/api/common/gettoken";
         HttpPost httpPost = new HttpPost(url);
         CloseableHttpClient client = HttpClients.createDefault();
@@ -587,7 +600,7 @@ public class ApplyOrderController extends BaseWebController {
         jsonReqObject.put("certNo", userBase.getIdCard());
         jsonReqObject.put("partnerId", PARTNERID);
         jsonReqObject.put("verifyKey", VERIFYKEY);
-        String timeStamp = new Date().getTime() + "";//为当前时间戳
+
         System.out.println(timeStamp);
         jsonReqObject.put("timeStamp", timeStamp);
         StringEntity entity = new StringEntity(jsonReqObject.toString(), "utf-8");//解决中文乱码问题
@@ -613,14 +626,18 @@ public class ApplyOrderController extends BaseWebController {
         if ("CCOM1000".equalsIgnoreCase(resultCode)) {
             Map<String, String> map = new HashMap<>();
             map.put("token", token);
-            map.put("timeStamp", timeStamp);
+            map.put("timeStamp", timeStamp + "");
             map.put("certNo", userBase.getIdCard());
             map.put("partnerId", PARTNERID);
             map.put("name", userBase.getUserRealName());
             map.put("mobile", userBase.getMobile());
+
+            SessionUtil.setSessionAttribute(idReqVO.getId() + "", map);
             return new Result(ResultConstant.SUCCESS, map);
         } else {
             return new Result(0, result.getString("resultDesc"));
         }
     }
+
+
 }

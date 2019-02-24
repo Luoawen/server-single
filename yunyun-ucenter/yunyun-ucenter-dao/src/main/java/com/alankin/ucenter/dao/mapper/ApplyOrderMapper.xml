@@ -378,15 +378,15 @@
             <if test="condition.registerDateStartTime!=null and condition.registerDateStartTime!=''">AND ub.create_time
                 &gt;= #{condition.registerDateStartTime}
             </if>
-            <if test="condition.channelId!=null and condition.channelId!=''">AND channel_id = #{condition.channelId}
+            <if test="condition.channelId!=null and condition.channelId!=''">AND ub.channel_id = #{condition.channelId}
             </if>
-            <if test="condition.verifyStateKey!=null and condition.verifyStateKey!=''">AND verify_state_key =
+            <if test="condition.verifyStateKey!=null and condition.verifyStateKey!=''">AND ub.verify_state_key =
                 #{condition.verifyStateKey}
             </if>
-            <if test="condition.name!=null and condition.name!=''">AND user_real_name like
+            <if test="condition.name!=null and condition.name!=''">AND ub.user_real_name like
                 CONCAT('%',#{condition.name},'%')
             </if>
-            <if test="condition.mobile!=null and condition.mobile!=''">AND mobile like
+            <if test="condition.mobile!=null and condition.mobile!=''">AND ub.mobile like
                 CONCAT('%',#{condition.mobile},'%')
             </if>
 

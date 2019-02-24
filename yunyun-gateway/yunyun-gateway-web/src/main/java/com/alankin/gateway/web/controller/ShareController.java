@@ -2,6 +2,7 @@ package com.alankin.gateway.web.controller;
 
 import com.alankin.common.util.DateUtils;
 import com.alankin.gateway.web.base.BaseWebController;
+import com.alankin.gateway.web.vo.ListVo.IdReqVO;
 import com.alankin.gateway.web.vo.response.Result;
 import com.alankin.gateway.web.vo.response.ResultConstant;
 import com.alankin.ucenter.dao.model.ApplyOrder;
@@ -19,11 +20,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 
@@ -118,5 +117,84 @@ public class ShareController extends BaseWebController {
             e.printStackTrace();
         }
         return resultJson.toJSONString();
+    }
+
+    //    msgCode	String	是	数据获取的返回码，参见返回码字典表
+//    msgDesc	String	是	数据获取的返回描述
+//    dataType	String	是	数据类型，参见数据类型字典表
+//    name	String	是	用户姓名
+//    mobile	String	是	用户手机号
+//    certNo	String	是	用户身份证
+//    customParam	String	否	后端回传参数（H5授信方式填写该参数才会进行回传）
+    @ApiOperation(value = "白骑士授信回传接口")
+    @RequestMapping(value = "baiqishiShouXinCallback")
+    @ResponseBody
+    public Map<String, String> baiqishiShouXinCallback(@RequestBody Map<String, String> params) {
+        String msgCode = params.get("msgCode");
+        String msgDesc = params.get("msgDesc");
+        String dataType = params.get("dataType");
+        String name = params.get("name");
+        String mobile = params.get("mobile");
+        String certNo = params.get("certNo");
+        String customParam = params.get("customParam");
+        UserBaseExample example = new UserBaseExample();
+        example.createCriteria().andUserRealNameEqualTo(name).andMobileEqualTo(mobile).andIdCardEqualTo(certNo);
+        UserBase userBase = userBaseService.selectFirstByExample(example);
+//        CCOM1000	成功
+//        CCOM3074	缓存成功（缓存机制，用户第一次授信成功后，再次授信会走缓存机制，返回上一次成功的数据，不再进行爬取）
+//        CCOM3016	采集数据失败
+        if ("CCOM1000".equalsIgnoreCase(msgCode) && userBase != null && userBase.getOperateBaiqishiState() == 0) {//授信成功
+            if ("mno".equalsIgnoreCase(dataType)) {
+                userBase.setOperateBaiqishiState(2);//0未授信   1爬取成功  2授信成功
+                userBaseService.updateByPrimaryKeySelective(userBase);
+            } else if ("tb".equalsIgnoreCase(dataType)) {
+                userBase.setTaobaoBaiqishiState(2);
+                userBaseService.updateByPrimaryKeySelective(userBase);
+            }
+        }
+        Map<String, String> ret = new HashMap<>();
+//        CCOM1000	成功
+//        CCOM8999	失败
+        ret.put("resultCode", "CCOM1000");
+        ret.put("resultDesc", "成功");
+        return ret;
+//        resultCode	String	是	数据获取的结果码，参见结果码字典表
+//        resultDesc	String	是	结果描述，若有更加详细的结果描述会以“［详细描述］”追加在后面；例如：参数不合法[partnerId为空]
+    }
+
+    @ApiOperation(value = "白骑士爬取回传接口")
+    @RequestMapping(value = "baiqishiPaQuCallback")
+    @ResponseBody
+    public Map<String, String> baiqishiPaQuCallback(@RequestBody Map<String, String> params) {
+        String msgCode = params.get("msgCode");
+        String msgDesc = params.get("msgDesc");
+        String dataType = params.get("dataType");
+        String name = params.get("name");
+        String mobile = params.get("mobile");
+        String certNo = params.get("certNo");
+        String customParam = params.get("customParam");
+        UserBaseExample example = new UserBaseExample();
+        example.createCriteria().andUserRealNameEqualTo(name).andMobileEqualTo(mobile).andIdCardEqualTo(certNo);
+        UserBase userBase = userBaseService.selectFirstByExample(example);
+//        CCOM1000	成功
+//        CCOM3074	缓存成功（缓存机制，用户第一次授信成功后，再次授信会走缓存机制，返回上一次成功的数据，不再进行爬取）
+//        CCOM3016	采集数据失败
+        if ("CCOM1000".equalsIgnoreCase(msgCode) && userBase != null && userBase.getOperateBaiqishiState() != 1) {//爬取
+            if ("mno".equalsIgnoreCase(dataType)) {
+                userBase.setOperateBaiqishiState(1);//0未授信   1爬取成功  2授信成功
+                userBaseService.updateByPrimaryKeySelective(userBase);
+            } else if ("tb".equalsIgnoreCase(dataType)) {
+                userBase.setTaobaoBaiqishiState(1);
+                userBaseService.updateByPrimaryKeySelective(userBase);
+            }
+        }
+        Map<String, String> ret = new HashMap<>();
+//        CCOM1000	成功
+//        CCOM8999	失败
+        ret.put("resultCode", "CCOM1000");
+        ret.put("resultDesc", "成功");
+        return ret;
+//        resultCode	String	是	数据获取的结果码，参见结果码字典表
+//        resultDesc	String	是	结果描述，若有更加详细的结果描述会以“［详细描述］”追加在后面；例如：参数不合法[partnerId为空]
     }
 }

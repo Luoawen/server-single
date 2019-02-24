@@ -269,6 +269,8 @@ public class UserBase implements Serializable {
      */
     private Integer operateBaiqishiState;
 
+    private Integer taobaoBaiqishiState;
+
     private static final long serialVersionUID = 1L;
 
     public Long getUid() {
@@ -575,6 +577,14 @@ public class UserBase implements Serializable {
         this.operateBaiqishiState = operateBaiqishiState;
     }
 
+    public Integer getTaobaoBaiqishiState() {
+        return taobaoBaiqishiState;
+    }
+
+    public void setTaobaoBaiqishiState(Integer taobaoBaiqishiState) {
+        this.taobaoBaiqishiState = taobaoBaiqishiState;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -619,6 +629,7 @@ public class UserBase implements Serializable {
         sb.append(", verifyUid=").append(verifyUid);
         sb.append(", browerUid=").append(browerUid);
         sb.append(", operateBaiqishiState=").append(operateBaiqishiState);
+        sb.append(", taobaoBaiqishiState=").append(taobaoBaiqishiState);
         sb.append("]");
         return sb.toString();
     }
@@ -672,7 +683,8 @@ public class UserBase implements Serializable {
             && (this.getVerifyStateTime() == null ? other.getVerifyStateTime() == null : this.getVerifyStateTime().equals(other.getVerifyStateTime()))
             && (this.getVerifyUid() == null ? other.getVerifyUid() == null : this.getVerifyUid().equals(other.getVerifyUid()))
             && (this.getBrowerUid() == null ? other.getBrowerUid() == null : this.getBrowerUid().equals(other.getBrowerUid()))
-            && (this.getOperateBaiqishiState() == null ? other.getOperateBaiqishiState() == null : this.getOperateBaiqishiState().equals(other.getOperateBaiqishiState()));
+            && (this.getOperateBaiqishiState() == null ? other.getOperateBaiqishiState() == null : this.getOperateBaiqishiState().equals(other.getOperateBaiqishiState()))
+            && (this.getTaobaoBaiqishiState() == null ? other.getTaobaoBaiqishiState() == null : this.getTaobaoBaiqishiState().equals(other.getTaobaoBaiqishiState()));
     }
 
     @Override
@@ -717,6 +729,7 @@ public class UserBase implements Serializable {
         result = prime * result + ((getVerifyUid() == null) ? 0 : getVerifyUid().hashCode());
         result = prime * result + ((getBrowerUid() == null) ? 0 : getBrowerUid().hashCode());
         result = prime * result + ((getOperateBaiqishiState() == null) ? 0 : getOperateBaiqishiState().hashCode());
+        result = prime * result + ((getTaobaoBaiqishiState() == null) ? 0 : getTaobaoBaiqishiState().hashCode());
         return result;
     }
 }

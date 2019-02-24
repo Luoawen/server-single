@@ -36,7 +36,7 @@ public class CusUserListReqVo extends BaseReqVO {
      * @mbggenerated
      */
     @ApiModelProperty(value = "渠道id")
-    @WhereEqual(dbFieldName = "channel_id")
+    @WhereEqual(dbFieldName = "ub.channel_id")
     private String channelId;
 
     /**
@@ -45,7 +45,7 @@ public class CusUserListReqVo extends BaseReqVO {
      * @mbggenerated
      */
     @ApiModelProperty(value = "用户姓名")
-    @WhereLike(dbFieldName = "user_real_name")
+    @WhereLike(dbFieldName = "ub.user_real_name")
     private String name;
 
     /**
@@ -54,7 +54,7 @@ public class CusUserListReqVo extends BaseReqVO {
      * @mbggenerated
      */
     @ApiModelProperty(value = "手机号码")
-    @WhereLike(dbFieldName = "mobile")
+    @WhereLike(dbFieldName = "ub.mobile")
     private String mobile;
 
     /**
@@ -63,7 +63,7 @@ public class CusUserListReqVo extends BaseReqVO {
      * @mbggenerated
      */
     @ApiModelProperty(value = "审核状态")
-    @EndTime(dbFieldName = "verify_state_key")
+    @EndTime(dbFieldName = "ub.verify_state_key")
     private String verifyStateKey;
 
     /**
@@ -72,7 +72,7 @@ public class CusUserListReqVo extends BaseReqVO {
      * @mbggenerated
      */
     @ApiModelProperty(value = "审核人uid")
-    @WhereLike(dbFieldName = "verify_uid")
+    @WhereLike(dbFieldName = "ub.verify_uid")
     private Long verifyUid;
 
     @Override

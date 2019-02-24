@@ -5,7 +5,9 @@
 <if test="condition.channelId!=null and condition.channelId!=''">AND channel_id = #{condition.channelId} </if>
 <if test="condition.name!=null and condition.name!=''">AND user_real_name like CONCAT('%',#{condition.name},'%')  </if>
 <if test="condition.mobile!=null and condition.mobile!=''">AND mobile like CONCAT('%',#{condition.mobile},'%')  </if>
+<if test="condition.verifyStateKey!=null and condition.verifyStateKey!=''"> AND verify_state_key &lt;= #{condition.verifyStateKey} </if>
+<if test="condition.verifyUid!=null and condition.verifyUid!=''">AND verify_uid like CONCAT('%',#{condition.verifyUid},'%')  </if>
 </where>
 <if test="orderField != null and orderField!=''">
-    order by ub.create_time ${orderField}
+    order by create_time ${orderField}
 </if>
