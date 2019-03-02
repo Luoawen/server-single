@@ -9,7 +9,9 @@ import com.alankin.gateway.web.vo.response.ResultConstant;
 import com.alankin.ucenter.dao.model.StorageImage;
 import com.alankin.ucenter.dao.model.UserBase;
 import com.alankin.ucenter.rpc.api.StorageImageService;
+import com.github.tobato.fastdfs.FdfsClientConfig;
 import com.github.tobato.fastdfs.domain.StorePath;
+import com.github.tobato.fastdfs.domain.ThumbImageConfig;
 import com.github.tobato.fastdfs.proto.storage.DownloadByteArray;
 import com.github.tobato.fastdfs.proto.storage.DownloadCallback;
 import com.github.tobato.fastdfs.proto.storage.DownloadFileWriter;
@@ -39,7 +41,8 @@ public class StorageContoller {
     FastFileStorageClient fastFileStorageClient;
     @Autowired
     StorageImageService storageImageService;
-
+    @Autowired
+    ThumbImageConfig thumbImageConfig;
     //上传文件会自动绑定到MultipartFile中
 //    @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
@@ -81,7 +84,28 @@ public class StorageContoller {
         return new Result(ResultConstant.SUCCESS, storageImage);
     }
 
-    @ApiOperation(value = "获取图片")
+    //上传文件会自动绑定到MultipartFile中
+//    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @ResponseBody
+    @PostMapping(value = "/uploadAndCreateThumb", consumes = "multipart/*", headers = "content-type=multipart/form-data")
+    @ApiOperation(value = "文件上传", notes = "文件上传")
+    public Result uploadAndCreateThumb(HttpServletRequest request, @ApiParam(value = "上传的文件", required = true) MultipartFile file) throws Exception {
+        StorePath storePath = fastFileStorageClient.uploadImageAndCrtThumbImage(file.getInputStream(), file.getSize(), Utils.getExtensionName(file.getOriginalFilename()),null);
+        String path = storePath.getPath();
+        StorageImage storageImage = new StorageImage();
+        storageImage.setFullPath(storePath.getFullPath());
+        storageImage.setStoragePath(path);
+        storageImage.setStorageGroup(storePath.getGroup());
+        storageImage.setOriginalName(file.getOriginalFilename());
+        storageImage.setStorageName(path.substring(path.lastIndexOf("/")));
+        storageImage.setSize(file.getSize());
+        storageImage.setUid(new SnowflakeIdWorker(0, 0).nextId());
+        storageImage.setThumbImagePath(thumbImageConfig.getThumbImagePath(storePath.getPath()));
+        storageImageService.insertSelective(storageImage);
+        return new Result(ResultConstant.SUCCESS, storageImage);
+    }
+
+    @ApiOperation(value = "获取图片路径等基本信息")
     @RequestMapping(value = "getStorage")
     @ResponseBody
     public Result getStorage(@RequestBody IdReqVO idReqVO) {
@@ -92,25 +116,35 @@ public class StorageContoller {
         return new Result(ResultConstant.SUCCESS, storageImage);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{group}/{path}")
-    @ApiOperation(value = "文件下载", notes = "文件下载")
-    public void download(@PathVariable String group, @PathVariable String path, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+
+//    @RequestMapping(method = RequestMethod.GET, value = "thumbnail/{group}/{path}")
+//    @ApiOperation(value = "文件下载", notes = "文件下载")
+//    public void thumbnail(@PathVariable String group, @PathVariable String path, HttpServletRequest request, HttpServletResponse response) throws Exception {
 //        fastFileStorageClient.downloadFile(group, path, (DownloadCallback<String>) inputStream -> {
 //            OutputStream outputStream = response.getOutputStream();
+//            response.setHeader("Content-Disposition", "attachment;fileName=" + "headPic.jpg");
 //            IOUtils.copy(inputStream, outputStream);
 //            outputStream.flush();
 //            return null;
 //        });
-//        http://localhost:8080/swagger-ui.html#!/storage-contoller/uploadUsingPOST
-//        try (
-//                InputStream inputStream = new FileInputStream(new File(folder, id + ".txt"));
-//                OutputStream outputStream = response.getOutputStream()) {
-//            response.setContentType("application/x-download");
-//            response.addHeader("Content-Disposition", "attachment;filename=test.txt");
-//
-//            IOUtils.copy(inputStream, outputStream);
-//            outputStream.flush();
-//        }
-    }
+//        // 获取缩略图路径
+////        String path = thumbImageConfig.getThumbImagePath(storePath.getPath());
+//        thumbImageConfig.getThumbImagePath()
+////        fastFileStorageClient.getMetadata()
+//        fastFileStorageClient.uploadImageAndCrtThumbImage()
+////        http://localhost:8080/swagger-ui.html#!/storage-contoller/uploadUsingPOST
+////        try (
+////                InputStream inputStream = new FileInputStream(new File(folder, id + ".txt"));
+////                OutputStream outputStream = response.getOutputStream()) {
+////            response.setContentType("application/x-download");
+//////            response.addHeader("Content-Disposition", "attachment;filename=test.txt");
+////            // 设置下载的响应头信息
+////            response.setHeader("Content-Disposition",
+////                    "attachment;fileName=" + "headPic.jpg");
+////            IOUtils.copy(inputStream, outputStream);
+////            outputStream.flush();
+////        }
+//    }
 
 }

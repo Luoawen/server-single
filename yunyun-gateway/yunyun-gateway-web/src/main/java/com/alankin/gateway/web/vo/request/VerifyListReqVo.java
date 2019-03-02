@@ -28,12 +28,46 @@ public class VerifyListReqVo extends BaseReqVO {
     @WhereLike(dbFieldName = "user_name")
     private String userName;
 
+    /**
+     * 分配状态
+     *
+     * @mbggenerated
+     */
+    @ApiModelProperty(value = "分配状态")
+    @WhereLike(dbFieldName = "user_role")
+    private String userRole;
+
+    /**
+     * 账号状态
+     *
+     * @mbggenerated
+     */
+    @ApiModelProperty(value = "账号状态")
+    @WhereLike(dbFieldName = "is_del")
+    private String isDel;
+
     @Override
     public String toString() {
         return "ChannelAcountListReqVo{" +
                 "realName='" + realName + '\'' +
                 ", userName='" + userName + '\'' +
                 '}';
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
+
+    public String getIsDel() {
+        return isDel;
+    }
+
+    public void setIsDel(String isDel) {
+        this.isDel = isDel;
     }
 
     public String getRealName() {

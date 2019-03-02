@@ -9,11 +9,13 @@ import com.alankin.common.validator.NotNullValidator;
 import com.alankin.gateway.web.base.BaseTokenResult;
 import com.alankin.gateway.web.base.BaseWebController;
 import com.alankin.gateway.web.utils.MsgCodeUtil;
+import com.alankin.gateway.web.vo.ListVo.ListReqVO;
 import com.alankin.gateway.web.vo.request.UserAuthReqVo;
 import com.alankin.gateway.web.vo.request.UserReqVo;
 import com.alankin.gateway.web.utils.Constants;
 import com.alankin.gateway.web.utils.CookieUtils;
 import com.alankin.gateway.web.utils.UserUtils;
+import com.alankin.gateway.web.vo.request.VerifyListReqVo;
 import com.alankin.gateway.web.vo.response.Result;
 import com.alankin.gateway.web.vo.response.ResultConstant;
 import com.alankin.ucenter.common.constant.UcenterResult;
@@ -39,10 +41,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import javax.validation.Valid;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 注册控制器
@@ -73,26 +76,12 @@ public class LoginController extends BaseWebController {
     @ApiOperation(value = "用户登录或注册")
     @RequestMapping(value = "/signin")
     @ResponseBody
-    public Object signin(HttpServletRequest request, HttpServletResponse response, @RequestBody UserReqVo vo) {
+    public Result signin(HttpServletRequest request, HttpServletResponse response, @Valid @RequestBody UserReqVo vo) {
         LOGGER.info("=================收到http请求：用户登录=================" + RequestUtil.getIpAddr(request));
 
         // 校验通过后删除验证码之前的session和Cookie
         HttpSession session = request.getSession();
-
         CookieUtils.delCookie(request, response, Constants.AUTH_CODE_SESSION_ID);
-        ComplexResult result = FluentValidator.checkAll()
-                .on(vo.getPhone(), new NotNullValidator("Phone"))
-//                .on(vo.getAuthCode(), new NotNullValidator("AuthCode"))
-                .on(vo.getPhoneCode(), new NotNullValidator("PhoneCode"))
-                .doValidate()
-                .result(ResultCollectors.toComplex());
-        if (!result.isSuccess()) {
-            return new Result(0, result.getErrors().get(0).getErrorMsg());
-        }
-
-        if (!StringUtil.isPhoneNumber(vo.getPhone())) {
-            return new Result(0, "请输入正确的手机号！");
-        }
 
         //验证图片码
 //        if (!AuthCodeController.check(request, vo.getAuthCode())) {
@@ -178,23 +167,40 @@ public class LoginController extends BaseWebController {
     }
 
     /**
+     * 上一次被分配的审核员Uid
+     */
+    private SysUserBase lastVerify = null;
+
+    /**
      * 随机获取审核员uid
      *
      * @return
      */
     private Long randomVerifyUid() {
-        List<Map> listAllVerifyAcount = sysUserBaseService.selectAllByMethod("listAllVerifyAcount");
-        if (listAllVerifyAcount == null || listAllVerifyAcount.size() < 1) {
+        //查找所有分配状态为1（正常的审核员）
+        List<SysUserBase> listNormalVerifyAcount = sysUserBaseService.selectAllBeanByMethod("listNormalVerifyAcount", null);
+        if (listNormalVerifyAcount == null || listNormalVerifyAcount.size() < 1) {
             return null;
         }
-        int i = new Random().nextInt(listAllVerifyAcount.size());
-        Long uid = (Long) listAllVerifyAcount.get(i).get("uid");
-        return uid;
+        if (lastVerify == null) {
+            lastVerify = listNormalVerifyAcount.get(0);
+            return lastVerify.getUid();
+        }
+
+        SysUserBase sysUserBase = sysUserBaseService.selectBeanByMethod("selectNextNormalVerifyByUid", lastVerify.getUid());
+        if (sysUserBase == null) {
+            lastVerify = listNormalVerifyAcount.get(0);
+            return lastVerify.getUid();
+        } else {
+            lastVerify = sysUserBase;
+            return lastVerify.getUid();
+        }
     }
 
     private UserAuthReqVo getUserResult(UserBase userBase) {
         UserAuthReqVo userAuthReqVo = new UserAuthReqVo();
         BeanUtils.copyProperties(userBase, userAuthReqVo);
+        userAuthReqVo.setUid(String.valueOf(userBase.getUid()));
         if (userBase.getCompanyLocationUid() != null) {
             UserLocationExample example = new UserLocationExample();
             example.createCriteria().andUidEqualTo(userBase.getCompanyLocationUid());

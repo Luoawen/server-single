@@ -175,6 +175,7 @@ public class ApplyOrderController extends BaseWebController {
     private UserAuthReqVo getUserResult(UserBase userBase) {
         UserAuthReqVo userAuthReqVo = new UserAuthReqVo();
         BeanUtils.copyProperties(userBase, userAuthReqVo);
+        userAuthReqVo.setUid(String.valueOf(userBase.getUid()));
         UserLocationExample example = new UserLocationExample();
         if (userBase.getCompanyLocationUid() == null || userBase.getCompanyLocationUid() == 0) {
             return userAuthReqVo;
@@ -388,23 +389,23 @@ public class ApplyOrderController extends BaseWebController {
 //    }
 
     /*暂时不用*/
-    @ApiOperation(value = "多头接口报告")
-    @RequestMapping(value = "mutiDataReport", method = RequestMethod.GET)
-    @ApiImplicitParam(name = "userUid", value = "用户Uid", dataType = "long", paramType = "query")
-    public void mutiDataReport(Long userUid, HttpServletResponse response) throws IOException {
-        UserOtherAuthExample example = new UserOtherAuthExample();
-        example.createCriteria().andUidEqualTo(userUid).andIdentityTypeEqualTo((byte) 3);
-        UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
-        if (userOtherAuth == null || StringUtils.isEmpty(userOtherAuth.getThirdData())) {//存在
-            Utils.writeResponesObj(response, new Result(0, "获取多头数据失败"));
-        }
-        String thirdData = userOtherAuth.getThirdData();
-        JSONObject jsonObject = JSON.parseObject(thirdData);
-        String flowId = jsonObject.getString("flowId");
-        response.setContentType("text/html;charset=utf-8");
-        PrintWriter out = response.getWriter();
-        out.println(HttpClientUtil.reqFengxianReport(flowId));
-    }
+//    @ApiOperation(value = "多头接口报告")
+//    @RequestMapping(value = "mutiDataReport", method = RequestMethod.GET)
+//    @ApiImplicitParam(name = "userUid", value = "用户Uid", dataType = "long", paramType = "query")
+//    public void mutiDataReport(Long userUid, HttpServletResponse response) throws IOException {
+//        UserOtherAuthExample example = new UserOtherAuthExample();
+//        example.createCriteria().andUidEqualTo(userUid).andIdentityTypeEqualTo((byte) 3);
+//        UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
+//        if (userOtherAuth == null || StringUtils.isEmpty(userOtherAuth.getThirdData())) {//存在
+//            Utils.writeResponesObj(response, new Result(0, "获取多头数据失败"));
+//        }
+//        String thirdData = userOtherAuth.getThirdData();
+//        JSONObject jsonObject = JSON.parseObject(thirdData);
+//        String flowId = jsonObject.getString("flowId");
+//        response.setContentType("text/html;charset=utf-8");
+//        PrintWriter out = response.getWriter();
+//        out.println(HttpClientUtil.reqFengxianReport(flowId));
+//    }
 
     @ApiOperation(value = "获取多头报告参数")
     @RequestMapping(value = "/getMutiQianTaoParams")
@@ -422,8 +423,8 @@ public class ApplyOrderController extends BaseWebController {
         Map<String, String> data = new HashMap<>();
         data.put("api_name", "credit.evaluation.share.api");
         data.put("flow_id", flowId);
-        data.put("user_name", "shensudai_testusr");
-        data.put("sign", "ec6aef1d861d493e");
+        data.put("user_name", Constants.muti_user_name);
+        data.put("sign", Constants.muti_sign);
         return new Result(ResultConstant.SUCCESS, data);
     }
 
@@ -443,8 +444,8 @@ public class ApplyOrderController extends BaseWebController {
         Map<String, String> data = new HashMap<>();
         data.put("api_name", "fraud.screening.advance.api");
         data.put("flow_id", flowId);
-        data.put("user_name", "shensudai_testusr");
-        data.put("sign", "ec6aef1d861d493e");
+        data.put("user_name", Constants.qizha_user_name);
+        data.put("sign", Constants.qizha_sign);
         return new Result(ResultConstant.SUCCESS, data);
     }
 

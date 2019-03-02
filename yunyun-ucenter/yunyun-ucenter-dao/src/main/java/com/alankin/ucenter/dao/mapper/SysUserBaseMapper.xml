@@ -500,11 +500,41 @@
             <if test="condition.userName!=null and condition.userName!=''">AND user_name like
                 CONCAT('%',#{condition.userName},'%')
             </if>
+            <if test="condition.userRole!=null and condition.userRole!=''">AND base.user_role =#{condition.userRole}
+            </if>
+            <if test="condition.isDel!=null and condition.isDel!=''">AND base.is_del =#{condition.isDel}
+            </if>
         </where>
         <if test="orderField != null and orderField!=''">
             order by base.create_time ${orderField}
         </if>
     </select>
+
+    <select id="listNormalVerifyAcount" resultMap="BaseResultMap">
+        <include refid="sqlTemplate"/>
+    </select>
+
+    <select id="selectNormalVerifyByUid" resultMap="BaseResultMap">
+        <include refid="sqlTemplate"/>
+        and base.uid=#{0} limit 1
+    </select>
+
+    <select id="selectNextNormalVerifyByUid" resultMap="BaseResultMap">
+        <include refid="sqlTemplate"/>
+        and base.uid>#{0} limit 1
+    </select>
+
+    <sql id="sqlTemplate">
+        select
+        base.*
+        from sys_user_base base
+       left join sys_role_user sru on sru.user_id = base.uid
+       left join sys_user_auth auth on auth.uid = base.uid
+       inner join sys_role sr on sr.id = sru.role_id and sr.type = 2
+        where base.user_role = 1
+        and base.is_del = 0
+    </sql>
+
     <select id="listAllVerifyAcount" resultType="java.util.Map">
     select base.*,
      auth.certificate,

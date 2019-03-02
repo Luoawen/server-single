@@ -105,7 +105,7 @@ public class SysLoginController extends BaseWebController {
         userBase.setMobile(identifier);
         userBase.setRegisterSource((byte) 1);
         userBase.setMobileBindTime(curentTime);
-        userBase.setUserName("shenSuDai_" + curentTime);
+        userBase.setUserName("dami_" + curentTime);
         if (sysUserBaseService.insertSelective(userBase) > 0) {
             SysUserAuth sysUserAuth = new SysUserAuth();
             sysUserAuth.setUid(userBase.getUid());

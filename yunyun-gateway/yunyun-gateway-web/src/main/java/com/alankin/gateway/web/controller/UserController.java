@@ -4,6 +4,7 @@ import com.alankin.common.util.RequestUtil;
 import com.alankin.common.util.key.SnowflakeIdWorker;
 import com.alankin.common.util.key.SystemClock;
 import com.alankin.gateway.web.base.BaseWebController;
+import com.alankin.gateway.web.utils.Constants;
 import com.alankin.gateway.web.utils.UserUtils;
 import com.alankin.gateway.web.utils.Utils;
 import com.alankin.gateway.web.vo.ListVo.IdReqVO;
@@ -50,6 +51,7 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -138,9 +140,6 @@ public class UserController extends BaseWebController {
         if (userBase.getDistributStateKey() != 1) {//不等于1为未分配审核人
             return new Result(ResultConstant.NO_DISTRIBUTE_VERIFY);
         }
-        if (userBase.getVerifyStateKey() == 2) {//为已通过审核
-            return new Result(ResultConstant.SUCCESS);
-        }
         SysUserBase sysUserBase = sysUserBaseService.selectByPrimaryKey(userBase.getVerifyUid());
         if (sysUserBase == null) {//没有找到该审核人
             return new Result(ResultConstant.VERIFY_EXCEPTION);
@@ -152,6 +151,10 @@ public class UserController extends BaseWebController {
         StorageImage storageImage = storageImageService.selectByPrimaryKey(wchatQrcode);
         Map map = new HashMap();
         map.put("wchatQrcodePath", storageImage.getFullPath());
+        map.put("wchatId", sysUserBase.getWchatId());
+        if (userBase.getVerifyStateKey() == 2) {//为已通过审核
+            return new Result(ResultConstant.SUCCESS, map);
+        }
         return new Result(ResultConstant.VERIFY_NOT_PASS, map);
     }
 
@@ -159,24 +162,14 @@ public class UserController extends BaseWebController {
     @ApiOperation(value = "用户基本认证")
     @RequestMapping(value = "identityVerify")
     @ResponseBody
-    public Result identityVerify(HttpServletRequest request, @RequestBody UserAuthReqVo vo) {
+    public Result identityVerify(HttpServletRequest request, @Valid @RequestBody UserAuthReqVo vo) {
         UserBase user = UserUtils.getUser(request);
-        if (user.getCompanyLocationUid() == null) {//没有公司地址
-            UserLocation record = new UserLocation();
-            record.setUid(new SnowflakeIdWorker(0, 0).nextId());
-            record.setCurrNation("中国");
-            record.setCurrProvince(vo.getCompanyProvance());
-            record.setCurrCity(vo.getCompanyCity());
-            record.setCurrDistrict(vo.getCompanyArea());
-            record.setLocation(vo.getCompanyLocationDetail());
-            if (userLocationService.insertSelective(record) > 0) {
-                user.setCompanyLocationUid(record.getUid());
-            }
-        } else {
-            UserLocationExample example = new UserLocationExample();
-            example.createCriteria().andUidEqualTo(user.getCompanyLocationUid());
-            UserLocation userLocation = userLocationService.selectFirstByExample(example);
-            if (userLocation == null) {
+
+        if (user.getCompanyLocationUid() == null) {//没有公司Uid
+            if (!StringUtils.isEmpty(vo.getCompanyProvance()) ||
+                    !StringUtils.isEmpty(vo.getCompanyCity()) ||
+                    !StringUtils.isEmpty(vo.getCompanyArea()) ||
+                    !StringUtils.isEmpty(vo.getCompanyLocationDetail())) {//上传了地址
                 UserLocation record = new UserLocation();
                 record.setUid(new SnowflakeIdWorker(0, 0).nextId());
                 record.setCurrNation("中国");
@@ -187,7 +180,28 @@ public class UserController extends BaseWebController {
                 if (userLocationService.insertSelective(record) > 0) {
                     user.setCompanyLocationUid(record.getUid());
                 }
-            } else {
+            }
+        } else {//存在公司Uid
+            UserLocationExample example = new UserLocationExample();
+            example.createCriteria().andUidEqualTo(user.getCompanyLocationUid());
+            UserLocation userLocation = userLocationService.selectFirstByExample(example);
+            if (userLocation == null) {//没找到公司位置
+                if (!StringUtils.isEmpty(vo.getCompanyProvance()) ||
+                        !StringUtils.isEmpty(vo.getCompanyCity()) ||
+                        !StringUtils.isEmpty(vo.getCompanyArea()) ||
+                        !StringUtils.isEmpty(vo.getCompanyLocationDetail())) {//且用户上传了位置，则添加
+                    UserLocation record = new UserLocation();
+                    record.setUid(new SnowflakeIdWorker(0, 0).nextId());
+                    record.setCurrNation("中国");
+                    record.setCurrProvince(vo.getCompanyProvance());
+                    record.setCurrCity(vo.getCompanyCity());
+                    record.setCurrDistrict(vo.getCompanyArea());
+                    record.setLocation(vo.getCompanyLocationDetail());
+                    if (userLocationService.insertSelective(record) > 0) {
+                        user.setCompanyLocationUid(record.getUid());
+                    }
+                }
+            } else {//找到公司位置，则修改
                 userLocation.setCurrNation("中国");
                 userLocation.setCurrProvince(vo.getCompanyProvance());
                 userLocation.setCurrCity(vo.getCompanyCity());
@@ -206,6 +220,36 @@ public class UserController extends BaseWebController {
         return new Result(ResultConstant.FAILED);
     }
 
+    /*用户基本认证>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+    @ApiOperation(value = "用户身份照片认证")
+    @RequestMapping(value = "identityPhotoVerify")
+    @ResponseBody
+    public Result identityPhotoVerify(HttpServletRequest request, @Valid @RequestBody Map<String, String> vo) {
+        UserBase user = UserUtils.getUser(request);
+        String idCardPhoto1 = vo.get("idCardPhoto1");
+        String idCardPhoto2 = vo.get("idCardPhoto2");
+        String idCardPhoto3 = vo.get("idCardPhoto3");
+        user.setIdCardPhoto1(!StringUtils.isEmpty(idCardPhoto1)?Long.valueOf(idCardPhoto1):null);
+        user.setIdCardPhoto2(!StringUtils.isEmpty(idCardPhoto2)?Long.valueOf(idCardPhoto2):null);
+        user.setIdCardPhoto3(!StringUtils.isEmpty(idCardPhoto3)?Long.valueOf(idCardPhoto3):null);
+        if (userBaseService.updateByPrimaryKeySelective(user) > 0) {
+            UserUtils.createUserSession(request, user);//更新session
+            return new Result(ResultConstant.SUCCESS);
+        }
+//        if (!StringUtils.isEmpty(idCardPhoto1) || !StringUtils.isEmpty(idCardPhoto2) || !StringUtils.isEmpty(idCardPhoto3)) {
+//            user.setIdCardPhoto1(!StringUtils.isEmpty(idCardPhoto1)?Long.valueOf(idCardPhoto1):null);
+//            user.setIdCardPhoto2(!StringUtils.isEmpty(idCardPhoto2)?Long.valueOf(idCardPhoto2):null);
+//            user.setIdCardPhoto3(!StringUtils.isEmpty(idCardPhoto3)?Long.valueOf(idCardPhoto3):null);
+//            if (userBaseService.updateByPrimaryKeySelective(user) > 0) {
+//                UserUtils.createUserSession(request, user);//更新session
+//                return new Result(ResultConstant.SUCCESS);
+//            }
+//        } else {
+//            return new Result(ResultConstant.EXCEPTION_FIELD_INVALID.getCode(), "没有添加任何照片");
+//        }
+        return new Result(ResultConstant.FAILED);
+    }
+
     @ApiOperation(value = "获取用户基本信息")
     @RequestMapping(value = "getUser")
     @ResponseBody
@@ -217,13 +261,18 @@ public class UserController extends BaseWebController {
     private UserAuthReqVo getUserResult(UserBase userBase) {
         UserAuthReqVo userAuthReqVo = new UserAuthReqVo();
         BeanUtils.copyProperties(userBase, userAuthReqVo);
-        UserLocationExample example = new UserLocationExample();
-        example.createCriteria().andUidEqualTo(userBase.getCompanyLocationUid());
-        UserLocation userLocation = userLocationService.selectFirstByExample(example);
-        userAuthReqVo.setCompanyProvance(userLocation.getCurrProvince());
-        userAuthReqVo.setCompanyCity(userLocation.getCurrCity());
-        userAuthReqVo.setCompanyArea(userLocation.getCurrDistrict());
-        userAuthReqVo.setCompanyLocationDetail(userLocation.getLocation());
+        userAuthReqVo.setUid(String.valueOf(userBase.getUid()));
+        if (userBase.getCompanyLocationUid() != null) {
+            UserLocationExample example = new UserLocationExample();
+            example.createCriteria().andUidEqualTo(userBase.getCompanyLocationUid());
+            UserLocation userLocation = userLocationService.selectFirstByExample(example);
+            if (userLocation != null) {
+                userAuthReqVo.setCompanyProvance(userLocation.getCurrProvince());
+                userAuthReqVo.setCompanyCity(userLocation.getCurrCity());
+                userAuthReqVo.setCompanyArea(userLocation.getCurrDistrict());
+                userAuthReqVo.setCompanyLocationDetail(userLocation.getLocation());
+            }
+        }
         return userAuthReqVo;
     }
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<用户基本认证*/
@@ -821,14 +870,6 @@ public class UserController extends BaseWebController {
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<淘宝接口*/
 
     /*多头接口>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
-    //请求致诚阿福群星接口地址
-    private static String api_name = "credit.evaluation.share.api";
-    private static String api_name1 = "fraud.screening.device.api";
-    private static String api_name_jinjie = "fraud.screening.advance.api";
-    private static String url = "https://starapi.zhichengcredit.com/submit";
-    private static String user_name = "shensudai_testusr";//用户名
-    private static String sign = "ec6aef1d861d493e";//rc4秘钥
-
     @ApiOperation(value = "多头接口")
     @RequestMapping(value = "mutiData")
     @ResponseBody
@@ -851,18 +892,18 @@ public class UserController extends BaseWebController {
         //开始查询
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
         //用户名
-        nameValuePairs.add(new BasicNameValuePair("user_name", user_name));
+        nameValuePairs.add(new BasicNameValuePair("user_name", Constants.muti_user_name));
         //rc4秘钥
-        nameValuePairs.add(new BasicNameValuePair("sign", sign));
+        nameValuePairs.add(new BasicNameValuePair("sign", Constants.muti_sign));
         //接口业务码 参考接口文档
-        nameValuePairs.add(new BasicNameValuePair("api_name", api_name));
+        nameValuePairs.add(new BasicNameValuePair("api_name", Constants.api_name));
         // 查询原因
         // LOAN_AUDIT：贷款审批 LOAN_MANAGE：贷后管理 CREDIT_CARD_AUDIT：信用卡审批
         // GUARANTEE_AUDIT:担保资格审查 PRE_GUARANTEE_AUDIT:保前审查
         nameValuePairs.add(new BasicNameValuePair("query_reason", ReasonEnum.LOAN_AUDIT.getType()));
         //查询条件,格式为 json 格式
         nameValuePairs.add(new BasicNameValuePair("params", dataJson.toJSONString()));
-        String s = HttpClientUtil.doPost(url, nameValuePairs, "utf-8");
+        String s = HttpClientUtil.doPost(Constants.url, nameValuePairs, "utf-8");
         JSONObject jsonObject = JSON.parseObject(s);
         String code = jsonObject.getString("code");
         if (code.equals("10000")) {
@@ -909,18 +950,18 @@ public class UserController extends BaseWebController {
         //开始查询
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
         //用户名
-        nameValuePairs.add(new BasicNameValuePair("user_name", user_name));
+        nameValuePairs.add(new BasicNameValuePair("user_name", Constants.qizha_user_name));
         //rc4秘钥
-        nameValuePairs.add(new BasicNameValuePair("sign", sign));
+        nameValuePairs.add(new BasicNameValuePair("sign", Constants.qizha_sign));
         //接口业务码 参考接口文档
-        nameValuePairs.add(new BasicNameValuePair("api_name", api_name_jinjie));
+        nameValuePairs.add(new BasicNameValuePair("api_name", Constants.api_name_jinjie));
         // 查询原因
         // LOAN_AUDIT：贷款审批 LOAN_MANAGE：贷后管理 CREDIT_CARD_AUDIT：信用卡审批
         // GUARANTEE_AUDIT:担保资格审查 PRE_GUARANTEE_AUDIT:保前审查
         nameValuePairs.add(new BasicNameValuePair("query_reason", "LOAN_AUDIT"));
         //查询条件,格式为 json 格式
         nameValuePairs.add(new BasicNameValuePair("params", gennerateRequetParam(request, vo).toJSONString()));
-        String s = HttpClientUtil.doPost(url, nameValuePairs, "utf-8");
+        String s = HttpClientUtil.doPost(Constants.url, nameValuePairs, "utf-8");
         JSONObject jsonObject = JSON.parseObject(s);
         String code = jsonObject.getString("code");
         if (code.equals("10000")) {
@@ -953,18 +994,18 @@ public class UserController extends BaseWebController {
         //开始查询
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
         //用户名
-        nameValuePairs.add(new BasicNameValuePair("user_name", user_name));
+        nameValuePairs.add(new BasicNameValuePair("user_name", Constants.qizha_user_name));
         //rc4秘钥
-        nameValuePairs.add(new BasicNameValuePair("sign", sign));
+        nameValuePairs.add(new BasicNameValuePair("sign", Constants.qizha_sign));
         //接口业务码 参考接口文档
-        nameValuePairs.add(new BasicNameValuePair("api_name", api_name_jinjie));
+        nameValuePairs.add(new BasicNameValuePair("api_name", Constants.api_name_jinjie));
         // 查询原因
         // LOAN_AUDIT：贷款审批 LOAN_MANAGE：贷后管理 CREDIT_CARD_AUDIT：信用卡审批
         // GUARANTEE_AUDIT:担保资格审查 PRE_GUARANTEE_AUDIT:保前审查
         nameValuePairs.add(new BasicNameValuePair("query_reason", "LOAN_AUDIT"));
         //查询条件,格式为 json 格式
         nameValuePairs.add(new BasicNameValuePair("params", gennerateRequetParam(request, vo).toJSONString()));
-        String s = HttpClientUtil.doPost(url, nameValuePairs, "utf-8");
+        String s = HttpClientUtil.doPost(Constants.url, nameValuePairs, "utf-8");
         JSONObject jsonObject = JSON.parseObject(s);
         String code = jsonObject.getString("code");
         return new Result(Integer.parseInt(code), jsonObject.getString("msg"));
@@ -989,18 +1030,18 @@ public class UserController extends BaseWebController {
         //开始查询
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
         //用户名
-        nameValuePairs.add(new BasicNameValuePair("user_name", user_name));
+        nameValuePairs.add(new BasicNameValuePair("user_name", Constants.qizha_user_name));
         //rc4秘钥
-        nameValuePairs.add(new BasicNameValuePair("sign", sign));
+        nameValuePairs.add(new BasicNameValuePair("sign", Constants.qizha_sign));
         //接口业务码 参考接口文档
-        nameValuePairs.add(new BasicNameValuePair("api_name", api_name1));
+        nameValuePairs.add(new BasicNameValuePair("api_name", Constants.api_name1));
         // 查询原因
         // LOAN_AUDIT：贷款审批 LOAN_MANAGE：贷后管理 CREDIT_CARD_AUDIT：信用卡审批
         // GUARANTEE_AUDIT:担保资格审查 PRE_GUARANTEE_AUDIT:保前审查
         nameValuePairs.add(new BasicNameValuePair("query_reason", "LOAN_AUDIT"));
         //查询条件,格式为 json 格式
         nameValuePairs.add(new BasicNameValuePair("params", gennerateDevicePrintRequetParam(request, vo).toJSONString()));
-        String s = HttpClientUtil.doPost(url, nameValuePairs, "utf-8");
+        String s = HttpClientUtil.doPost(Constants.url, nameValuePairs, "utf-8");
         JSONObject jsonObject = JSON.parseObject(s);
         String code = jsonObject.getString("code");
         if (code.equals("10000")) {
@@ -1035,7 +1076,7 @@ public class UserController extends BaseWebController {
      */
     public JSONObject gennerateDevicePrintRequetParam(HttpServletRequest request, Map<String, String> vo) {
         UserBase user = UserUtils.getUser(request);
-        UserLocation userLocation = userLocationService.selectByPrimaryKey(user.getCompanyLocationUid());
+//        UserLocation userLocation = userLocationService.selectByPrimaryKey(user.getCompanyLocationUid());
         JSONObject dataJson = new JSONObject();
         dataJson.put("queryFraudScreening", "false");//不要进阶版
         dataJson.put("queryDevicePrint", "true");//需要设备指纹
@@ -1383,15 +1424,7 @@ public class UserController extends BaseWebController {
         if (!StringUtils.isEmpty(user.getIdCard())) {
             count++;
         }
-        if (user.getIdCardPhoto1() != null) {
-            count++;
-        }
-        if (user.getIdCardPhoto2() != null) {
-            count++;
-        }
-        if (user.getIdCardPhoto3() != null) {
-            count++;
-        }
+
         if (!StringUtils.isEmpty(user.getWchatId())) {
             count++;
         }
@@ -1413,7 +1446,19 @@ public class UserController extends BaseWebController {
         if (!StringUtils.isEmpty(user.getCompanyJob())) {
             count++;
         }
-        map.put("jibenRate", count / 12f);
+        map.put("jibenRate", count / 9f);
+
+        int photoCount = 0;
+        if (user.getIdCardPhoto1() != null) {
+            photoCount++;
+        }
+        if (user.getIdCardPhoto2() != null) {
+            photoCount++;
+        }
+        if (user.getIdCardPhoto3() != null) {
+            photoCount++;
+        }
+        map.put("photoCount", photoCount);
     }
 
     @Autowired
@@ -1495,9 +1540,11 @@ public class UserController extends BaseWebController {
         if (userBase == null) {
             return new Result(0, "不存在该用户");
         }
-        userBase.setOperateBaiqishiState(1);
-        if (userBaseService.updateByPrimaryKeySelective(userBase) > 0) {
-            return new Result(ResultConstant.SUCCESS);
+        if (userBase.getOperateBaiqishiState() == 0) {
+            userBase.setOperateBaiqishiState(1);
+            if (userBaseService.updateByPrimaryKeySelective(userBase) > 0) {
+                return new Result(ResultConstant.SUCCESS);
+            }
         }
         return new Result(ResultConstant.FAILED);
     }
@@ -1526,9 +1573,11 @@ public class UserController extends BaseWebController {
         if (userBase == null) {
             return new Result(0, "不存在该用户");
         }
-        userBase.setTaobaoBaiqishiState(1);//更新淘宝状态
-        if (userBaseService.updateByPrimaryKeySelective(userBase) > 0) {
-            return new Result(ResultConstant.SUCCESS);
+        if (userBase.getTaobaoBaiqishiState() == 0) {
+            userBase.setTaobaoBaiqishiState(1);//更新淘宝状态
+            if (userBaseService.updateByPrimaryKeySelective(userBase) > 0) {
+                return new Result(ResultConstant.SUCCESS);
+            }
         }
         return new Result(ResultConstant.FAILED);
     }

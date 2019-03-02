@@ -33,7 +33,7 @@ public class BaseWebController extends BaseController {
     public Result handleIllegalParamException(MethodArgumentNotValidException e) {
         List<ObjectError> errors = e.getBindingResult().getAllErrors();
         if (errors.size() > 0) {
-            return new Result(ResultConstant.EXCEPTION_FIELD_INVALID, errors.get(0).getDefaultMessage());
+            return new Result(ResultConstant.EXCEPTION_FIELD_INVALID.getCode(), errors.get(0).getDefaultMessage());
         }
         return new Result(ResultConstant.EXCEPTION_FIELD_INVALID);
     }
@@ -43,7 +43,7 @@ public class BaseWebController extends BaseController {
     public Result handleIllegalParamException(ConstraintViolationException e) {
         Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
         for (ConstraintViolation<?> item : violations) {
-            return new Result(ResultConstant.EXCEPTION_FIELD_INVALID, item.getMessage());
+            return new Result(ResultConstant.EXCEPTION_FIELD_INVALID.getCode(), item.getMessage());
         }
         return new Result(ResultConstant.EXCEPTION_FIELD_INVALID);
     }

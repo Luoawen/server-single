@@ -2,6 +2,7 @@ package com.alankin.ucenter.dao.mapper;
 
 import com.alankin.ucenter.dao.model.SysUserBase;
 import com.alankin.ucenter.dao.model.SysUserBaseExample;
+
 import java.util.List;
 import java.util.Map;
 
@@ -31,5 +32,12 @@ public interface SysUserBaseMapper {
     int updateByPrimaryKey(SysUserBase record);
 
     List<Map> listVerifyAcount(Object o);
+
+    List<Map> listNormalVerifyAcount();
+
+    SysUserBase selectNormalVerifyByUid(Object o);
+
+    SysUserBase selectNextNormalVerifyByUid(Object o);
+
     List<Map> listAllVerifyAcount();
 }

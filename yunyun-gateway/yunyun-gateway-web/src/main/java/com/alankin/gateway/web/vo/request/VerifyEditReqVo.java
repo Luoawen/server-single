@@ -1,5 +1,6 @@
 package com.alankin.gateway.web.vo.request;
 
+import com.alankin.common.annotation.WhereLike;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -24,7 +25,7 @@ public class VerifyEditReqVo extends BaseReqVO {
     @ApiModelProperty(value = "用户名")
     private String userName;
 
-    @ApiModelProperty(value = "账号状态")
+    @ApiModelProperty(value = "分配状态")
     private String userRole;
 
     @ApiModelProperty(value = "账号密码")
@@ -35,6 +36,15 @@ public class VerifyEditReqVo extends BaseReqVO {
 
     @ApiModelProperty(value = "微信号图片id")
     private String wchatQrcode;
+
+    /**
+     * 账号状态
+     *
+     * @mbggenerated
+     */
+    @ApiModelProperty(value = "账号状态")
+    @WhereLike(dbFieldName = "is_del")
+    private boolean isDel;
 
     @Override
     public String toString() {
@@ -49,6 +59,14 @@ public class VerifyEditReqVo extends BaseReqVO {
                 ", wchatId='" + wchatId + '\'' +
                 ", wchatQrcode='" + wchatQrcode + '\'' +
                 '}';
+    }
+
+    public boolean getIsDel() {
+        return isDel;
+    }
+
+    public void setIsDel(boolean isDel) {
+        this.isDel = isDel;
     }
 
     public String getUid() {

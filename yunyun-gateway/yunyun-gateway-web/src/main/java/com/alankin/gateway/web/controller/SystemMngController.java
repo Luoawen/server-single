@@ -4,34 +4,35 @@ import com.alankin.common.util.StringUtil;
 import com.alankin.common.util.key.SnowflakeIdWorker;
 import com.alankin.common.util.key.SystemClock;
 import com.alankin.gateway.web.base.BaseWebController;
-import com.alankin.gateway.web.utils.UserUtils;
 import com.alankin.gateway.web.vo.ListVo.IdReqVO;
 import com.alankin.gateway.web.vo.ListVo.IdsReqVO;
 import com.alankin.gateway.web.vo.ListVo.ListReqVO;
-import com.alankin.gateway.web.vo.request.*;
+import com.alankin.gateway.web.vo.request.UpdateApplySettingReqVo;
+import com.alankin.gateway.web.vo.request.VerifyEditReqVo;
+import com.alankin.gateway.web.vo.request.VerifyListReqVo;
 import com.alankin.gateway.web.vo.response.ListResult;
 import com.alankin.gateway.web.vo.response.Result;
 import com.alankin.gateway.web.vo.response.ResultConstant;
-import com.alankin.ucenter.common.constant.UcenterResult;
-import com.alankin.ucenter.common.constant.UcenterResultConstant;
 import com.alankin.ucenter.dao.model.*;
 import com.alankin.ucenter.rpc.api.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 系统管理接口
@@ -99,8 +100,7 @@ public class SystemMngController extends BaseWebController {
     public Result updateVerifyAcount(HttpServletRequest request, @RequestBody VerifyEditReqVo verifyEditReqVo) {
         SysUserAuthExample example = new SysUserAuthExample();
         example.createCriteria()
-                .andUidEqualTo(Long.valueOf(verifyEditReqVo.getUid()))
-                .andIsDelEqualTo(false);
+                .andUidEqualTo(Long.valueOf(verifyEditReqVo.getUid()));
         SysUserAuth userAuth = sysUserAuthService.selectFirstByExample(example);
         if (userAuth == null) {
             return new Result(ResultConstant.EXCEPTION_NO_ACOUNT, null);
@@ -115,8 +115,7 @@ public class SystemMngController extends BaseWebController {
 
         SysUserBaseExample example1 = new SysUserBaseExample();
         example1.createCriteria()
-                .andUidEqualTo(Long.valueOf(verifyEditReqVo.getUid()))
-                .andIsDelEqualTo(false);
+                .andUidEqualTo(Long.valueOf(verifyEditReqVo.getUid()));
         SysUserBase userBase = sysUserBaseService.selectFirstByExample(example1);
         if (userBase == null) {
             return new Result(ResultConstant.EXCEPTION_NO_ACOUNT, null);
@@ -124,6 +123,7 @@ public class SystemMngController extends BaseWebController {
         userBase.setMobile(identifier);
         userBase.setUserName(verifyEditReqVo.getUserName());
         userBase.setUserRole(Byte.valueOf(verifyEditReqVo.getUserRole()));
+        userBase.setIsDel(verifyEditReqVo.getIsDel());
         userBase.setRealName(verifyEditReqVo.getRealName());
         userBase.setEmail(verifyEditReqVo.getEmail());
         userBase.setWchatId(verifyEditReqVo.getWchatId());
@@ -141,7 +141,7 @@ public class SystemMngController extends BaseWebController {
     public Result addVerifyAcount(HttpServletRequest request, @RequestBody VerifyEditReqVo verifyEditReqVo) {
         SysUserAuthExample example = new SysUserAuthExample();
         example.createCriteria()
-                .andIdentifierEqualTo(verifyEditReqVo.getMobile()).andIsDelEqualTo(false);
+                .andIdentifierEqualTo(verifyEditReqVo.getMobile());
         SysUserAuth userAuth = sysUserAuthService.selectFirstByExample(example);
         if (userAuth != null) {
             return new Result(0, "已存在该账号!");
@@ -178,6 +178,7 @@ public class SystemMngController extends BaseWebController {
         userBase.setMobileBindTime(curentTime);
         userBase.setUserName(verifyEditReqVo.getUserName());
         userBase.setUserRole(Byte.valueOf(verifyEditReqVo.getUserRole()));
+        userBase.setIsDel(verifyEditReqVo.getIsDel());
         userBase.setRealName(verifyEditReqVo.getRealName());
         userBase.setEmail(verifyEditReqVo.getEmail());
         userBase.setWchatId(verifyEditReqVo.getWchatId());
@@ -232,7 +233,7 @@ public class SystemMngController extends BaseWebController {
 
         SysUserAuthExample example = new SysUserAuthExample();
         example.createCriteria()
-                .andUidEqualTo(idReqVO.getId()).andIsDelEqualTo(false);
+                .andUidEqualTo(idReqVO.getId());
         SysUserAuth userAuth = sysUserAuthService.selectFirstByExample(example);
         if (userAuth == null) {
             return new Result(ResultConstant.EXCEPTION_NO_ACOUNT, null);

@@ -16,10 +16,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.zhicheng.echo.star.client.EchoCallOrgClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -129,7 +131,13 @@ public class ShareController extends BaseWebController {
     @ApiOperation(value = "白骑士授信回传接口")
     @RequestMapping(value = "baiqishiShouXinCallback")
     @ResponseBody
+    @Transactional
     public Map<String, String> baiqishiShouXinCallback(@RequestBody Map<String, String> params) {
+        LOGGER.error("回调接口baiqishiShouXinCallback----------------start");
+        Map<String, String> ret = new HashMap<>();
+//        CCOM1000	成功
+//        CCOM8999	失败
+
         String msgCode = params.get("msgCode");
         String msgDesc = params.get("msgDesc");
         String dataType = params.get("dataType");
@@ -138,25 +146,56 @@ public class ShareController extends BaseWebController {
         String certNo = params.get("certNo");
         String customParam = params.get("customParam");
         UserBaseExample example = new UserBaseExample();
-        example.createCriteria().andUserRealNameEqualTo(name).andMobileEqualTo(mobile).andIdCardEqualTo(certNo);
+        if (StringUtils.isEmpty(customParam)) {
+            example.createCriteria().andMobileEqualTo(mobile);
+        } else {
+            example.createCriteria().andMobileEqualTo(mobile).andUidEqualTo(Long.valueOf(customParam));
+        }
         UserBase userBase = userBaseService.selectFirstByExample(example);
 //        CCOM1000	成功
 //        CCOM3074	缓存成功（缓存机制，用户第一次授信成功后，再次授信会走缓存机制，返回上一次成功的数据，不再进行爬取）
 //        CCOM3016	采集数据失败
-        if ("CCOM1000".equalsIgnoreCase(msgCode) && userBase != null && userBase.getOperateBaiqishiState() == 0) {//授信成功
+        if ("CCOM1000".equalsIgnoreCase(msgCode)) {//授信成功
             if ("mno".equalsIgnoreCase(dataType)) {
-                userBase.setOperateBaiqishiState(2);//0未授信   1爬取成功  2授信成功
-                userBaseService.updateByPrimaryKeySelective(userBase);
+                if (userBase != null && userBase.getOperateBaiqishiState() == 0) {
+                    userBase.setOperateBaiqishiState(2);//0未授信   1爬取成功  2授信成功
+                    int i = userBaseService.updateByPrimaryKeySelective(userBase);
+                    ret.put("resultCode", "CCOM1000");
+                    ret.put("resultDesc", "运营商授信成功" + i);
+                    return ret;
+                }
             } else if ("tb".equalsIgnoreCase(dataType)) {
-                userBase.setTaobaoBaiqishiState(2);
-                userBaseService.updateByPrimaryKeySelective(userBase);
+                if (userBase != null && userBase.getTaobaoBaiqishiState() == 0) {
+                    userBase.setTaobaoBaiqishiState(2);
+                    int i = userBaseService.updateByPrimaryKeySelective(userBase);
+                    ret.put("resultCode", "CCOM1000");
+                    ret.put("resultDesc", "淘宝授信成功" + i);
+                    return ret;
+                }
+            }
+        } else {//授信失败
+            if ("mno".equalsIgnoreCase(dataType)) {
+                if (userBase != null && userBase.getOperateBaiqishiState() == 2) {
+                    userBase.setOperateBaiqishiState(0);//0未授信   1爬取成功  2授信成功
+                    int i = userBaseService.updateByPrimaryKeySelective(userBase);
+                    ret.put("resultCode", "CCOM8999");
+                    ret.put("resultDesc", "运营商授信失败" + i);
+                    return ret;
+                }
+            } else if ("tb".equalsIgnoreCase(dataType)) {
+                if (userBase != null && userBase.getTaobaoBaiqishiState() == 2) {
+                    userBase.setTaobaoBaiqishiState(0);
+                    int i = userBaseService.updateByPrimaryKeySelective(userBase);
+                    ret.put("resultCode", "CCOM8999");
+                    ret.put("resultDesc", "淘宝授信失败" + i);
+                    return ret;
+                }
             }
         }
-        Map<String, String> ret = new HashMap<>();
-//        CCOM1000	成功
-//        CCOM8999	失败
-        ret.put("resultCode", "CCOM1000");
-        ret.put("resultDesc", "成功");
+
+        LOGGER.error("回调接口baiqishiShouXinCallback----------------end");
+        ret.put("resultCode", "CCOM8999");
+        ret.put("resultDesc", "失败");
         return ret;
 //        resultCode	String	是	数据获取的结果码，参见结果码字典表
 //        resultDesc	String	是	结果描述，若有更加详细的结果描述会以“［详细描述］”追加在后面；例如：参数不合法[partnerId为空]
@@ -165,7 +204,12 @@ public class ShareController extends BaseWebController {
     @ApiOperation(value = "白骑士爬取回传接口")
     @RequestMapping(value = "baiqishiPaQuCallback")
     @ResponseBody
+    @Transactional
     public Map<String, String> baiqishiPaQuCallback(@RequestBody Map<String, String> params) {
+        LOGGER.error("回调接口baiqishiPaQuCallback----------------start");
+        Map<String, String> ret = new HashMap<>();
+//        CCOM1000	成功
+//        CCOM8999	失败
         String msgCode = params.get("msgCode");
         String msgDesc = params.get("msgDesc");
         String dataType = params.get("dataType");
@@ -174,25 +218,55 @@ public class ShareController extends BaseWebController {
         String certNo = params.get("certNo");
         String customParam = params.get("customParam");
         UserBaseExample example = new UserBaseExample();
-        example.createCriteria().andUserRealNameEqualTo(name).andMobileEqualTo(mobile).andIdCardEqualTo(certNo);
+        if (StringUtils.isEmpty(customParam)) {
+            example.createCriteria().andMobileEqualTo(mobile);
+        } else {
+            example.createCriteria().andMobileEqualTo(mobile).andUidEqualTo(Long.valueOf(customParam));
+        }
         UserBase userBase = userBaseService.selectFirstByExample(example);
 //        CCOM1000	成功
 //        CCOM3074	缓存成功（缓存机制，用户第一次授信成功后，再次授信会走缓存机制，返回上一次成功的数据，不再进行爬取）
 //        CCOM3016	采集数据失败
-        if ("CCOM1000".equalsIgnoreCase(msgCode) && userBase != null && userBase.getOperateBaiqishiState() != 1) {//爬取
+        if ("CCOM1000".equalsIgnoreCase(msgCode)) {//爬取
             if ("mno".equalsIgnoreCase(dataType)) {
-                userBase.setOperateBaiqishiState(1);//0未授信   1爬取成功  2授信成功
-                userBaseService.updateByPrimaryKeySelective(userBase);
+                if (userBase != null && userBase.getOperateBaiqishiState() != 1) {
+                    userBase.setOperateBaiqishiState(1);//0未授信   1爬取成功  2授信成功
+                    int i = userBaseService.updateByPrimaryKeySelective(userBase);
+                    ret.put("resultCode", "CCOM1000");
+                    ret.put("resultDesc", "运营商爬取成功" + i);
+                    return ret;
+                }
             } else if ("tb".equalsIgnoreCase(dataType)) {
-                userBase.setTaobaoBaiqishiState(1);
-                userBaseService.updateByPrimaryKeySelective(userBase);
+                if (userBase != null && userBase.getTaobaoBaiqishiState() != 1) {
+                    userBase.setTaobaoBaiqishiState(1);
+                    int i = userBaseService.updateByPrimaryKeySelective(userBase);
+                    ret.put("resultCode", "CCOM1000");
+                    ret.put("resultDesc", "淘宝爬取成功" + i);
+                    return ret;
+                }
+            }
+        } else {//授信成功，爬取失败
+            if ("mno".equalsIgnoreCase(dataType)) {
+                if (userBase != null && userBase.getOperateBaiqishiState() == 1) {
+                    userBase.setOperateBaiqishiState(2);//0未授信   1爬取成功  2授信成功
+                    int i = userBaseService.updateByPrimaryKeySelective(userBase);
+                    ret.put("resultCode", "CCOM8999");
+                    ret.put("resultDesc", "运营商爬取失败" + i);
+                    return ret;
+                }
+            } else if ("tb".equalsIgnoreCase(dataType)) {
+                if (userBase != null && userBase.getTaobaoBaiqishiState() == 1) {
+                    userBase.setTaobaoBaiqishiState(2);
+                    int i = userBaseService.updateByPrimaryKeySelective(userBase);
+                    ret.put("resultCode", "CCOM8999");
+                    ret.put("resultDesc", "淘宝爬取失败" + i);
+                    return ret;
+                }
             }
         }
-        Map<String, String> ret = new HashMap<>();
-//        CCOM1000	成功
-//        CCOM8999	失败
-        ret.put("resultCode", "CCOM1000");
-        ret.put("resultDesc", "成功");
+        LOGGER.error("回调接口baiqishiPaQuCallback----------------end");
+        ret.put("resultCode", "CCOM8999");
+        ret.put("resultDesc", "失败");
         return ret;
 //        resultCode	String	是	数据获取的结果码，参见结果码字典表
 //        resultDesc	String	是	结果描述，若有更加详细的结果描述会以“［详细描述］”追加在后面；例如：参数不合法[partnerId为空]

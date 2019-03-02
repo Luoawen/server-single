@@ -62,6 +62,10 @@ public abstract class BaseServiceMock<Mapper, Record, Example> implements BaseSe
         return null;
     }
 
+    public Record selectBeanByMethod(String method, Object param) {
+        return null;
+    }
+
     @Override
     public List<Map> selectAllByMethod(String method, Object param) {
         return null;

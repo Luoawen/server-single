@@ -30,4 +30,9 @@
             <bean class="com.github.tobato.fastdfs.conn.PooledConnectionFactory"/>
         </constructor-arg>
     </bean>
+    <!--配置连接池-->
+    <bean id="defaultThumbImageConfig" class="com.github.tobato.fastdfs.domain.DefaultThumbImageConfig">
+        <property name="width" value="150"/>
+        <property name="height" value="150"/>
+    </bean>
 </beans>

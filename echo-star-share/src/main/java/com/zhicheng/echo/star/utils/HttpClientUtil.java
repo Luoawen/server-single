@@ -89,22 +89,22 @@ public class HttpClientUtil {
         return result;
     }
 
-    /**
-     * 获取风险评估报告
-     * @param flowId
-     * @return
-     */
-    public static String reqFengxianReport(String flowId) {
-        String url = "https://star.afufintech.com/apiNest/getReport.html";
-        List<NameValuePair> params = new LinkedList<>();
-        BasicNameValuePair param1 = new BasicNameValuePair("api_name", "credit.evaluation.share.api");
-        BasicNameValuePair param2 = new BasicNameValuePair("flow_id",flowId);
-        BasicNameValuePair param3 = new BasicNameValuePair("user_name","shensudai_testusr");
-        BasicNameValuePair param4 = new BasicNameValuePair("sign","ec6aef1d861d493e");
-        params.add(param1);
-        params.add(param2);
-        params.add(param3);
-        params.add(param4);
-        return doGet(url, params, "utf-8");
-    }
+//    /**
+//     * 获取风险评估报告
+//     * @param flowId
+//     * @return
+//     */
+//    public static String reqFengxianReport(String flowId) {
+//        String url = "https://star.afufintech.com/apiNest/getReport.html";
+//        List<NameValuePair> params = new LinkedList<>();
+//        BasicNameValuePair param1 = new BasicNameValuePair("api_name", "credit.evaluation.share.api");
+//        BasicNameValuePair param2 = new BasicNameValuePair("flow_id",flowId);
+//        BasicNameValuePair param3 = new BasicNameValuePair("user_name","shensudai_testusr");
+//        BasicNameValuePair param4 = new BasicNameValuePair("sign","ec6aef1d861d493e");
+//        params.add(param1);
+//        params.add(param2);
+//        params.add(param3);
+//        params.add(param4);
+//        return doGet(url, params, "utf-8");
+//    }
 }

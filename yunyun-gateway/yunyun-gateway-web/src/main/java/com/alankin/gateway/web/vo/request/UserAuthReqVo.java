@@ -1,13 +1,28 @@
 package com.alankin.gateway.web.vo.request;
 
+import com.alankin.gateway.web.utils.MsgCodeUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 
 /**
  * Created by alankin on 2018/12/30.
  */
 @ApiModel(value = "UserAuthReqVo", description = "")
-public class UserAuthReqVo extends BaseReqVO{
+public class UserAuthReqVo extends BaseReqVO {
+    /**
+     * 用户ID
+     *
+     * @mbggenerated
+     */
+    private String uid;
 
     /**
      * 用户昵称
@@ -23,6 +38,8 @@ public class UserAuthReqVo extends BaseReqVO{
      * @mbggenerated
      */
     @ApiModelProperty(value = "姓名", example = "张三")
+    @NotEmpty(message = "请输入姓名")
+    @Pattern(regexp = "^[\\u4e00-\\u9fa5]{2,4}$", message = "请输入正确姓名")
     private String userRealName;
 
     /**
@@ -46,7 +63,9 @@ public class UserAuthReqVo extends BaseReqVO{
      *
      * @mbggenerated
      */
-    @ApiModelProperty(value = "身份证", example = "51102800000000000")
+    @ApiModelProperty(value = "身份证", example = "510000000000000000")
+    @NotEmpty(message = "请填写身份证号")
+    @Pattern(regexp = "(^\\d{15}$)|(^\\d{18}$)|(^\\d{17}(\\d|X|x)$)", message = "请输入正确的身份证号")
     private String idCard;
 
     /**
@@ -63,6 +82,7 @@ public class UserAuthReqVo extends BaseReqVO{
      * @mbggenerated
      */
     @ApiModelProperty(value = "邮箱", example = "422222222@qq.com")
+    @Email(message = "邮箱格式不正确")
     private String email;
 
     /**
@@ -187,6 +207,14 @@ public class UserAuthReqVo extends BaseReqVO{
                 ", salary=" + salary +
                 ", aliScore=" + aliScore +
                 '}';
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getCompanyProvance() {

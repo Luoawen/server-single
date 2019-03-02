@@ -1,7 +1,6 @@
 package com.alankin.gateway.web.utils;
 
 public class Constants {
-
     public static String SESSION_AUTHS_KEY = "SESSION_AUTHS";
 
     public static String LOGIN_AUTH_CODE = "LOGIN_AUTH_CODE";
@@ -16,4 +15,22 @@ public class Constants {
 
     /* 登录系统用户信息 */
     public static String SESSION_SYS_USER = "SESSION_SYS_USER";
+
+    //请求致诚阿福群星接口地址
+    public static String api_name = "credit.evaluation.share.api";
+    public static String api_name1 = "fraud.screening.device.api";
+    public static String api_name_jinjie = "fraud.screening.advance.api";
+    public static String url = "https://starapi.zhichengcredit.com/submit";
+
+    //多头账号
+//    public static String muti_user_name = "shensudai";//用户名(正式)
+//    public static String muti_sign = "af2f8b27e499a687";//rc4秘钥 (正式)
+    public static String muti_user_name = "shensudai_testusr";//用户名(测试)
+    public static String muti_sign = "ec6aef1d861d493e";//rc4秘钥(测试)
+
+    //反欺诈账号
+    public static String qizha_user_name = "shensudai";//用户名(正式)
+    public static String qizha_sign = "af2f8b27e499a687";//rc4秘钥 (正式)
+//    public static String qizha_user_name = "shensudai_testusr";//用户名(测试)
+//    public static String qizha_sign = "ec6aef1d861d493e";//rc4秘钥(测试)
 }

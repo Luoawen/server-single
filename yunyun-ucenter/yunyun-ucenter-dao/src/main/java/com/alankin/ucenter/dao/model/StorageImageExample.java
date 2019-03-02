@@ -636,6 +636,76 @@ public class StorageImageExample implements Serializable {
             addCriterion("storage_group not between", value1, value2, "storageGroup");
             return (Criteria) this;
         }
+
+        public Criteria andThumbImagePathIsNull() {
+            addCriterion("thumb_image_path is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbImagePathIsNotNull() {
+            addCriterion("thumb_image_path is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbImagePathEqualTo(String value) {
+            addCriterion("thumb_image_path =", value, "thumbImagePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbImagePathNotEqualTo(String value) {
+            addCriterion("thumb_image_path <>", value, "thumbImagePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbImagePathGreaterThan(String value) {
+            addCriterion("thumb_image_path >", value, "thumbImagePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbImagePathGreaterThanOrEqualTo(String value) {
+            addCriterion("thumb_image_path >=", value, "thumbImagePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbImagePathLessThan(String value) {
+            addCriterion("thumb_image_path <", value, "thumbImagePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbImagePathLessThanOrEqualTo(String value) {
+            addCriterion("thumb_image_path <=", value, "thumbImagePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbImagePathLike(String value) {
+            addCriterion("thumb_image_path like", value, "thumbImagePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbImagePathNotLike(String value) {
+            addCriterion("thumb_image_path not like", value, "thumbImagePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbImagePathIn(List<String> values) {
+            addCriterion("thumb_image_path in", values, "thumbImagePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbImagePathNotIn(List<String> values) {
+            addCriterion("thumb_image_path not in", values, "thumbImagePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbImagePathBetween(String value1, String value2) {
+            addCriterion("thumb_image_path between", value1, value2, "thumbImagePath");
+            return (Criteria) this;
+        }
+
+        public Criteria andThumbImagePathNotBetween(String value1, String value2) {
+            addCriterion("thumb_image_path not between", value1, value2, "thumbImagePath");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria implements Serializable {

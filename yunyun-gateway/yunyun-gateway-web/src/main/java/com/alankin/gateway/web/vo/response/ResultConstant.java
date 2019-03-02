@@ -41,7 +41,8 @@ public enum ResultConstant {
      */
     NO_DISTRIBUTE_VERIFY(300, "没有分配审核人"),
     VERIFY_EXCEPTION(301, "审核人状态异常"),
-    VERIFY_NOT_PASS(302, "审核未通过"),
+//    VERIFY_NOT_PASS(302, "审核未通过"),
+    VERIFY_NOT_PASS(302, "正在审核中"),
     NO_DISTRIBUTE_BROWER(303, "没有分配借款人，无法申请"),
     //----------------------------------110全局自定义消息异常----------------------------------------
 

@@ -13,6 +13,8 @@ import java.util.regex.Pattern;
  * Created by alankin on 2019/2/17.
  */
 public class MsgCodeUtil {
+    /* 短信验证码位数*/
+    public final static int MSG_CODE_NUM = 6;
     /*
     resultEnum中的参数
 	ERROR_MOBILE(1001002,"请填写正确的手机号码"),
@@ -77,8 +79,8 @@ public class MsgCodeUtil {
         //获取短信发送时间
         long startTimeFromSession = (long) session.getAttribute(MSG_START_TIME);
         //判断当前验证码是否失效
-        if ( ((System.currentTimeMillis() - startTimeFromSession) / 1000)>
-        ((long) CODE_VALID_TIME * 60)){
+        if (((System.currentTimeMillis() - startTimeFromSession) / 1000) >
+                ((long) CODE_VALID_TIME * 60)) {
             throw new RuntimeException(ResultConstant.MESSAGE_CODE_ERROR.getMessage());
         }
 
@@ -114,7 +116,7 @@ public class MsgCodeUtil {
      */
     public static String createRandomVcode() {
         String vcode = "";
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < MSG_CODE_NUM; i++) {
             vcode = vcode + (int) (Math.random() * 9);
         }
         return vcode;

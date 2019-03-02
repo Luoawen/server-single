@@ -39,6 +39,8 @@ public class StorageImage implements Serializable {
 
     private String storageGroup;
 
+    private String thumbImagePath;
+
     private static final long serialVersionUID = 1L;
 
     public Long getUid() {
@@ -105,6 +107,14 @@ public class StorageImage implements Serializable {
         this.storageGroup = storageGroup;
     }
 
+    public String getThumbImagePath() {
+        return thumbImagePath;
+    }
+
+    public void setThumbImagePath(String thumbImagePath) {
+        this.thumbImagePath = thumbImagePath;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -119,6 +129,7 @@ public class StorageImage implements Serializable {
         sb.append(", storagePath=").append(storagePath);
         sb.append(", fullPath=").append(fullPath);
         sb.append(", storageGroup=").append(storageGroup);
+        sb.append(", thumbImagePath=").append(thumbImagePath);
         sb.append("]");
         return sb.toString();
     }
@@ -142,7 +153,8 @@ public class StorageImage implements Serializable {
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getStoragePath() == null ? other.getStoragePath() == null : this.getStoragePath().equals(other.getStoragePath()))
             && (this.getFullPath() == null ? other.getFullPath() == null : this.getFullPath().equals(other.getFullPath()))
-            && (this.getStorageGroup() == null ? other.getStorageGroup() == null : this.getStorageGroup().equals(other.getStorageGroup()));
+            && (this.getStorageGroup() == null ? other.getStorageGroup() == null : this.getStorageGroup().equals(other.getStorageGroup()))
+            && (this.getThumbImagePath() == null ? other.getThumbImagePath() == null : this.getThumbImagePath().equals(other.getThumbImagePath()));
     }
 
     @Override
@@ -157,6 +169,7 @@ public class StorageImage implements Serializable {
         result = prime * result + ((getStoragePath() == null) ? 0 : getStoragePath().hashCode());
         result = prime * result + ((getFullPath() == null) ? 0 : getFullPath().hashCode());
         result = prime * result + ((getStorageGroup() == null) ? 0 : getStorageGroup().hashCode());
+        result = prime * result + ((getThumbImagePath() == null) ? 0 : getThumbImagePath().hashCode());
         return result;
     }
 }

@@ -10,6 +10,7 @@
     <result column="storage_path" property="storagePath" jdbcType="VARCHAR" />
     <result column="full_path" property="fullPath" jdbcType="VARCHAR" />
     <result column="storage_group" property="storageGroup" jdbcType="VARCHAR" />
+    <result column="thumb_image_path" property="thumbImagePath" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -70,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    uid, original_name, size, storage_name, create_time, storage_path, full_path, storage_group
+    uid, original_name, size, storage_name, create_time, storage_path, full_path, storage_group, 
+    thumb_image_path
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.alankin.ucenter.dao.model.StorageImageExample" >
     select
@@ -105,10 +107,12 @@
   <insert id="insert" parameterType="com.alankin.ucenter.dao.model.StorageImage" >
     insert into storage_image (uid, original_name, size, 
       storage_name, create_time, storage_path, 
-      full_path, storage_group)
+      full_path, storage_group, thumb_image_path
+      )
     values (#{uid,jdbcType=BIGINT}, #{originalName,jdbcType=VARCHAR}, #{size,jdbcType=BIGINT}, 
       #{storageName,jdbcType=VARCHAR}, #{createTime,jdbcType=INTEGER}, #{storagePath,jdbcType=VARCHAR}, 
-      #{fullPath,jdbcType=VARCHAR}, #{storageGroup,jdbcType=VARCHAR})
+      #{fullPath,jdbcType=VARCHAR}, #{storageGroup,jdbcType=VARCHAR}, #{thumbImagePath,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.alankin.ucenter.dao.model.StorageImage" >
     insert into storage_image
@@ -137,6 +141,9 @@
       <if test="storageGroup != null" >
         storage_group,
       </if>
+      <if test="thumbImagePath != null" >
+        thumb_image_path,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="uid != null" >
@@ -162,6 +169,9 @@
       </if>
       <if test="storageGroup != null" >
         #{storageGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbImagePath != null" >
+        #{thumbImagePath,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -198,6 +208,9 @@
       <if test="record.storageGroup != null" >
         storage_group = #{record.storageGroup,jdbcType=VARCHAR},
       </if>
+      <if test="record.thumbImagePath != null" >
+        thumb_image_path = #{record.thumbImagePath,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -212,7 +225,8 @@
       create_time = #{record.createTime,jdbcType=INTEGER},
       storage_path = #{record.storagePath,jdbcType=VARCHAR},
       full_path = #{record.fullPath,jdbcType=VARCHAR},
-      storage_group = #{record.storageGroup,jdbcType=VARCHAR}
+      storage_group = #{record.storageGroup,jdbcType=VARCHAR},
+      thumb_image_path = #{record.thumbImagePath,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -241,6 +255,9 @@
       <if test="storageGroup != null" >
         storage_group = #{storageGroup,jdbcType=VARCHAR},
       </if>
+      <if test="thumbImagePath != null" >
+        thumb_image_path = #{thumbImagePath,jdbcType=VARCHAR},
+      </if>
     </set>
     where uid = #{uid,jdbcType=BIGINT}
   </update>
@@ -252,7 +269,8 @@
       create_time = #{createTime,jdbcType=INTEGER},
       storage_path = #{storagePath,jdbcType=VARCHAR},
       full_path = #{fullPath,jdbcType=VARCHAR},
-      storage_group = #{storageGroup,jdbcType=VARCHAR}
+      storage_group = #{storageGroup,jdbcType=VARCHAR},
+      thumb_image_path = #{thumbImagePath,jdbcType=VARCHAR}
     where uid = #{uid,jdbcType=BIGINT}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
