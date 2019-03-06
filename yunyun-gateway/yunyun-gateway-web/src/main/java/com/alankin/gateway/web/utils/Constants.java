@@ -33,4 +33,12 @@ public class Constants {
     public static String qizha_sign = "af2f8b27e499a687";//rc4秘钥 (正式)
 //    public static String qizha_user_name = "shensudai_testusr";//用户名(测试)
 //    public static String qizha_sign = "ec6aef1d861d493e";//rc4秘钥(测试)
+
+    //白骑士反欺诈账号
+    public static String apiUrl_baiqishi = "https://api.baiqishi.com/services/decision";//风险决策API生产环境调用地址
+    public static String verifyKey_baiqishi = "0d4aea86b58e4eb781f78966f281ecaa";
+    public static String partnerId_baiqishi = "lfme";
+    public static String appId_baiqishi = "lfme";
+    public static String eventType_login = "login";
+    public static String eventType_loan = "loan";
 }

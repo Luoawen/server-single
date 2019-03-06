@@ -50,10 +50,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 申请单接口
@@ -640,5 +637,34 @@ public class ApplyOrderController extends BaseWebController {
         }
     }
 
+    @ApiOperation(value = "获取白骑士欺诈数据")
+    @RequestMapping(value = "getQiZhaDataBaiQiShi")
+    @ResponseBody
+    public Result getQiZhaDataBaiQiShi(@RequestBody IdReqVO idReqVO) {
+        if (idReqVO.getId() == null) {
+            return new Result(0, "id不能为空");
+        }
+        List retData = new ArrayList();
+        UserOtherAuthExample example = new UserOtherAuthExample();
+        example.createCriteria().andUidEqualTo(idReqVO.getId()).andIdentityTypeEqualTo((byte) 7);
+        UserOtherAuth loginAuth = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
+        String loginData = loginAuth != null ? loginAuth.getThirdData() : null;
+        if (loginAuth != null && !StringUtils.isEmpty(loginData)) {//存在
+            retData.add(JSON.parseObject(loginData, Map.class));
+        }else {
+            retData.add("");
+        }
+
+        example.clear();
+        example.createCriteria().andUidEqualTo(idReqVO.getId()).andIdentityTypeEqualTo((byte) 8);
+        UserOtherAuth loanAuth = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
+        String loanData = loanAuth != null ? loanAuth.getThirdData() : null;
+        if (loanAuth != null && !StringUtils.isEmpty(loanData)) {//存在
+            retData.add(JSON.parseObject(loanData, Map.class));
+        }else {
+            retData.add("");
+        }
+        return new Result(ResultConstant.SUCCESS, retData);
+    }
 
 }

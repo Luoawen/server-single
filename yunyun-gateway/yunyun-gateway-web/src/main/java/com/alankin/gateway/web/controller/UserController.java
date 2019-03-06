@@ -5,6 +5,7 @@ import com.alankin.common.util.key.SnowflakeIdWorker;
 import com.alankin.common.util.key.SystemClock;
 import com.alankin.gateway.web.base.BaseWebController;
 import com.alankin.gateway.web.utils.Constants;
+import com.alankin.gateway.web.utils.Invoker;
 import com.alankin.gateway.web.utils.UserUtils;
 import com.alankin.gateway.web.utils.Utils;
 import com.alankin.gateway.web.vo.ListVo.IdReqVO;
@@ -229,9 +230,9 @@ public class UserController extends BaseWebController {
         String idCardPhoto1 = vo.get("idCardPhoto1");
         String idCardPhoto2 = vo.get("idCardPhoto2");
         String idCardPhoto3 = vo.get("idCardPhoto3");
-        user.setIdCardPhoto1(!StringUtils.isEmpty(idCardPhoto1)?Long.valueOf(idCardPhoto1):null);
-        user.setIdCardPhoto2(!StringUtils.isEmpty(idCardPhoto2)?Long.valueOf(idCardPhoto2):null);
-        user.setIdCardPhoto3(!StringUtils.isEmpty(idCardPhoto3)?Long.valueOf(idCardPhoto3):null);
+        user.setIdCardPhoto1(!StringUtils.isEmpty(idCardPhoto1) ? Long.valueOf(idCardPhoto1) : null);
+        user.setIdCardPhoto2(!StringUtils.isEmpty(idCardPhoto2) ? Long.valueOf(idCardPhoto2) : null);
+        user.setIdCardPhoto3(!StringUtils.isEmpty(idCardPhoto3) ? Long.valueOf(idCardPhoto3) : null);
         if (userBaseService.updateByPrimaryKeySelective(user) > 0) {
             UserUtils.createUserSession(request, user);//更新session
             return new Result(ResultConstant.SUCCESS);
@@ -1202,6 +1203,121 @@ public class UserController extends BaseWebController {
     }
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<欺诈甄别接口*/
 
+    /*白骑士接口>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+    @ApiOperation(value = "白骑士欺诈接口")
+    @RequestMapping(value = "qiZhaDatabaiqishi")
+    @ResponseBody
+    public Object qiZhaDatabaiqishi(HttpServletRequest request, @RequestBody Map<String, String> vo) {
+        UserBase user = UserUtils.getUser(request);
+        if (user == null) {
+            return new Result(ResultConstant.EXCEPTION_INVALID);
+        }
+        if (StringUtils.isEmpty(user.getMobile())) {
+            return new Result(0, "电话不能为空,请完善基础认证");
+        }
+        if (StringUtils.isEmpty(user.getIdCard())) {
+            return new Result(0, "身份证不能为空,请完善基础认证");
+        }
+        if (StringUtils.isEmpty(user.getUserRealName())) {
+            return new Result(0, "姓名不能为空,请完善基础认证");
+        }
+        String tokenKey = vo.get("tokenKey");
+        if (StringUtils.isEmpty(tokenKey)) {
+            return new Result(0, "tokenKey为空");
+        }
+        Map params = new HashMap();
+        //根据商户修改verifyKey和partnerId
+        params.put("verifyKey", Constants.verifyKey_baiqishi);
+        params.put("partnerId", Constants.partnerId_baiqishi);
+        //应用的appid，根据调用的应用修改
+        params.put("appId", Constants.appId_baiqishi);
+        //业务参数传入
+        params.put("eventType", Constants.eventType_login);        //根据触发的场景传入
+        params.put("mobile", user.getMobile());
+        params.put("name ", user.getUserRealName());
+        params.put("certNo", user.getIdCard());
+        params.put("tokenKey", tokenKey);
+        Invoker.init();
+        UserOtherAuthExample example = new UserOtherAuthExample();
+        example.createCriteria().andUidEqualTo(user.getUid()).andIdentityTypeEqualTo((byte) 7);
+        UserOtherAuth loginAuth = userOtherAuthService.selectFirstByExampleWithBLOBs(example);//登录事件已存在数据
+        if (loginAuth == null) {//不存在存在
+            UserOtherAuth login = new UserOtherAuth();
+            String loginResult = "";
+            try {
+                loginResult = Invoker.invoke(params, Constants.apiUrl_baiqishi);
+                JSONObject jsonObject = JSON.parseObject(loginResult);
+                String resultCode = jsonObject.getString("resultCode");
+                if("BQS000".equalsIgnoreCase(resultCode)){
+                    login.setUid(user.getUid());
+                    login.setCertificate(user.getIdCard());
+                    login.setIdentifier(tokenKey);
+                    login.setIdentityType((byte) 7);
+                    login.setThirdData(loginResult);
+                    userOtherAuthService.insertSelective(login);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        } else {
+            if (StringUtils.isEmpty(loginAuth.getThirdData())) {//没有白骑士数据
+                String loginResult = "";
+                try {
+                    loginResult = Invoker.invoke(params, Constants.apiUrl_baiqishi);
+                    JSONObject jsonObject = JSON.parseObject(loginResult);
+                    String resultCode = jsonObject.getString("resultCode");
+                    if("BQS000".equalsIgnoreCase(resultCode)){
+                        loginAuth.setThirdData(loginResult);
+                        userOtherAuthService.updateByPrimaryKeySelective(loginAuth);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        example.clear();
+        example.createCriteria().andUidEqualTo(user.getUid()).andIdentityTypeEqualTo((byte) 8);
+        UserOtherAuth loanAuth = userOtherAuthService.selectFirstByExampleWithBLOBs(example);//贷款事件已存在数据
+        params.put("eventType",Constants.eventType_loan);
+        if (loanAuth == null) {//不存在存在
+            UserOtherAuth loan = new UserOtherAuth();
+            String loanResult = "";
+            try {
+                loanResult = Invoker.invoke(params, Constants.apiUrl_baiqishi);
+                JSONObject jsonObject = JSON.parseObject(loanResult);
+                String resultCode = jsonObject.getString("resultCode");
+                if("BQS000".equalsIgnoreCase(resultCode)){
+                    loan.setUid(user.getUid());
+                    loan.setCertificate(user.getIdCard());
+                    loan.setIdentifier(tokenKey);
+                    loan.setIdentityType((byte) 8);
+                    loan.setThirdData(loanResult);
+                    userOtherAuthService.insertSelective(loan);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            if (StringUtils.isEmpty(loanAuth.getThirdData())) {//没有白骑士数据
+                String loanResult = "";
+                try {
+                    loanResult = Invoker.invoke(params, Constants.apiUrl_baiqishi);
+                    JSONObject jsonObject = JSON.parseObject(loanResult);
+                    String resultCode = jsonObject.getString("resultCode");
+                    if("BQS000".equalsIgnoreCase(resultCode)){
+                        loanAuth.setThirdData(loanResult);
+                        userOtherAuthService.updateByPrimaryKeySelective(loanAuth);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return new Result(ResultConstant.SUCCESS);
+    }
 
     /*申请>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 

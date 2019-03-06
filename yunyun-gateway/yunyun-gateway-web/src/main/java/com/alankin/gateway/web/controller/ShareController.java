@@ -155,7 +155,7 @@ public class ShareController extends BaseWebController {
 //        CCOM1000	成功
 //        CCOM3074	缓存成功（缓存机制，用户第一次授信成功后，再次授信会走缓存机制，返回上一次成功的数据，不再进行爬取）
 //        CCOM3016	采集数据失败
-        if ("CCOM1000".equalsIgnoreCase(msgCode)) {//授信成功
+        if ("CCOM1000".equalsIgnoreCase(msgCode)||"CCOM3074".equalsIgnoreCase(msgCode)) {//授信成功
             if ("mno".equalsIgnoreCase(dataType)) {
                 if (userBase != null && userBase.getOperateBaiqishiState() == 0) {
                     userBase.setOperateBaiqishiState(2);//0未授信   1爬取成功  2授信成功
@@ -227,7 +227,7 @@ public class ShareController extends BaseWebController {
 //        CCOM1000	成功
 //        CCOM3074	缓存成功（缓存机制，用户第一次授信成功后，再次授信会走缓存机制，返回上一次成功的数据，不再进行爬取）
 //        CCOM3016	采集数据失败
-        if ("CCOM1000".equalsIgnoreCase(msgCode)) {//爬取
+        if ("CCOM1000".equalsIgnoreCase(msgCode)||"CCOM3074".equalsIgnoreCase(msgCode)) {//爬取
             if ("mno".equalsIgnoreCase(dataType)) {
                 if (userBase != null && userBase.getOperateBaiqishiState() != 1) {
                     userBase.setOperateBaiqishiState(1);//0未授信   1爬取成功  2授信成功
