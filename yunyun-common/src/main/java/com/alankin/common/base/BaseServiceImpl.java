@@ -100,42 +100,40 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
     }
 
     @Override
-    public int insert(Record record) {
+    public int insert(Record record) throws Exception {
         injectParam(record);
-        try {
-            DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
-            Method insert = mapper.getClass().getDeclaredMethod("insert", record.getClass());
-            Object result = insert.invoke(mapper, record);
-            return Integer.parseInt(String.valueOf(result));
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            Throwable t = e.getTargetException();// 获取目标异常
-            t.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
+//        try {
+        DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
+        Method insert = mapper.getClass().getDeclaredMethod("insert", record.getClass());
+        Object result = insert.invoke(mapper, record);
         DynamicDataSource.clearDataSource();
-        return 0;
+        return Integer.parseInt(String.valueOf(result));
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        } catch (InvocationTargetException e) {
+//            Throwable t = e.getTargetException();// 获取目标异常
+//            t.printStackTrace();
+//        } catch (NoSuchMethodException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
-    public int insertSelective(Record record) {
+    public int insertSelective(Record record) throws Exception {
         injectParam(record);
-        try {
-            DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
-            Method insertSelective = mapper.getClass().getDeclaredMethod("insertSelective", record.getClass());
-            Object result = insertSelective.invoke(mapper, record);
-            return Integer.parseInt(String.valueOf(result));
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.getTargetException().printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
+//        try {
+        DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
+        Method insertSelective = mapper.getClass().getDeclaredMethod("insertSelective", record.getClass());
+        Object result = insertSelective.invoke(mapper, record);
         DynamicDataSource.clearDataSource();
-        return 0;
+        return Integer.parseInt(String.valueOf(result));
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        } catch (InvocationTargetException e) {
+//            e.getTargetException().printStackTrace();
+//        } catch (NoSuchMethodException e) {
+//            e.printStackTrace();
+//        }
     }
 
     /**
@@ -429,6 +427,23 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
         return this.selectAllByMethod(method, null);
     }
 
+    @Override
+    public List<Map> selectMapByExample(Example example) {
+        try {
+            DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
+            Method selectByExample = mapper.getClass().getDeclaredMethod("selectMapByExample", example.getClass());
+            Object result = selectByExample.invoke(mapper, example);
+            return (List<Map>) result;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.getTargetException().printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        DynamicDataSource.clearDataSource();
+        return null;
+    }
 
     @Override
     public List<Record> selectByExampleWithBLOBsForOffsetPage(Example example, Integer offset, Integer limit) {

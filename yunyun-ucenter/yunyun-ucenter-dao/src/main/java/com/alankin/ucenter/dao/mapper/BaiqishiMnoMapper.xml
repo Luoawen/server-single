@@ -1,0 +1,520 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.alankin.ucenter.dao.mapper.BaiqishiMnoMapper" >
+  <resultMap id="BaseResultMap" type="com.alankin.ucenter.dao.model.BaiqishiMno" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="mobile_tag" property="mobileTag" jdbcType="VARCHAR" />
+    <result column="mobile_tag_type" property="mobileTagType" jdbcType="VARCHAR" />
+    <result column="finance_tag" property="financeTag" jdbcType="VARCHAR" />
+    <result column="common_tag_type" property="commonTagType" jdbcType="VARCHAR" />
+    <result column="begin_time" property="beginTime" jdbcType="BIGINT" />
+    <result column="end_time" property="endTime" jdbcType="BIGINT" />
+    <result column="mon_type" property="monType" jdbcType="VARCHAR" />
+    <result column="belong_to" property="belongTo" jdbcType="VARCHAR" />
+    <result column="connect_count" property="connectCount" jdbcType="INTEGER" />
+    <result column="connect_time" property="connectTime" jdbcType="INTEGER" />
+    <result column="originating_call_count" property="originatingCallCount" jdbcType="INTEGER" />
+    <result column="originating_time" property="originatingTime" jdbcType="INTEGER" />
+    <result column="terminating_call_count" property="terminatingCallCount" jdbcType="INTEGER" />
+    <result column="terminating_time" property="terminatingTime" jdbcType="INTEGER" />
+    <result column="other_type_call_count" property="otherTypeCallCount" jdbcType="INTEGER" />
+    <result column="other_type_call_time" property="otherTypeCallTime" jdbcType="INTEGER" />
+    <result column="send_sms_count" property="sendSmsCount" jdbcType="INTEGER" />
+    <result column="receive_sms_count" property="receiveSmsCount" jdbcType="INTEGER" />
+    <result column="days_type" property="daysType" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, user_id, mobile, mobile_tag, mobile_tag_type, finance_tag, common_tag_type, begin_time, 
+    end_time, mon_type, belong_to, connect_count, connect_time, originating_call_count, 
+    originating_time, terminating_call_count, terminating_time, other_type_call_count, 
+    other_type_call_time, send_sms_count, receive_sms_count, days_type
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.alankin.ucenter.dao.model.BaiqishiMnoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from baiqishi_mno
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from baiqishi_mno
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from baiqishi_mno
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.alankin.ucenter.dao.model.BaiqishiMnoExample" >
+    delete from baiqishi_mno
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.alankin.ucenter.dao.model.BaiqishiMno" >
+    insert into baiqishi_mno (id, user_id, mobile, 
+      mobile_tag, mobile_tag_type, finance_tag, 
+      common_tag_type, begin_time, end_time, 
+      mon_type, belong_to, connect_count, 
+      connect_time, originating_call_count, originating_time, 
+      terminating_call_count, terminating_time, 
+      other_type_call_count, other_type_call_time, 
+      send_sms_count, receive_sms_count, days_type
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=BIGINT}, #{mobile,jdbcType=VARCHAR}, 
+      #{mobileTag,jdbcType=VARCHAR}, #{mobileTagType,jdbcType=VARCHAR}, #{financeTag,jdbcType=VARCHAR}, 
+      #{commonTagType,jdbcType=VARCHAR}, #{beginTime,jdbcType=BIGINT}, #{endTime,jdbcType=BIGINT}, 
+      #{monType,jdbcType=VARCHAR}, #{belongTo,jdbcType=VARCHAR}, #{connectCount,jdbcType=INTEGER}, 
+      #{connectTime,jdbcType=INTEGER}, #{originatingCallCount,jdbcType=INTEGER}, #{originatingTime,jdbcType=INTEGER}, 
+      #{terminatingCallCount,jdbcType=INTEGER}, #{terminatingTime,jdbcType=INTEGER}, 
+      #{otherTypeCallCount,jdbcType=INTEGER}, #{otherTypeCallTime,jdbcType=INTEGER}, 
+      #{sendSmsCount,jdbcType=INTEGER}, #{receiveSmsCount,jdbcType=INTEGER}, #{daysType,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.alankin.ucenter.dao.model.BaiqishiMno" >
+    insert into baiqishi_mno
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="mobileTag != null" >
+        mobile_tag,
+      </if>
+      <if test="mobileTagType != null" >
+        mobile_tag_type,
+      </if>
+      <if test="financeTag != null" >
+        finance_tag,
+      </if>
+      <if test="commonTagType != null" >
+        common_tag_type,
+      </if>
+      <if test="beginTime != null" >
+        begin_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="monType != null" >
+        mon_type,
+      </if>
+      <if test="belongTo != null" >
+        belong_to,
+      </if>
+      <if test="connectCount != null" >
+        connect_count,
+      </if>
+      <if test="connectTime != null" >
+        connect_time,
+      </if>
+      <if test="originatingCallCount != null" >
+        originating_call_count,
+      </if>
+      <if test="originatingTime != null" >
+        originating_time,
+      </if>
+      <if test="terminatingCallCount != null" >
+        terminating_call_count,
+      </if>
+      <if test="terminatingTime != null" >
+        terminating_time,
+      </if>
+      <if test="otherTypeCallCount != null" >
+        other_type_call_count,
+      </if>
+      <if test="otherTypeCallTime != null" >
+        other_type_call_time,
+      </if>
+      <if test="sendSmsCount != null" >
+        send_sms_count,
+      </if>
+      <if test="receiveSmsCount != null" >
+        receive_sms_count,
+      </if>
+      <if test="daysType != null" >
+        days_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileTag != null" >
+        #{mobileTag,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileTagType != null" >
+        #{mobileTagType,jdbcType=VARCHAR},
+      </if>
+      <if test="financeTag != null" >
+        #{financeTag,jdbcType=VARCHAR},
+      </if>
+      <if test="commonTagType != null" >
+        #{commonTagType,jdbcType=VARCHAR},
+      </if>
+      <if test="beginTime != null" >
+        #{beginTime,jdbcType=BIGINT},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=BIGINT},
+      </if>
+      <if test="monType != null" >
+        #{monType,jdbcType=VARCHAR},
+      </if>
+      <if test="belongTo != null" >
+        #{belongTo,jdbcType=VARCHAR},
+      </if>
+      <if test="connectCount != null" >
+        #{connectCount,jdbcType=INTEGER},
+      </if>
+      <if test="connectTime != null" >
+        #{connectTime,jdbcType=INTEGER},
+      </if>
+      <if test="originatingCallCount != null" >
+        #{originatingCallCount,jdbcType=INTEGER},
+      </if>
+      <if test="originatingTime != null" >
+        #{originatingTime,jdbcType=INTEGER},
+      </if>
+      <if test="terminatingCallCount != null" >
+        #{terminatingCallCount,jdbcType=INTEGER},
+      </if>
+      <if test="terminatingTime != null" >
+        #{terminatingTime,jdbcType=INTEGER},
+      </if>
+      <if test="otherTypeCallCount != null" >
+        #{otherTypeCallCount,jdbcType=INTEGER},
+      </if>
+      <if test="otherTypeCallTime != null" >
+        #{otherTypeCallTime,jdbcType=INTEGER},
+      </if>
+      <if test="sendSmsCount != null" >
+        #{sendSmsCount,jdbcType=INTEGER},
+      </if>
+      <if test="receiveSmsCount != null" >
+        #{receiveSmsCount,jdbcType=INTEGER},
+      </if>
+      <if test="daysType != null" >
+        #{daysType,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.alankin.ucenter.dao.model.BaiqishiMnoExample" resultType="java.lang.Integer" >
+    select count(*) from baiqishi_mno
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update baiqishi_mno
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.mobile != null" >
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobileTag != null" >
+        mobile_tag = #{record.mobileTag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobileTagType != null" >
+        mobile_tag_type = #{record.mobileTagType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.financeTag != null" >
+        finance_tag = #{record.financeTag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commonTagType != null" >
+        common_tag_type = #{record.commonTagType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.beginTime != null" >
+        begin_time = #{record.beginTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.endTime != null" >
+        end_time = #{record.endTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.monType != null" >
+        mon_type = #{record.monType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.belongTo != null" >
+        belong_to = #{record.belongTo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.connectCount != null" >
+        connect_count = #{record.connectCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.connectTime != null" >
+        connect_time = #{record.connectTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.originatingCallCount != null" >
+        originating_call_count = #{record.originatingCallCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.originatingTime != null" >
+        originating_time = #{record.originatingTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.terminatingCallCount != null" >
+        terminating_call_count = #{record.terminatingCallCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.terminatingTime != null" >
+        terminating_time = #{record.terminatingTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.otherTypeCallCount != null" >
+        other_type_call_count = #{record.otherTypeCallCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.otherTypeCallTime != null" >
+        other_type_call_time = #{record.otherTypeCallTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.sendSmsCount != null" >
+        send_sms_count = #{record.sendSmsCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.receiveSmsCount != null" >
+        receive_sms_count = #{record.receiveSmsCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.daysType != null" >
+        days_type = #{record.daysType,jdbcType=TINYINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update baiqishi_mno
+    set id = #{record.id,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      mobile_tag = #{record.mobileTag,jdbcType=VARCHAR},
+      mobile_tag_type = #{record.mobileTagType,jdbcType=VARCHAR},
+      finance_tag = #{record.financeTag,jdbcType=VARCHAR},
+      common_tag_type = #{record.commonTagType,jdbcType=VARCHAR},
+      begin_time = #{record.beginTime,jdbcType=BIGINT},
+      end_time = #{record.endTime,jdbcType=BIGINT},
+      mon_type = #{record.monType,jdbcType=VARCHAR},
+      belong_to = #{record.belongTo,jdbcType=VARCHAR},
+      connect_count = #{record.connectCount,jdbcType=INTEGER},
+      connect_time = #{record.connectTime,jdbcType=INTEGER},
+      originating_call_count = #{record.originatingCallCount,jdbcType=INTEGER},
+      originating_time = #{record.originatingTime,jdbcType=INTEGER},
+      terminating_call_count = #{record.terminatingCallCount,jdbcType=INTEGER},
+      terminating_time = #{record.terminatingTime,jdbcType=INTEGER},
+      other_type_call_count = #{record.otherTypeCallCount,jdbcType=INTEGER},
+      other_type_call_time = #{record.otherTypeCallTime,jdbcType=INTEGER},
+      send_sms_count = #{record.sendSmsCount,jdbcType=INTEGER},
+      receive_sms_count = #{record.receiveSmsCount,jdbcType=INTEGER},
+      days_type = #{record.daysType,jdbcType=TINYINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.alankin.ucenter.dao.model.BaiqishiMno" >
+    update baiqishi_mno
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileTag != null" >
+        mobile_tag = #{mobileTag,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileTagType != null" >
+        mobile_tag_type = #{mobileTagType,jdbcType=VARCHAR},
+      </if>
+      <if test="financeTag != null" >
+        finance_tag = #{financeTag,jdbcType=VARCHAR},
+      </if>
+      <if test="commonTagType != null" >
+        common_tag_type = #{commonTagType,jdbcType=VARCHAR},
+      </if>
+      <if test="beginTime != null" >
+        begin_time = #{beginTime,jdbcType=BIGINT},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=BIGINT},
+      </if>
+      <if test="monType != null" >
+        mon_type = #{monType,jdbcType=VARCHAR},
+      </if>
+      <if test="belongTo != null" >
+        belong_to = #{belongTo,jdbcType=VARCHAR},
+      </if>
+      <if test="connectCount != null" >
+        connect_count = #{connectCount,jdbcType=INTEGER},
+      </if>
+      <if test="connectTime != null" >
+        connect_time = #{connectTime,jdbcType=INTEGER},
+      </if>
+      <if test="originatingCallCount != null" >
+        originating_call_count = #{originatingCallCount,jdbcType=INTEGER},
+      </if>
+      <if test="originatingTime != null" >
+        originating_time = #{originatingTime,jdbcType=INTEGER},
+      </if>
+      <if test="terminatingCallCount != null" >
+        terminating_call_count = #{terminatingCallCount,jdbcType=INTEGER},
+      </if>
+      <if test="terminatingTime != null" >
+        terminating_time = #{terminatingTime,jdbcType=INTEGER},
+      </if>
+      <if test="otherTypeCallCount != null" >
+        other_type_call_count = #{otherTypeCallCount,jdbcType=INTEGER},
+      </if>
+      <if test="otherTypeCallTime != null" >
+        other_type_call_time = #{otherTypeCallTime,jdbcType=INTEGER},
+      </if>
+      <if test="sendSmsCount != null" >
+        send_sms_count = #{sendSmsCount,jdbcType=INTEGER},
+      </if>
+      <if test="receiveSmsCount != null" >
+        receive_sms_count = #{receiveSmsCount,jdbcType=INTEGER},
+      </if>
+      <if test="daysType != null" >
+        days_type = #{daysType,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.alankin.ucenter.dao.model.BaiqishiMno" >
+    update baiqishi_mno
+    set user_id = #{userId,jdbcType=BIGINT},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      mobile_tag = #{mobileTag,jdbcType=VARCHAR},
+      mobile_tag_type = #{mobileTagType,jdbcType=VARCHAR},
+      finance_tag = #{financeTag,jdbcType=VARCHAR},
+      common_tag_type = #{commonTagType,jdbcType=VARCHAR},
+      begin_time = #{beginTime,jdbcType=BIGINT},
+      end_time = #{endTime,jdbcType=BIGINT},
+      mon_type = #{monType,jdbcType=VARCHAR},
+      belong_to = #{belongTo,jdbcType=VARCHAR},
+      connect_count = #{connectCount,jdbcType=INTEGER},
+      connect_time = #{connectTime,jdbcType=INTEGER},
+      originating_call_count = #{originatingCallCount,jdbcType=INTEGER},
+      originating_time = #{originatingTime,jdbcType=INTEGER},
+      terminating_call_count = #{terminatingCallCount,jdbcType=INTEGER},
+      terminating_time = #{terminatingTime,jdbcType=INTEGER},
+      other_type_call_count = #{otherTypeCallCount,jdbcType=INTEGER},
+      other_type_call_time = #{otherTypeCallTime,jdbcType=INTEGER},
+      send_sms_count = #{sendSmsCount,jdbcType=INTEGER},
+      receive_sms_count = #{receiveSmsCount,jdbcType=INTEGER},
+      days_type = #{daysType,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectMapByExample" resultType="java.util.Map" parameterType="com.alankin.ucenter.dao.model.BaiqishiMnoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    id,
+    user_id as userId,
+    mobile,
+    mobile_tag as mobileTag,
+    mobile_tag_type as mobileTagType,
+    finance_tag as financeTag,
+    common_tag_type as commonTagType,
+    begin_time as beginTime,
+    end_time as endTime,
+    mon_type as monType,
+    belong_to as belongTo,
+    connect_count as connectCount,
+    connect_time as connectTime,
+    originating_call_count as originatingCallCount,
+    originating_time as originatingTime,
+    terminating_call_count as terminatingCallCount,
+    terminating_time as terminatingTime,
+    other_type_call_count as otherTypeCallCount,
+    other_type_call_time as otherTypeCallTime,
+    send_sms_count as sendSmsCount,
+    receive_sms_count as receiveSmsCount,
+    days_type as daysType
+    from baiqishi_mno
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+</mapper>

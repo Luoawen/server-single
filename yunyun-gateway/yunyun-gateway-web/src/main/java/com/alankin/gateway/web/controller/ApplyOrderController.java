@@ -4,8 +4,9 @@ import com.alankin.common.util.SessionUtil;
 import com.alankin.common.util.key.SystemClock;
 import com.alankin.gateway.web.base.BaseWebController;
 import com.alankin.gateway.web.utils.Constants;
+import com.alankin.gateway.web.utils.FastJsonUtil;
+import com.alankin.gateway.web.utils.Invoker;
 import com.alankin.gateway.web.utils.UserUtils;
-import com.alankin.gateway.web.utils.Utils;
 import com.alankin.gateway.web.vo.ListVo.IdReqVO;
 import com.alankin.gateway.web.vo.ListVo.ListReqVO;
 import com.alankin.gateway.web.vo.request.ApplyOrderReqVo;
@@ -22,9 +23,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
-import com.zhicheng.echo.star.utils.HttpClientUtil;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
@@ -49,7 +48,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -83,11 +82,16 @@ public class ApplyOrderController extends BaseWebController {
     private GaodeLocationService gaodeLocationService;
     @Autowired
     private AfuGuizeService afuGuizeService;
+    @Autowired
+    private UserContactsService contactsService;
+    @Autowired
+    private BaiqishiMnoService baiqishiMnoService;
+    @Autowired
+    private UserRemarkService userRemarkService;
 
     @ApiOperation(value = "所有申请单列表")
     @RequestMapping(value = "/orderList")
     @ResponseBody
-    @Transactional
     public ListResult orderList(HttpServletRequest request, @RequestBody ListReqVO<ApplyOrderReqVo> listReqVO) {
         //从session获取用户信息
         SysUserBase sysUser = UserUtils.getSysUser(request);
@@ -113,7 +117,7 @@ public class ApplyOrderController extends BaseWebController {
     @RequestMapping(value = "/updateOrderState")
     @ResponseBody
     @Transactional
-    public Result updateOrderState(HttpServletRequest request, @RequestBody Map<String, String> map) {
+    public Result updateOrderState(HttpServletRequest request, @RequestBody Map<String, String> map) throws Exception {
         //从session获取用户信息
         SysUserBase sysUser = UserUtils.getSysUser(request);
 
@@ -150,7 +154,6 @@ public class ApplyOrderController extends BaseWebController {
     @ApiOperation(value = "申请用户详情")
     @RequestMapping(value = "/userDetail")
     @ResponseBody
-    @Transactional
     public Result userDetail(@RequestBody IdReqVO idReqVO) {
         //从session获取用户信息
 //        SysUserBase sysUser = UserUtils.getSysUser(request);
@@ -189,7 +192,6 @@ public class ApplyOrderController extends BaseWebController {
     @ApiOperation(value = "查询渠道")
     @RequestMapping(value = "/orderChanelAll")
     @ResponseBody
-    @Transactional
     public Result orderChanelAll(HttpServletRequest request) {
         //从session获取用户信息
         SysUserBase sysUser = UserUtils.getSysUser(request);
@@ -213,7 +215,6 @@ public class ApplyOrderController extends BaseWebController {
     @ApiOperation(value = "所有客户列表")
     @RequestMapping(value = "/cusUserList")
     @ResponseBody
-    @Transactional
     public ListResult cusUserList(HttpServletRequest request, @RequestBody ListReqVO<CusUserListReqVo> listReqVO) {
         SysUserBase sysUser = UserUtils.getSysUser(request);
         SysRoleUserExample sysRoleUserExample = new SysRoleUserExample();
@@ -276,6 +277,14 @@ public class ApplyOrderController extends BaseWebController {
             contactsExample.createCriteria().andUserUidEqualTo((Long) map.get("uid"));
             int count = userContactsService.countByExample(contactsExample);
             map.put("contactsCount", count);
+
+            //查找备注
+            UserRemarkExample remarkExample = new UserRemarkExample();
+            remarkExample.createCriteria().andUidEqualTo((Long) map.get("uid"));
+            UserRemark userRemark = userRemarkService.selectFirstByExample(remarkExample);
+            if (userRemark != null) {
+                map.put("remark", userRemark.getContent());
+            }
         }
     }
 
@@ -330,11 +339,48 @@ public class ApplyOrderController extends BaseWebController {
         map.put("jibenRate", count / 12f);
     }
 
+    @ApiOperation(value = "添加用户备注")
+    @RequestMapping(value = "/addOrUpdateUserRemark")
+    @ResponseBody
+    @Transactional
+    public Result addOrUpdateUserRemark(@RequestBody Map<String, String> vo) throws Exception {
+        String uid = vo.get("uid");
+        String remark = vo.get("remark");
+        if (StringUtils.isEmpty(uid)) {
+            return new Result(0, "uid不能为空");
+        }
+        //查找备注
+        UserRemarkExample remarkExample = new UserRemarkExample();
+        remarkExample.createCriteria().andUidEqualTo(Long.valueOf(uid));
+        UserRemark userRemark = userRemarkService.selectFirstByExample(remarkExample);
+        if (userRemark == null) {
+            if (!StringUtils.isEmpty(remark)) {
+                if (remark.length() > 200) {
+                    return new Result(0, "超出200个字符");
+                }
+                userRemark = new UserRemark();
+                userRemark.setUid(Long.valueOf(uid));
+                userRemark.setType((byte) 1);
+                userRemark.setContent(remark);
+                if (userRemarkService.insertSelective(userRemark) > 0) {
+                    return new Result(ResultConstant.SUCCESS);
+                }
+            }
+        } else {
+            if (!StringUtils.isEmpty(remark) && remark.length() > 200) {
+                return new Result(0, "超出200个字符");
+            }
+            userRemark.setContent(remark);
+            if (userRemarkService.updateByPrimaryKey(userRemark) > 0) {
+                return new Result(ResultConstant.SUCCESS);
+            }
+        }
+        return new Result(ResultConstant.FAILED);
+    }
 
     @ApiOperation(value = "申请单详情")
     @RequestMapping(value = "/orderDetail")
     @ResponseBody
-    @Transactional
     public Result orderDetail(@RequestBody IdReqVO idReqVO) {
         List<Map> maps = applyOrderService.selectAllByMethod("orderDetail", idReqVO);
         if (maps != null && maps.size() > 0) {
@@ -651,7 +697,7 @@ public class ApplyOrderController extends BaseWebController {
         String loginData = loginAuth != null ? loginAuth.getThirdData() : null;
         if (loginAuth != null && !StringUtils.isEmpty(loginData)) {//存在
             retData.add(JSON.parseObject(loginData, Map.class));
-        }else {
+        } else {
             retData.add("");
         }
 
@@ -661,10 +707,253 @@ public class ApplyOrderController extends BaseWebController {
         String loanData = loanAuth != null ? loanAuth.getThirdData() : null;
         if (loanAuth != null && !StringUtils.isEmpty(loanData)) {//存在
             retData.add(JSON.parseObject(loanData, Map.class));
-        }else {
+        } else {
             retData.add("");
         }
         return new Result(ResultConstant.SUCCESS, retData);
     }
 
+    @ApiOperation(value = "运营商获取分析报告接口(白骑士)")
+    @RequestMapping(value = "GetMnoReportBaiQiShi")
+    @ResponseBody
+    @Transactional
+    public Result GetMnoReportBaiQiShi(HttpServletRequest request, @RequestBody IdReqVO vo) {
+//        mno3daysCommonlyConnectMobiles//常用联系电话(近3天)
+//        mno7daysCommonlyConnectMobiles//常用联系电话（近7天）
+//        mnoOneMonthCommonlyConnectMobiles//常用联系电话（近1个月）
+//        mnoThreeMonthCommonlyConnectMobiles//常用联系电话（近3个月）
+        BaiqishiMnoExample mnoExample = new BaiqishiMnoExample();
+        mnoExample.createCriteria().andUserIdEqualTo(vo.getId());
+        int count = baiqishiMnoService.countByExample(mnoExample);
+        if (count > 0) {
+            Map<String, String> cache = new HashMap<>();
+            //查询7天
+            mnoExample.clear();
+            mnoExample.createCriteria().andUserIdEqualTo(vo.getId()).andDaysTypeEqualTo((byte) 2);
+            List<Map> mno7daysCommonlyConnectMobiles = baiqishiMnoService.selectMapByExample(mnoExample);
+            matchContacts(vo.getId(), mno7daysCommonlyConnectMobiles, "mobile", cache);
+
+            //查询一个月
+            mnoExample.clear();
+            mnoExample.createCriteria().andUserIdEqualTo(vo.getId()).andDaysTypeEqualTo((byte) 3);
+            List<Map> mnoOneMonthCommonlyConnectMobiles = baiqishiMnoService.selectMapByExample(mnoExample);
+            matchContacts(vo.getId(), mnoOneMonthCommonlyConnectMobiles, "mobile", cache);
+
+            //查询三个月
+            mnoExample.clear();
+            mnoExample.createCriteria().andUserIdEqualTo(vo.getId()).andDaysTypeEqualTo((byte) 4);
+            List<Map> mnoThreeMonthCommonlyConnectMobiles = baiqishiMnoService.selectMapByExample(mnoExample);
+            matchContacts(vo.getId(), mnoThreeMonthCommonlyConnectMobiles, "mobile", cache);
+
+            //查询六个月
+            mnoExample.clear();
+            mnoExample.createCriteria().andUserIdEqualTo(vo.getId()).andDaysTypeEqualTo((byte) 5);
+            List<Map> mnoCommonlyConnectMobiles = baiqishiMnoService.selectMapByExample(mnoExample);
+            matchContacts(vo.getId(), mnoCommonlyConnectMobiles, "mobile", cache);
+            cache.clear();
+            cache = null;
+            Map ret = new HashMap(4);
+            ret.put("mno7daysCommonlyConnectMobiles", mno7daysCommonlyConnectMobiles);
+            ret.put("mnoOneMonthCommonlyConnectMobiles", mnoOneMonthCommonlyConnectMobiles);
+            ret.put("mnoThreeMonthCommonlyConnectMobiles", mnoThreeMonthCommonlyConnectMobiles);
+            ret.put("mnoCommonlyConnectMobiles", mnoCommonlyConnectMobiles);
+            return new Result(ResultConstant.SUCCESS, ret);
+        }
+        //没有运营商数据缓存
+        UserBase userBase = userBaseService.selectByPrimaryKey(vo.getId());
+        Map params = new HashMap();
+        params.put("partnerId", Constants.partnerId_baiqishi);
+        params.put("verifyKey", Constants.verifyKey_baiqishi);
+        params.put("name", userBase.getUserRealName());
+        params.put("certNo", userBase.getIdCard());
+        params.put("mobile", userBase.getMobile());
+        Invoker.init();
+        String reportRet = "";
+        try {
+            reportRet = Invoker.invoke(params, Constants.apiUrl_getMnoReport_baiqishi);
+            JSONObject jsonObject = JSON.parseObject(reportRet);
+            String resultCode = jsonObject.getString("resultCode");
+            if ("CCOM1000".equalsIgnoreCase(resultCode)) {
+                Long userUid = vo.getId();
+                JSONObject data = jsonObject.getJSONObject("data");
+                List<Object> mno7daysCommonlyConnectMobiles = FastJsonUtil.subList(data.getJSONArray("mno7daysCommonlyConnectMobiles"), 0, 20);
+                List<Object> mnoOneMonthCommonlyConnectMobiles = FastJsonUtil.subList(data.getJSONArray("mnoOneMonthCommonlyConnectMobiles"), 0, 30);
+                List<Object> mnoThreeMonthCommonlyConnectMobiles = FastJsonUtil.subList(data.getJSONArray("mnoThreeMonthCommonlyConnectMobiles"), 0, 30);
+                List<Object> mnoCommonlyConnectMobiles = FastJsonUtil.subList(data.getJSONArray("mnoCommonlyConnectMobiles"), 0, 100);
+                saveMno(userUid, mno7daysCommonlyConnectMobiles, 2);
+                saveMno(userUid, mnoOneMonthCommonlyConnectMobiles, 3);
+                saveMno(userUid, mnoThreeMonthCommonlyConnectMobiles, 4);
+                saveMno(userUid, mnoCommonlyConnectMobiles, 5);
+
+                Map<String, String> cache = new HashMap<>();
+                matchContacts(vo.getId(), mno7daysCommonlyConnectMobiles, "mobile", cache);
+                matchContacts(vo.getId(), mnoOneMonthCommonlyConnectMobiles, "mobile", cache);
+                matchContacts(vo.getId(), mnoThreeMonthCommonlyConnectMobiles, "mobile", cache);
+                matchContacts(vo.getId(), mnoCommonlyConnectMobiles, "mobile", cache);
+                cache.clear();
+                cache = null;
+
+                Map ret = new HashMap(4);
+                ret.put("mno7daysCommonlyConnectMobiles", mno7daysCommonlyConnectMobiles);
+                ret.put("mnoOneMonthCommonlyConnectMobiles", mnoOneMonthCommonlyConnectMobiles);
+                ret.put("mnoThreeMonthCommonlyConnectMobiles", mnoThreeMonthCommonlyConnectMobiles);
+                ret.put("mnoCommonlyConnectMobiles", mnoCommonlyConnectMobiles);
+                return new Result(ResultConstant.SUCCESS, ret);
+            } else {
+                return new Result(0, jsonObject.getString("resultDesc"));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+//        UserBase userBase = userBaseService.selectByPrimaryKey(vo.getId());
+//        UserOtherAuthExample example = new UserOtherAuthExample();
+//        example.createCriteria().andUidEqualTo(vo.getId()).andIdentityTypeEqualTo((byte) 9);
+//        UserOtherAuth userOtherAuth = userOtherAuthService.selectFirstByExampleWithBLOBs(example);
+//        if (userOtherAuth != null && !StringUtils.isEmpty(userOtherAuth.getThirdData())) {
+//            JSONObject jsonObject = JSON.parseObject(userOtherAuth.getThirdData());
+//            JSONObject data = jsonObject.getJSONObject("data");
+//            JSONArray mno7daysCommonlyConnectMobiles = data.getJSONArray("mno7daysCommonlyConnectMobiles");
+//            JSONArray mnoOneMonthCommonlyConnectMobiles = data.getJSONArray("mnoOneMonthCommonlyConnectMobiles");
+//            JSONArray mnoThreeMonthCommonlyConnectMobiles = data.getJSONArray("mnoThreeMonthCommonlyConnectMobiles");
+//            JSONArray mnoCommonlyConnectMobiles = data.getJSONArray("mnoCommonlyConnectMobiles");
+//
+//            mno7daysCommonlyConnectMobiles = FastJsonUtil.subList(mno7daysCommonlyConnectMobiles, 0, 20);
+//            mnoOneMonthCommonlyConnectMobiles = FastJsonUtil.subList(mnoOneMonthCommonlyConnectMobiles, 0, 30);
+//            mnoThreeMonthCommonlyConnectMobiles = FastJsonUtil.subList(mnoThreeMonthCommonlyConnectMobiles, 0, 100);
+//            mnoCommonlyConnectMobiles = FastJsonUtil.subList(mnoCommonlyConnectMobiles, 0, 200);
+//            Map<String, String> cache = new HashMap<>();
+//            //匹配通讯录
+//            matchContacts(vo.getId(), mno7daysCommonlyConnectMobiles, "mobile", cache);
+//            matchContacts(vo.getId(), mnoOneMonthCommonlyConnectMobiles, "mobile", cache);
+//            matchContacts(vo.getId(), mnoThreeMonthCommonlyConnectMobiles, "mobile", cache);
+//            matchContacts(vo.getId(), mnoCommonlyConnectMobiles, "mobile", cache);
+//            cache.clear();
+//            cache = null;
+//
+//            data.put("mno7daysCommonlyConnectMobiles", mno7daysCommonlyConnectMobiles);
+//            data.put("mnoOneMonthCommonlyConnectMobiles", mnoOneMonthCommonlyConnectMobiles);
+//            data.put("mnoThreeMonthCommonlyConnectMobiles", mnoThreeMonthCommonlyConnectMobiles);
+//            data.put("mnoCommonlyConnectMobiles", mnoCommonlyConnectMobiles);
+//            return new Result(ResultConstant.SUCCESS, data.toJavaObject(Object.class));
+//        }
+//
+//        Map params = new HashMap();
+//        params.put("partnerId", Constants.partnerId_baiqishi);
+//        params.put("verifyKey", Constants.verifyKey_baiqishi);
+//        params.put("name", userBase.getUserRealName());
+//        params.put("certNo", userBase.getIdCard());
+//        params.put("mobile", userBase.getMobile());
+//        Invoker.init();
+//        String reportRet = "";
+//        try {
+//            reportRet = Invoker.invoke(params, Constants.apiUrl_getMnoReport_baiqishi);
+//            JSONObject jsonObject = JSON.parseObject(reportRet);
+//            String resultCode = jsonObject.getString("resultCode");
+//            if ("CCOM1000".equalsIgnoreCase(resultCode)) {
+//                UserOtherAuth record = new UserOtherAuth();
+//                record.setIdentityType((byte) 9);
+//                record.setUid(userBase.getUid());
+//                record.setIdentifier(userBase.getUserRealName());
+//                record.setCertificate(userBase.getIdCard());
+//                record.setThirdData(reportRet);
+//                userOtherAuthService.insertSelective(record);
+//                JSONObject data = jsonObject.getJSONObject("data");
+//                JSONArray mno7daysCommonlyConnectMobiles = data.getJSONArray("mno7daysCommonlyConnectMobiles");
+//                JSONArray mnoOneMonthCommonlyConnectMobiles = data.getJSONArray("mnoOneMonthCommonlyConnectMobiles");
+//                JSONArray mnoThreeMonthCommonlyConnectMobiles = data.getJSONArray("mnoThreeMonthCommonlyConnectMobiles");
+//                JSONArray mnoCommonlyConnectMobiles = data.getJSONArray("mnoCommonlyConnectMobiles");
+//
+//                mno7daysCommonlyConnectMobiles = FastJsonUtil.subList(mno7daysCommonlyConnectMobiles, 0, 20);
+//                mnoOneMonthCommonlyConnectMobiles = FastJsonUtil.subList(mnoOneMonthCommonlyConnectMobiles, 0, 30);
+//                mnoThreeMonthCommonlyConnectMobiles = FastJsonUtil.subList(mnoThreeMonthCommonlyConnectMobiles, 0, 100);
+//                mnoCommonlyConnectMobiles = FastJsonUtil.subList(mnoCommonlyConnectMobiles, 0, 200);
+//
+//                Map<String, String> cache = new HashMap<>();
+//                //匹配通讯录
+//                matchContacts(vo.getId(), mno7daysCommonlyConnectMobiles, "mobile", cache);
+//                matchContacts(vo.getId(), mnoOneMonthCommonlyConnectMobiles, "mobile", cache);
+//                matchContacts(vo.getId(), mnoThreeMonthCommonlyConnectMobiles, "mobile", cache);
+//                matchContacts(vo.getId(), mnoCommonlyConnectMobiles, "mobile", cache);
+//                cache.clear();
+//                cache = null;
+//
+//                data.put("mno7daysCommonlyConnectMobiles", mno7daysCommonlyConnectMobiles);
+//                data.put("mnoOneMonthCommonlyConnectMobiles", mnoOneMonthCommonlyConnectMobiles);
+//                data.put("mnoThreeMonthCommonlyConnectMobiles", mnoThreeMonthCommonlyConnectMobiles);
+//                data.put("mnoCommonlyConnectMobiles", mnoCommonlyConnectMobiles);
+//                return new Result(ResultConstant.SUCCESS, data.toJavaObject(Object.class));
+//            } else {
+//                return new Result(0, jsonObject.getString("resultDesc"));
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        return new Result(ResultConstant.FAILED);
+    }
+
+    private void saveMno(Long userUid, List<Object> mno7daysCommonlyConnectMobiles, int daysType) {
+        for (Object mno7daysCommonlyConnectMobile : mno7daysCommonlyConnectMobiles) {
+            JSONObject temp = (JSONObject) mno7daysCommonlyConnectMobile;
+            try {
+                BaiqishiMno baiqishiMno = (BaiqishiMno) com.alankin.common.util.BeanUtils.mapToObject(temp, BaiqishiMno.class);
+                baiqishiMno.setUserId(userUid);
+                baiqishiMno.setDaysType((byte) daysType);
+                baiqishiMnoService.insertSelective(baiqishiMno);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @ApiOperation(value = "是否缓存运营商获取分析报告接口(白骑士)")
+    @RequestMapping(value = "IsCacheMnoReportBaiQiShi")
+    @ResponseBody
+    public Result IsCacheMnoReportBaiQiShi(@RequestBody IdReqVO vo) {
+        BaiqishiMnoExample mnoExample = new BaiqishiMnoExample();
+        mnoExample.createCriteria().andUserIdEqualTo(vo.getId());
+        int count = baiqishiMnoService.countByExample(mnoExample);
+        if (count > 0) {
+            return new Result(ResultConstant.SUCCESS);
+        }
+        return new Result(ResultConstant.FAILED);
+    }
+
+    /**
+     * 匹配通讯录
+     *
+     * @param userUid
+     * @param callCountsList
+     * @param mobileKey
+     * @param cache          缓存
+     * @return
+     */
+    private List<? extends Object> matchContacts(Long userUid, List<? extends Object> callCountsList, String mobileKey, Map<String, String> cache) {
+        if (callCountsList == null) {
+            return null;
+        }
+        UserContactsExample contactsExample = new UserContactsExample();
+        for (Object o : callCountsList) {
+            Map temp = (Map) o;
+            String mobile = (String) temp.get(mobileKey);
+            String contactName = null;
+
+            if (cache.containsKey(mobile)) {//存在该号码缓存
+                contactName = cache.get(mobile);
+                temp.put("contactName", contactName);
+            } else {//不存在查找数据库
+                contactsExample.clear();
+                contactsExample.createCriteria().andUserUidEqualTo(userUid).andContactMobileEqualTo(mobile);
+                UserContacts userContacts = contactsService.selectFirstByExample(contactsExample);
+                if (userContacts != null && !StringUtils.isEmpty(userContacts.getContactName())) {
+                    contactName = userContacts.getContactName();
+                } else {
+                    contactName = "";
+                }
+                temp.put("contactName", contactName);
+                cache.put(mobile, contactName);
+            }
+        }
+        return callCountsList;
+    }
 }

@@ -27,7 +27,9 @@ public class UserReqVo extends BaseReqVO {
     @NotEmpty(message = "请填写短信验证码")
     @Length(min = MsgCodeUtil.MSG_CODE_NUM, max = MsgCodeUtil.MSG_CODE_NUM, message = "请输入" + MsgCodeUtil.MSG_CODE_NUM + "位短信验证码")
     String phoneCode;
-
+    @ApiModelProperty(value = "密码", example = "123")
+//    @NotBlank(message = "密码不能为空")
+    String password;
     /**
      * 引流渠道id
      *
@@ -42,8 +44,17 @@ public class UserReqVo extends BaseReqVO {
                 "phone='" + phone + '\'' +
                 ", authCode='" + authCode + '\'' +
                 ", phoneCode='" + phoneCode + '\'' +
-                ", channelId='" + channelId + '\'' +
+                ", password='" + password + '\'' +
+                ", channelId=" + channelId +
                 '}';
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Long getChannelId() {

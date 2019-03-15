@@ -71,7 +71,7 @@ public class SysLoginController extends BaseWebController {
     @RequestMapping(value = "/signup")
     @ResponseBody
     @Transactional
-    public Object signup(HttpServletRequest request, HttpServletResponse response, @RequestBody SysUserReqVo vo) {
+    public Object signup(HttpServletRequest request, HttpServletResponse response, @RequestBody SysUserReqVo vo) throws Exception {
         ComplexResult result = FluentValidator.checkAll()
                 .on(vo.getPhone(), new NotNullValidator("Phone"))
                 .on(vo.getAuthCode(), new NotNullValidator("AuthCode"))

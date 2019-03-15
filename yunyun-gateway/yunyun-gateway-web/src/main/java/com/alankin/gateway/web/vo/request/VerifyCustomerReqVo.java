@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 public class VerifyCustomerReqVo extends BaseReqVO {
     @ApiModelProperty(value = "申请人uid")
     Long userUid;
-    @ApiModelProperty(value = "图片验证码")
+    @ApiModelProperty(value = "审核人uid")
     Long browerUid;
     @ApiModelProperty(value = "审核状态dict_key", example = "1")
     Integer verifyStateKey;

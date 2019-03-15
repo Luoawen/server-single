@@ -61,9 +61,9 @@ public class MsgCodeUtil {
 // 校验验证码
 
     public static boolean validateCode(String mobile, String code, HttpSession session) {
-        if ("111111".equals(code)) {
-            return true;
-        }
+//        if ("111111".equals(code)) {
+//            return true;
+//        }
 
         //判断该手机号是否发送过验证码
         String mobileFromSession = (String) session.getAttribute(MOBILE_MSG_MOBILE);

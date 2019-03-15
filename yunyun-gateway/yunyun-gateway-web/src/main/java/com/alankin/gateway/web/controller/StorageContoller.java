@@ -4,11 +4,16 @@ import com.alankin.common.util.key.SnowflakeIdWorker;
 import com.alankin.gateway.web.utils.UserUtils;
 import com.alankin.gateway.web.utils.Utils;
 import com.alankin.gateway.web.vo.ListVo.IdReqVO;
+import com.alankin.gateway.web.vo.ListVo.ListReqVO;
 import com.alankin.gateway.web.vo.response.Result;
 import com.alankin.gateway.web.vo.response.ResultConstant;
 import com.alankin.ucenter.dao.model.StorageImage;
+import com.alankin.ucenter.dao.model.StorageImageExample;
 import com.alankin.ucenter.dao.model.UserBase;
+import com.alankin.ucenter.dao.model.UserBaseExample;
 import com.alankin.ucenter.rpc.api.StorageImageService;
+import com.alankin.ucenter.rpc.api.UserBaseService;
+import com.github.pagehelper.PageInfo;
 import com.github.tobato.fastdfs.FdfsClientConfig;
 import com.github.tobato.fastdfs.domain.StorePath;
 import com.github.tobato.fastdfs.domain.ThumbImageConfig;
@@ -28,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.List;
 
 /**
  * 注册控制器
@@ -43,6 +49,7 @@ public class StorageContoller {
     StorageImageService storageImageService;
     @Autowired
     ThumbImageConfig thumbImageConfig;
+
     //上传文件会自动绑定到MultipartFile中
 //    @RequestMapping(value = "/upload", method = RequestMethod.POST)
     @ResponseBody
@@ -90,7 +97,7 @@ public class StorageContoller {
     @PostMapping(value = "/uploadAndCreateThumb", consumes = "multipart/*", headers = "content-type=multipart/form-data")
     @ApiOperation(value = "文件上传", notes = "文件上传")
     public Result uploadAndCreateThumb(HttpServletRequest request, @ApiParam(value = "上传的文件", required = true) MultipartFile file) throws Exception {
-        StorePath storePath = fastFileStorageClient.uploadImageAndCrtThumbImage(file.getInputStream(), file.getSize(), Utils.getExtensionName(file.getOriginalFilename()),null);
+        StorePath storePath = fastFileStorageClient.uploadImageAndCrtThumbImage(file.getInputStream(), file.getSize(), Utils.getExtensionName(file.getOriginalFilename()), null);
         String path = storePath.getPath();
         StorageImage storageImage = new StorageImage();
         storageImage.setFullPath(storePath.getFullPath());
@@ -116,7 +123,96 @@ public class StorageContoller {
         return new Result(ResultConstant.SUCCESS, storageImage);
     }
 
+//    @ApiOperation(value = "清理无用图片")
+//    @RequestMapping(value = "cleanStorage")
+//    @ResponseBody
+//    public Result cleanStorage() {
+//        List<StorageImage> storageImages = storageImageService.selectByExample(new StorageImageExample());
+//        for (StorageImage storageImage : storageImages) {
+//            storageImage.getUid();
+//        }
+//        fastFileStorageClient.deleteFile("");
+//        return new Result(ResultConstant.SUCCESS);
+//    }
 
+    @Autowired
+    UserBaseService userBaseService;
+
+    @ApiOperation(value = "清理无用图片")
+    @RequestMapping(value = "cleanStorage")
+    @ResponseBody
+    public Result cleanStorage(@RequestBody ListReqVO listReqVO) {
+//        List<StorageImage> storageImages = storageImageService.selectByExample(new StorageImageExample());
+//        for (StorageImage storageImage : storageImages) {
+//            storageImage.getUid();
+//        }
+//        fastFileStorageClient.deleteFile("");
+
+        UserBaseExample example = new UserBaseExample();
+        example.setOrderByClause("create_time asc");
+        PageInfo<UserBase> userBasePageInfo = userBaseService.selectByExampleForStartPage(example, listReqVO.getPageNum(), listReqVO.getPageSize());
+        List<UserBase> list = userBasePageInfo.getList();
+        StorageImage storageImage1 = null;
+        StorageImage storageImage2 = null;
+        StorageImage storageImage3 = null;
+        for (UserBase userBase : list) {
+            if (userBase.getIdCardPhoto1() != null) {
+                storageImage1 = storageImageService.selectByPrimaryKey(userBase.getIdCardPhoto1());
+            }
+            if (userBase.getIdCardPhoto2() != null) {
+                storageImage2 = storageImageService.selectByPrimaryKey(userBase.getIdCardPhoto2());
+            }
+            if (userBase.getIdCardPhoto3() != null) {
+                storageImage3 = storageImageService.selectByPrimaryKey(userBase.getIdCardPhoto3());
+            }
+            System.out.println("开始删除userUid:" + userBase.getUid() + ">>>>>>>>>>>>>>>>>>>>>>");
+            if (deleteFile(storageImage1)) {
+                userBase.setIdCardPhoto1(null);
+                userBaseService.updateByPrimaryKey(userBase);
+                if (storageImage1 != null) {
+                    storageImageService.deleteByPrimaryKey(storageImage1.getUid());
+                }
+            }
+            if (deleteFile(storageImage2)) {
+                userBase.setIdCardPhoto2(null);
+                userBaseService.updateByPrimaryKey(userBase);
+                if (storageImage2 != null) {
+                    storageImageService.deleteByPrimaryKey(storageImage2.getUid());
+                }
+            }
+            if (deleteFile(storageImage3)) {
+                userBase.setIdCardPhoto3(null);
+                userBaseService.updateByPrimaryKey(userBase);
+                if (storageImage3 != null) {
+                    storageImageService.deleteByPrimaryKey(storageImage3.getUid());
+                }
+            }
+            System.out.println("完成删除userUid:" + userBase.getUid() + "<<<<<<<<<<<<<<<<<<<<<");
+            storageImage1 = null;
+            storageImage2 = null;
+            storageImage3 = null;
+        }
+        return new Result(ResultConstant.SUCCESS);
+    }
+
+    public boolean deleteFile(StorageImage storageImage) {
+        if (storageImage != null) {
+            System.out.println("开始删除storageImageUid:" + storageImage.getUid());
+        }
+        try {
+            fastFileStorageClient.deleteFile(storageImage.getStorageGroup(), storageImage.getStoragePath());
+            System.out.println("成功删除:" + storageImage.getFullPath());
+        } catch (Exception e) {
+
+        }
+        try {
+            fastFileStorageClient.deleteFile(storageImage.getStorageGroup(), storageImage.getThumbImagePath());
+            System.out.println("成功删除Thumb:" + storageImage.getThumbImagePath());
+        } catch (Exception e) {
+
+        }
+        return true;
+    }
 
 //    @RequestMapping(method = RequestMethod.GET, value = "thumbnail/{group}/{path}")
 //    @ApiOperation(value = "文件下载", notes = "文件下载")

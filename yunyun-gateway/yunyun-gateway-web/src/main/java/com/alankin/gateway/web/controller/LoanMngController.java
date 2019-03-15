@@ -115,7 +115,7 @@ public class LoanMngController {
     @RequestMapping(value = "/addLoanReceipt")
     @ResponseBody
     @Transactional
-    public Result addLoanReceipt(@RequestBody LoanEditReqVo loanEditReqVo) {
+    public Result addLoanReceipt(@RequestBody LoanEditReqVo loanEditReqVo) throws Exception {
         LoanReceipt loanReceipt = new LoanReceipt();
         BeanUtils.copyProperties(loanEditReqVo, loanReceipt);
         loanReceipt.setState((byte) 2);//借条状态同申请单状态
@@ -152,12 +152,12 @@ public class LoanMngController {
     @RequestMapping(value = "/fankuan")
     @ResponseBody
     @Transactional
-    public Result fankuan(@RequestBody IdReqVO vo) {
+    public Result fankuan(@RequestBody IdReqVO vo) throws Exception {
         Long orderUid = vo.getId();
         return updateState(orderUid, 4);
     }
 
-    private Result updateState(Long orderUid, int state) {
+    private Result updateState(Long orderUid, int state) throws Exception {
         if (orderUid == null) {
             return new Result(ResultConstant.FAILED);
         }
@@ -198,7 +198,7 @@ public class LoanMngController {
     @RequestMapping(value = "/updateLoanReceipt")
     @ResponseBody
     @Transactional
-    public Result updateLoanReceipt(@RequestBody LoanEditReqVo loanEditReqVo) {
+    public Result updateLoanReceipt(@RequestBody LoanEditReqVo loanEditReqVo) throws Exception {
         LoanReceipt loanReceipt = new LoanReceipt();
         BeanUtils.copyProperties(loanEditReqVo, loanReceipt);
         if (loanReceiptService.updateByPrimaryKeySelective(loanReceipt) > 0) {
@@ -246,7 +246,7 @@ public class LoanMngController {
     @RequestMapping(value = "/addBrrower")
     @ResponseBody
     @Transactional
-    public Result addBrrower(@RequestBody BrowerEditReqVo browerEditReqVo) {
+    public Result addBrrower(@RequestBody BrowerEditReqVo browerEditReqVo) throws Exception {
         SysUserAuthExample example = new SysUserAuthExample();
         example.createCriteria()
                 .andIdentifierEqualTo(browerEditReqVo.getMobile()).andIsDelEqualTo(false);
@@ -439,7 +439,7 @@ public class LoanMngController {
     @RequestMapping(value = "/addRepayOrder")
     @ResponseBody
     @Transactional
-    public Result addRepayOrder(@RequestBody RepayOrderEditReqVo repayOrderEditReqVo) {
+    public Result addRepayOrder(@RequestBody RepayOrderEditReqVo repayOrderEditReqVo) throws Exception {
         RepayOrder repayOrder = new RepayOrder();
         BeanUtils.copyProperties(repayOrderEditReqVo, repayOrder);
         if (repayOrderService.insertSelective(repayOrder) > 0) {
@@ -452,7 +452,7 @@ public class LoanMngController {
     @RequestMapping(value = "/updateRepayOrder")
     @ResponseBody
     @Transactional
-    public Result updateRepayOrder(@RequestBody RepayOrderEditReqVo repayOrderEditReqVo) {
+    public Result updateRepayOrder(@RequestBody RepayOrderEditReqVo repayOrderEditReqVo) throws Exception {
         RepayOrder repayOrder = new RepayOrder();
         BeanUtils.copyProperties(repayOrderEditReqVo, repayOrder);
         if (repayOrderService.updateByPrimaryKeySelective(repayOrder) > 0) {
@@ -461,7 +461,7 @@ public class LoanMngController {
         return new Result(ResultConstant.FAILED);
     }
 
-    private Result autoUpdateState(Long loanReceiptId) {
+    private Result autoUpdateState(Long loanReceiptId) throws Exception {
         RepayOrderExample example = new RepayOrderExample();
         example.createCriteria().andLoanReceiptIdEqualTo(loanReceiptId);
         List<RepayOrder> repayOrders = repayOrderService.selectByExample(example);
@@ -485,7 +485,7 @@ public class LoanMngController {
     @RequestMapping(value = "/delRepayOrder")
     @ResponseBody
     @Transactional
-    public Result delRepayOrder(@RequestBody IdReqVO idReqVO) {
+    public Result delRepayOrder(@RequestBody IdReqVO idReqVO) throws Exception {
         RepayOrderExample example = new RepayOrderExample();
         example.createCriteria().andUidEqualTo(idReqVO.getId());
         RepayOrder repayOrder = repayOrderService.selectByPrimaryKey(idReqVO.getId());

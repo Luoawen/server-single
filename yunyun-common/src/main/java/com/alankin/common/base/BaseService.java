@@ -51,7 +51,7 @@ public interface BaseService<Record, Example> {
      * @param record
      * @return
      */
-    int insert(Record record);
+    int insert(Record record)throws Exception;
 
     /**
      * 插入记录有效字段
@@ -59,7 +59,7 @@ public interface BaseService<Record, Example> {
      * @param record
      * @return
      */
-    int insertSelective(Record record);
+    int insertSelective(Record record) throws Exception;
 
     /**
      * 根据条件查询记录，附带BLOB字段
@@ -86,6 +86,14 @@ public interface BaseService<Record, Example> {
     List<Map> selectAllByMethod(String method, Object param);
 
     List<Map> selectAllByMethod(String method);
+
+    /**
+     * 根据条件查询记录
+     *
+     * @param example
+     * @return
+     */
+    List<Map> selectMapByExample(Example example);
 
     /**
      * 根据条件查询记录并按页码分页，附带BLOB字段

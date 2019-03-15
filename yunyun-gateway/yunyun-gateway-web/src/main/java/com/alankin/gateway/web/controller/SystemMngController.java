@@ -138,7 +138,7 @@ public class SystemMngController extends BaseWebController {
     @RequestMapping(value = "/addVerifyAcount")
     @ResponseBody
     @Transactional
-    public Result addVerifyAcount(HttpServletRequest request, @RequestBody VerifyEditReqVo verifyEditReqVo) {
+    public Result addVerifyAcount(HttpServletRequest request, @RequestBody VerifyEditReqVo verifyEditReqVo) throws Exception {
         SysUserAuthExample example = new SysUserAuthExample();
         example.createCriteria()
                 .andIdentifierEqualTo(verifyEditReqVo.getMobile());
@@ -276,7 +276,7 @@ public class SystemMngController extends BaseWebController {
     @RequestMapping(value = "/updateApplySetting")
     @ResponseBody
     @Transactional
-    public Result updateApplySetting(@RequestBody UpdateApplySettingReqVo vo) {
+    public Result updateApplySetting(@RequestBody UpdateApplySettingReqVo vo) throws Exception {
         DataDicExample example = new DataDicExample();
         example.createCriteria().andDataTypeCodeEqualTo(15).andDicKeyEqualTo("1");
         DataDic dataDic = dataDicService.selectFirstByExample(example);

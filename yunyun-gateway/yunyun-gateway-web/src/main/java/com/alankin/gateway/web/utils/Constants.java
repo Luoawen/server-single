@@ -41,4 +41,6 @@ public class Constants {
     public static String appId_baiqishi = "lfme";
     public static String eventType_login = "login";
     public static String eventType_loan = "loan";
+
+    public static String apiUrl_getMnoReport_baiqishi = "https://credit.baiqishi.com/clweb/api/mno/getreport";//获取运营商报告数据
 }

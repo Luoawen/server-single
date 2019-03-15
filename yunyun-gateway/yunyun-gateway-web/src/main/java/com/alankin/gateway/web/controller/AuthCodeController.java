@@ -88,7 +88,7 @@ public class AuthCodeController extends BaseWebController {
 
         //发短信
         String phone = vo.getPhone();
-        if (StringUtils.isEmpty(phone) && !StringUtil.isPhoneNumber(vo.getPhone())) {
+        if (StringUtils.isEmpty(phone) || !StringUtil.isPhoneNumber(vo.getPhone())) {
             return new Result(0, "请输入正确手机号！");
         }
 

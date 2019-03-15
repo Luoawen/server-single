@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -76,7 +77,8 @@ public class LoginController extends BaseWebController {
     @ApiOperation(value = "用户登录或注册")
     @RequestMapping(value = "/signin")
     @ResponseBody
-    public Result signin(HttpServletRequest request, HttpServletResponse response, @Valid @RequestBody UserReqVo vo) {
+    @Transactional
+    public Result signin(HttpServletRequest request, HttpServletResponse response, @Valid @RequestBody UserReqVo vo) throws Exception {
         LOGGER.info("=================收到http请求：用户登录=================" + RequestUtil.getIpAddr(request));
 
         // 校验通过后删除验证码之前的session和Cookie
@@ -99,39 +101,58 @@ public class LoginController extends BaseWebController {
         UserAuthExample example = new UserAuthExample();
         example.createCriteria().andIdentifierEqualTo(vo.getPhone()).andIsDelEqualTo(false);
         UserAuth userAuth = userAuthService.selectFirstByExample(example);
-        if (userAuth != null) {
+        if (userAuth != null) {//认证表存在
             UserBase userBase = userBaseService.selectByPrimaryKey(userAuth.getUid());
-            if (userBase != null) {
+            if (userBase != null) {//基础信息表存在
                 Long verifyUid = userBase.getVerifyUid();
                 if (verifyUid == null) {//存在的用户但是没有分配审核人，再次登录将自动重新分配审核人。
                     distributUser(userBase);//分配审核人,及初始化审核状态。
+                    userBaseService.updateByPrimaryKeySelective(userBase);//更新用户
                 }
-                userBaseService.updateByPrimaryKeySelective(userBase);//更新用户
                 UserUtils.createUserSession(request, userBase);
                 return new BaseTokenResult(ResultConstant.SUCCESS, getUserResult(userBase), request.getSession().getId());
             } else {
-                return new Result(0, "该用户不存在");
+                int curentTime = SystemClock.currentTimeSecond();
+                UserBase userBase1 = new UserBase();
+                userBase1.setUid(userAuth.getUid());
+                userBase1.setUserName("damisujie_" + curentTime);
+                userBase1.setRegisterSource((byte) 1);
+                userBase1.setMobile(vo.getPhone());
+                userBase1.setRegisterSource((byte) 1);
+                userBase1.setMobileBindTime(curentTime);
+                userBase1.setCreateTime(userAuth.getCreateTime());
+                userBase1.setChannelId(vo.getChannelId());//设置引流渠道id
+                distributUser(userBase1);//分配审核人,及初始化审核状态。
+                if (userBaseService.insertSelective(userBase1) > 0) {
+                    UserUtils.createUserSession(request, userBase1);
+                    return new BaseTokenResult(ResultConstant.SUCCESS, getUserResult(userBase1), request.getSession().getId());
+                }
             }
         } else {//不存在则创建用户
             int curentTime = SystemClock.currentTimeSecond();
             UserBase userBase = new UserBase();
             userBase.setUid(new SnowflakeIdWorker(0, 0).nextId());
-            userBase.setUserName("ShenSuDai_" + curentTime);
+            userBase.setUserName("damisujie_" + curentTime);
             userBase.setRegisterSource((byte) 1);
             userBase.setMobile(vo.getPhone());
             userBase.setRegisterSource((byte) 1);
             userBase.setMobileBindTime(curentTime);
             userBase.setChannelId(vo.getChannelId());//设置引流渠道id
             distributUser(userBase);//分配审核人,及初始化审核状态。
-            userBaseService.insertSelective(userBase);
-            UserAuth record = new UserAuth();
-            record.setIdentifier(vo.getPhone());
-            record.setUid(userBase.getUid());
-            record.setIdentityType((byte) 1);
-            userAuthService.insertSelective(record);
-            UserUtils.createUserSession(request, userBase);
-            return new BaseTokenResult(ResultConstant.SUCCESS, getUserResult(userBase), request.getSession().getId());
+            if (userBaseService.insertSelective(userBase) > 0) {
+                UserAuth record = new UserAuth();
+                record.setIdentifier(vo.getPhone());
+                record.setUid(userBase.getUid());
+                record.setIdentityType((byte) 1);
+                record.setCertificate(vo.getPassword());
+                userAuthService.insertSelective(record);
+                UserUtils.createUserSession(request, userBase);
+                return new BaseTokenResult(ResultConstant.SUCCESS, getUserResult(userBase), request.getSession().getId());
+            } else {
+                throw new RuntimeException("注册失败");
+            }
         }
+        return new BaseTokenResult(ResultConstant.FAILED);
     }
 
 

@@ -163,7 +163,7 @@ public class UserController extends BaseWebController {
     @ApiOperation(value = "用户基本认证")
     @RequestMapping(value = "identityVerify")
     @ResponseBody
-    public Result identityVerify(HttpServletRequest request, @Valid @RequestBody UserAuthReqVo vo) {
+    public Result identityVerify(HttpServletRequest request, @Valid @RequestBody UserAuthReqVo vo) throws Exception {
         UserBase user = UserUtils.getUser(request);
 
         if (user.getCompanyLocationUid() == null) {//没有公司Uid
@@ -282,7 +282,7 @@ public class UserController extends BaseWebController {
     @ApiOperation(value = "用户紧急联系人认证")
     @RequestMapping(value = "emergencyVerify")
     @ResponseBody
-    public Result emergencyVerify(HttpServletRequest request, @RequestBody List<EmergencyReqVo> reqVos) {
+    public Result emergencyVerify(HttpServletRequest request, @RequestBody List<EmergencyReqVo> reqVos) throws Exception{
         UserBase user = UserUtils.getUser(request);
         for (EmergencyReqVo reqVo : reqVos) {
             UserEmergencyContactExample example = new UserEmergencyContactExample();
@@ -325,7 +325,7 @@ public class UserController extends BaseWebController {
     @RequestMapping(value = "contactsVerify")
     @ResponseBody
     @Transactional
-    public Result contactsVerify(HttpServletRequest request, @RequestBody List<Map<String, String>> contactList) {
+    public Result contactsVerify(HttpServletRequest request, @RequestBody List<Map<String, String>> contactList) throws Exception{
         UserBase user = UserUtils.getUser(request);
         Long userUid = user.getUid();
         if (contactList == null || contactList.size() < 1) {
@@ -382,7 +382,7 @@ public class UserController extends BaseWebController {
     @RequestMapping(value = "uploadGaoDeLocation")
     @ResponseBody
     @Transactional
-    public Result uploadGaoDeLocation(HttpServletRequest request, @RequestBody GaodeLocation location) {
+    public Result uploadGaoDeLocation(HttpServletRequest request, @RequestBody GaodeLocation location) throws Exception {
         UserBase user = UserUtils.getUser(request);
         location.setUserUid(user.getUid());
         if (gaodeLocationService.insertSelective(location) > 0) {
@@ -410,7 +410,8 @@ public class UserController extends BaseWebController {
     @ApiOperation(value = "借条账号认证")
     @RequestMapping(value = "userOtherAcountVerify")
     @ResponseBody
-    public Result userOtherAcountVerify(HttpServletRequest request, @RequestBody List<UserOtherAcountReqVo> reqVos) {
+    @Transactional
+    public Result userOtherAcountVerify(HttpServletRequest request, @RequestBody List<UserOtherAcountReqVo> reqVos) throws Exception{
         UserBase user = UserUtils.getUser(request);
         for (UserOtherAcountReqVo reqVo : reqVos) {
             UserOtherAcountExample example = new UserOtherAcountExample();
@@ -485,7 +486,8 @@ public class UserController extends BaseWebController {
     @ApiOperation(value = "运营商登录")
     @RequestMapping(value = "operateLogin")
     @ResponseBody
-    public Object operateLogin(HttpServletRequest request, @RequestBody OperateLoginReqVo vo) {
+    @Transactional
+    public Object operateLogin(HttpServletRequest request, @RequestBody OperateLoginReqVo vo) throws Exception{
         UserBase user = UserUtils.getUser(request);
         if (user == null) {
             return new Result(ResultConstant.EXCEPTION_INVALID);
@@ -591,6 +593,7 @@ public class UserController extends BaseWebController {
     @ApiOperation(value = "运营商获取分析报告接口")
     @RequestMapping(value = "operateGetAnlyasisData")
     @ResponseBody
+    @Transactional
     public Object operateGetAnlyasisData(HttpServletRequest request, @RequestBody IdReqVO vo) {
         UserOtherAuthExample example = new UserOtherAuthExample();
         example.createCriteria().andUidEqualTo(vo.getId()).andIdentityTypeEqualTo((byte) 6);
@@ -764,7 +767,8 @@ public class UserController extends BaseWebController {
     @ApiOperation(value = "淘宝登录")
     @RequestMapping(value = "taobaoLogin")
     @ResponseBody
-    public Object taobaoLogin(HttpServletRequest request, @RequestBody ThirdLoginReqVo vo) {
+    @Transactional
+    public Object taobaoLogin(HttpServletRequest request, @RequestBody ThirdLoginReqVo vo) throws Exception{
         UserBase user = UserUtils.getUser(request);
         if (user == null) {
             return new Result(ResultConstant.EXCEPTION_INVALID);
@@ -845,6 +849,7 @@ public class UserController extends BaseWebController {
     @ApiOperation(value = "淘宝获取数据接口")
     @RequestMapping(value = "taobaoGetData")
     @ResponseBody
+    @Transactional
     public Object taobaoGetData(HttpServletRequest request, @RequestBody GetDataReqVo vo) {
         UserBase user = UserUtils.getUser(request);
         MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap();
@@ -874,7 +879,8 @@ public class UserController extends BaseWebController {
     @ApiOperation(value = "多头接口")
     @RequestMapping(value = "mutiData")
     @ResponseBody
-    public Object mutiData(HttpServletRequest request, @RequestBody MutiReqVo vo) {
+    @Transactional
+    public Object mutiData(HttpServletRequest request, @RequestBody MutiReqVo vo) throws Exception{
         UserBase user = UserUtils.getUser(request);
         if (user == null) {
             return new Result(ResultConstant.EXCEPTION_INVALID);
@@ -936,7 +942,8 @@ public class UserController extends BaseWebController {
     @ApiOperation(value = "欺诈甄别接口")
     @RequestMapping(value = "qizhaData")
     @ResponseBody
-    public Object qizhaData(HttpServletRequest request, @RequestBody Map<String, String> vo) {
+    @Transactional
+    public Object qizhaData(HttpServletRequest request, @RequestBody Map<String, String> vo) throws Exception{
         UserBase user = UserUtils.getUser(request);
         if (user == null) {
             return new Result(ResultConstant.EXCEPTION_INVALID);
@@ -1016,7 +1023,8 @@ public class UserController extends BaseWebController {
     @ApiOperation(value = "欺诈甄别设备指纹接口")
     @RequestMapping(value = "devicePrintData")
     @ResponseBody
-    public Object devicePrintData(HttpServletRequest request, @RequestBody Map<String, String> vo) {
+    @Transactional
+    public Object devicePrintData(HttpServletRequest request, @RequestBody Map<String, String> vo) throws Exception{
         UserBase user = UserUtils.getUser(request);
         if (user == null) {
             return new Result(ResultConstant.EXCEPTION_INVALID);
@@ -1207,7 +1215,8 @@ public class UserController extends BaseWebController {
     @ApiOperation(value = "白骑士欺诈接口")
     @RequestMapping(value = "qiZhaDatabaiqishi")
     @ResponseBody
-    public Object qiZhaDatabaiqishi(HttpServletRequest request, @RequestBody Map<String, String> vo) {
+    @Transactional
+    public Object qiZhaDatabaiqishi(HttpServletRequest request, @RequestBody Map<String, String> vo) throws Exception{
         UserBase user = UserUtils.getUser(request);
         if (user == null) {
             return new Result(ResultConstant.EXCEPTION_INVALID);
@@ -1324,7 +1333,8 @@ public class UserController extends BaseWebController {
     @ApiOperation(value = "用户创建申请单")
     @RequestMapping(value = "createApplyOrder")
     @ResponseBody
-    public Result createApplyOrder(HttpServletRequest request, @RequestBody CreateApplyOrderReqVo vo) {
+    @Transactional
+    public Result createApplyOrder(HttpServletRequest request, @RequestBody CreateApplyOrderReqVo vo) throws Exception{
         UserBase user = UserUtils.getUser(request);
         if (user.getVerifyStateKey() != 2) {
             return new Result(ResultConstant.VERIFY_NOT_PASS);
@@ -1348,7 +1358,6 @@ public class UserController extends BaseWebController {
     @ApiOperation(value = "用户查找自己的申请单")
     @RequestMapping(value = "/myOrders")
     @ResponseBody
-    @Transactional
     public ListResult myOrders(HttpServletRequest request, @RequestBody ListReqVO<IdReqVO> listReqVO) {
         //从session获取用户信息
         UserBase user = UserUtils.getUser(request);
@@ -1367,7 +1376,8 @@ public class UserController extends BaseWebController {
     @ApiOperation(value = "用户签订合同")
     @RequestMapping(value = "signOrder")
     @ResponseBody
-    public Result signOrder(HttpServletRequest request, @RequestBody IdReqVO vo) {
+    @Transactional
+    public Result signOrder(HttpServletRequest request, @RequestBody IdReqVO vo) throws Exception{
 //        UserBase user = UserUtils.getUser(request);
         Long orderUid = vo.getId();
         if (orderUid == null) {

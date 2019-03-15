@@ -116,7 +116,7 @@ public class OperateMngController {
     @RequestMapping(value = "/addChannel")
     @ResponseBody
     @Transactional
-    public Result addChannel(@RequestBody ChannelEditReqVo channelEditReqVo) {
+    public Result addChannel(@RequestBody ChannelEditReqVo channelEditReqVo) throws Exception {
         Channel record = new Channel();
         String channelName = channelEditReqVo.getChannelName();
         String state = channelEditReqVo.getState();
@@ -223,7 +223,7 @@ public class OperateMngController {
     @RequestMapping(value = "/addChannelAcount")
     @ResponseBody
     @Transactional
-    public Result addChannelAcount(@RequestBody ChannelAcountEditReqVo acountEditReqVo) {
+    public Result addChannelAcount(@RequestBody ChannelAcountEditReqVo acountEditReqVo) throws Exception {
         SysUserAuthExample example = new SysUserAuthExample();
         example.createCriteria()
                 .andIdentifierEqualTo(acountEditReqVo.getMobile()).andIsDelEqualTo(false);
