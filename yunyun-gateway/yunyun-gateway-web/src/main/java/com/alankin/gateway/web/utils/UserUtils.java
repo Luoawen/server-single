@@ -42,6 +42,10 @@ public class UserUtils {
     }
 
     public static void createUserSession(HttpServletRequest request, UserBase userBase) {
+        HttpSession oldSession = request.getSession(false);
+        if (oldSession != null) {
+            oldSession.invalidate();
+        }
         HttpSession session = request.getSession(true);
         // 将系统生成的sessionId作为token返回给前端
 //        userBase.setToken(session.getId());

@@ -5,6 +5,7 @@ import com.alankin.gateway.web.base.BaseWebController;
 import com.alankin.gateway.web.utils.AuthCodeOne;
 import com.alankin.gateway.web.utils.Constants;
 import com.alankin.gateway.web.utils.MsgCodeUtil;
+import com.alankin.gateway.web.utils.SendMessage;
 import com.alankin.gateway.web.vo.request.UserReqVo;
 import com.alankin.gateway.web.vo.response.Result;
 import com.alankin.gateway.web.vo.response.ResultConstant;
@@ -91,13 +92,17 @@ public class AuthCodeController extends BaseWebController {
         if (StringUtils.isEmpty(phone) || !StringUtil.isPhoneNumber(vo.getPhone())) {
             return new Result(0, "请输入正确手机号！");
         }
-
-        SendSmsResponse response = sendSms(request.getSession(), phone);
-        System.out.println("短信接口返回的数据----------------");
+        try {
+            SendMessage.sendSms(phone,request.getSession());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        /*SendSmsResponse response = sendSms(request.getSession(), phone);
+        *//*System.out.println("短信接口返回的数据----------------");
         System.out.println("Code=" + response.getCode());
         System.out.println("Message=" + response.getMessage());
         System.out.println("RequestId=" + response.getRequestId());
-        System.out.println("BizId=" + response.getBizId());
+        System.out.println("BizId=" + response.getBizId());*/
 
 //        Thread.sleep(3000L);
 
@@ -192,9 +197,7 @@ public class AuthCodeController extends BaseWebController {
         SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
 
         //最后保存验证码保存验证码
-        if (sendSmsResponse.getCode() != null && sendSmsResponse.getCode().equals("OK")) {
-            MsgCodeUtil.saveCode(session, mobile, randomVcode);
-        }
+
         return sendSmsResponse;
     }
 

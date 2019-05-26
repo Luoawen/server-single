@@ -94,10 +94,6 @@ public class LoginController extends BaseWebController {
             return new Result(ResultConstant.EXCEPTION_MSG_CODE);
         }
 
-//        if (session != null) {
-//            session.invalidate();
-//        }
-
         UserAuthExample example = new UserAuthExample();
         example.createCriteria().andIdentifierEqualTo(vo.getPhone()).andIsDelEqualTo(false);
         UserAuth userAuth = userAuthService.selectFirstByExample(example);
